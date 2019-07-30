@@ -3,17 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		9B9634598D25ADAFB7C9A2B1 /* Pods_WorldWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD94C0F22C3A0D6A2E96092 /* Pods_WorldWeather.framework */; };
 		E767634022F03BA100DEC8B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767633F22F03BA100DEC8B6 /* AppDelegate.swift */; };
-		E767634222F03BA100DEC8B6 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767634122F03BA100DEC8B6 /* FirstViewController.swift */; };
+		E767634222F03BA100DEC8B6 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */; };
 		E767634422F03BA100DEC8B6 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767634322F03BA100DEC8B6 /* SecondViewController.swift */; };
 		E767634722F03BA100DEC8B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E767634522F03BA100DEC8B6 /* Main.storyboard */; };
 		E767634922F03BA400DEC8B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E767634822F03BA400DEC8B6 /* Assets.xcassets */; };
 		E767634C22F03BA400DEC8B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E767634A22F03BA400DEC8B6 /* LaunchScreen.storyboard */; };
+		E767635422F05B2B00DEC8B6 /* CurrentLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,12 +22,13 @@
 		BE7059248F17A08184759799 /* Pods-WorldWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorldWeather.release.xcconfig"; path = "Target Support Files/Pods-WorldWeather/Pods-WorldWeather.release.xcconfig"; sourceTree = "<group>"; };
 		E767633C22F03BA100DEC8B6 /* WorldWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E767633F22F03BA100DEC8B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E767634122F03BA100DEC8B6 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
 		E767634322F03BA100DEC8B6 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		E767634622F03BA100DEC8B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E767634822F03BA400DEC8B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E767634B22F03BA400DEC8B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E767634D22F03BA400DEC8B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationView.swift; sourceTree = "<group>"; };
 		FD20E6AD27DE0CF3B2F2942C /* Pods-WorldWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorldWeather.debug.xcconfig"; path = "Target Support Files/Pods-WorldWeather/Pods-WorldWeather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,7 +58,6 @@
 				FD20E6AD27DE0CF3B2F2942C /* Pods-WorldWeather.debug.xcconfig */,
 				BE7059248F17A08184759799 /* Pods-WorldWeather.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -82,7 +83,8 @@
 			isa = PBXGroup;
 			children = (
 				E767633F22F03BA100DEC8B6 /* AppDelegate.swift */,
-				E767634122F03BA100DEC8B6 /* FirstViewController.swift */,
+				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
+				E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */,
 				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
 				E767634522F03BA100DEC8B6 /* Main.storyboard */,
 				E767634822F03BA400DEC8B6 /* Assets.xcassets */,
@@ -209,7 +211,8 @@
 			files = (
 				E767634422F03BA100DEC8B6 /* SecondViewController.swift in Sources */,
 				E767634022F03BA100DEC8B6 /* AppDelegate.swift in Sources */,
-				E767634222F03BA100DEC8B6 /* FirstViewController.swift in Sources */,
+				E767634222F03BA100DEC8B6 /* CurrentLocationViewController.swift in Sources */,
+				E767635422F05B2B00DEC8B6 /* CurrentLocationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
