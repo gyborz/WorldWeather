@@ -19,7 +19,18 @@ class CurrentLocationView: UIView {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
+    @IBOutlet weak var forecastButton: UIButton!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        forecastButton.backgroundColor = .clear
+        forecastButton.layer.cornerRadius = 20
+        forecastButton.layer.borderWidth = 1
+        forecastButton.layer.borderColor = UIColor.white.cgColor
+    }
     
+    @IBAction func forecastButtonTapped(_ sender: UIButton) {
+    }
 
 }

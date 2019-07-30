@@ -10,6 +10,7 @@ import UIKit
 
 class CurrentLocationViewController: UIViewController {
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
 
     override func viewDidLoad() {
@@ -18,6 +19,23 @@ class CurrentLocationViewController: UIViewController {
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
         weatherCollectionView.backgroundColor = .clear
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if UIScreen.main.bounds.height >= 812 {
+            scrollView.isScrollEnabled = false
+        } else if UIScreen.main.bounds.height == 736 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+50)
+        } else if UIScreen.main.bounds.height == 667 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+125)
+        } else if UIScreen.main.bounds.height == 568 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+225)
+        }
     }
 
 }
