@@ -25,12 +25,33 @@ class CurrentLocationView: UIView {
         super.awakeFromNib()
         
         forecastButton.backgroundColor = .clear
-        forecastButton.layer.cornerRadius = 20
+        forecastButton.layer.cornerRadius = 15
         forecastButton.layer.borderWidth = 1
         forecastButton.layer.borderColor = UIColor.white.cgColor
+    }
+    
+    func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
+        cityLabel.text = city
+        temperatureLabel.text = "\(temperature)°"
+        descriptionLabel.text = description.capitalizingFirstLetter()
+        pressureLabel.text = "Pressure: \(pressure) hPa"
+        humidityLabel.text = "Humidity: \(humidity)%"
+        windLabel.text = "Wind: \(Int(wind * 3.6)) km/h"
+        cloudinessLabel.text = "Cloudiness: \(cloudiness)%"
+        visibilityLabel.text = "Visibility: \(round(Double(visibility / 1000))) km"
     }
     
     @IBAction func forecastButtonTapped(_ sender: UIButton) {
     }
 
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
 }

@@ -28,6 +28,15 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
                                                 <color key="backgroundColor" red="0.0" green="0.83529411760000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budapest" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vkh-fF-SDa">
+                                                <rect key="frame" x="0.0" y="66" width="414" height="57"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="57" id="0xa-cp-av6"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUW-dm-gFm">
                                                 <rect key="frame" x="0.0" y="162" width="414" height="112"/>
                                                 <constraints>
@@ -174,15 +183,6 @@
                                                     <action selector="forecastButtonTapped:" destination="GVN-pH-etq" eventType="touchUpInside" id="fSv-Ij-R6M"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budapest" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vkh-fF-SDa">
-                                                <rect key="frame" x="0.0" y="66" width="414" height="57"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="57" id="0xa-cp-av6"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -251,6 +251,7 @@
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <size key="freeformSize" width="414" height="812"/>
                     <connections>
+                        <outlet property="currentLocationView" destination="GVN-pH-etq" id="4W9-Tl-XJp"/>
                         <outlet property="scrollView" destination="yF1-SO-T45" id="fcW-Eo-TiG"/>
                         <outlet property="weatherCollectionView" destination="Vqh-vK-yIW" id="J4t-iE-Gyw"/>
                     </connections>
