@@ -86,13 +86,13 @@
 		E767633E22F03BA100DEC8B6 /* WorldWeather */ = {
 			isa = PBXGroup;
 			children = (
-				E767633F22F03BA100DEC8B6 /* AppDelegate.swift */,
-				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
-				E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */,
-				E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */,
-				E7DF814022F188BC00B4B6C4 /* WeatherData.swift */,
-				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
 				E767634522F03BA100DEC8B6 /* Main.storyboard */,
+				E7DF814022F188BC00B4B6C4 /* WeatherData.swift */,
+				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
+				E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */,
+				E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */,
+				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
+				E767633F22F03BA100DEC8B6 /* AppDelegate.swift */,
 				E767634822F03BA400DEC8B6 /* Assets.xcassets */,
 				E767634A22F03BA400DEC8B6 /* LaunchScreen.storyboard */,
 				E767634D22F03BA400DEC8B6 /* Info.plist */,

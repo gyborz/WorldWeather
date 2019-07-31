@@ -14,6 +14,7 @@ class CurrentLocationViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     let appId = "3656721177232952a61339c39bec961e"
+    var forecastData: [WeatherData]!
     var weatherData: WeatherData!
     
     @IBOutlet weak var currentLocationView: CurrentLocationView!
@@ -74,16 +75,40 @@ class CurrentLocationViewController: UIViewController {
         }
     }
     
+    func getWeatherForecastData(with coordinates: [String: String]) {
+        if let url = URL(string: "http://api.openweathermap.org/data/2.5/forecast?lat=\(coordinates["lat"]!)&lon=\(coordinates["lon"]!)&appid=\(appId)") {
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let data = data {
+                    do {
+                        let json = try JSON(data: data)
+                        print(json)
+                        self.saveForecastDataFromJson(json: json)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                
+                if let error = error {
+                    print(error)
+                    // TODO: - alert
+                }
+            }.resume()
+            
+        }
+    }
+    
     func updateWeatherData(with json: JSON) {
         weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
                                   city: json["name"].stringValue,
                                   description: json["weather"][0]["description"].stringValue,
-                                  temperature: Int((json["main"]["temp"].double!) - 273.15),
+                                  temperature: Int(json["main"]["temp"].double! - 273.15),
                                   pressure: json["main"]["pressure"].intValue,
                                   humidity: json["main"]["humidity"].intValue,
                                   visibility: json["visibility"].intValue,
                                   wind: json["wind"]["speed"].double!,
-                                  cloudiness: json["clouds"]["all"].intValue)
+                                  cloudiness: json["clouds"]["all"].intValue,
+                                  hour: Int())
         
         currentLocationView.updateUI(weatherData.city,
                                      weatherData.temperature,
@@ -93,6 +118,23 @@ class CurrentLocationViewController: UIViewController {
                                      weatherData.wind,
                                      weatherData.cloudiness,
                                      weatherData.visibility)
+    }
+    
+    func saveForecastDataFromJson(json: JSON) {
+        forecastData = [WeatherData]()
+        for index in 0...8 {
+            let hourString = json["list"][index]["dt_txt"].stringValue
+            let hour = Int(hourString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+            let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,
+                                             city: String(), description: String(),
+                                             temperature: Int(json["list"][index]["main"]["temp"].double! - 273.15),
+                                             pressure: Int(), humidity: Int(), visibility: Int(), wind: Double(), cloudiness: Int(),
+                                             hour: hour!)
+            forecastData.append(newWeatherData)
+        }
+        DispatchQueue.main.async {
+            self.weatherCollectionView.reloadData()
+        }
     }
 
 }
@@ -105,6 +147,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
             let coordinates = ["lat": String(location.coordinate.latitude), "lon": String(location.coordinate.longitude)]
             getWeatherData(with: coordinates)
+            getWeatherForecastData(with: coordinates)
         } else {
             // TODO: - alert
         }
@@ -119,13 +162,17 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
 extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if forecastData == nil {
+            return 0
+        } else {
+            return forecastData.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastViewCell", for: indexPath) as? ForecastCollectionViewCell
-        cell?.hourLabel.text = "15"
-        cell?.degreeLabel.text = "31°"
+        cell?.hourLabel.text = "\(forecastData[indexPath.row].hour)"
+        cell?.degreeLabel.text = "\(forecastData[indexPath.row].temperature)°"
         return cell!
     }
     

@@ -38,7 +38,7 @@ class CurrentLocationView: UIView {
         humidityLabel.text = "Humidity: \(humidity)%"
         windLabel.text = "Wind: \(Int(wind * 3.6)) km/h"
         cloudinessLabel.text = "Cloudiness: \(cloudiness)%"
-        visibilityLabel.text = "Visibility: \(round(Double(visibility / 1000))) km"
+        visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
     
     @IBAction func forecastButtonTapped(_ sender: UIButton) {
