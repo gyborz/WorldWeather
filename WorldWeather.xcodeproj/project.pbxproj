@@ -65,6 +65,44 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E7425CA722F2C991001018F1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E767633F22F03BA100DEC8B6 /* AppDelegate.swift */,
+				E767634822F03BA400DEC8B6 /* Assets.xcassets */,
+				E767634A22F03BA400DEC8B6 /* LaunchScreen.storyboard */,
+				E767634D22F03BA400DEC8B6 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E7425CAA22F2CAC6001018F1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E7DF814022F188BC00B4B6C4 /* WeatherData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E7425CAB22F2CAD2001018F1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E767634522F03BA100DEC8B6 /* Main.storyboard */,
+				E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */,
+				E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E7425CAC22F2CAFF001018F1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
+				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		E767633322F03BA100DEC8B6 = {
 			isa = PBXGroup;
 			children = (
@@ -86,16 +124,10 @@
 		E767633E22F03BA100DEC8B6 /* WorldWeather */ = {
 			isa = PBXGroup;
 			children = (
-				E767634522F03BA100DEC8B6 /* Main.storyboard */,
-				E7DF814022F188BC00B4B6C4 /* WeatherData.swift */,
-				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
-				E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */,
-				E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */,
-				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
-				E767633F22F03BA100DEC8B6 /* AppDelegate.swift */,
-				E767634822F03BA400DEC8B6 /* Assets.xcassets */,
-				E767634A22F03BA400DEC8B6 /* LaunchScreen.storyboard */,
-				E767634D22F03BA400DEC8B6 /* Info.plist */,
+				E7425CAA22F2CAC6001018F1 /* Model */,
+				E7425CAB22F2CAD2001018F1 /* View */,
+				E7425CAC22F2CAFF001018F1 /* Controller */,
+				E7425CA722F2C991001018F1 /* Supporting Files */,
 			);
 			path = WorldWeather;
 			sourceTree = "<group>";
@@ -369,7 +401,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62RRN86UA9;
-				INFOPLIST_FILE = WorldWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/WorldWeather/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,7 +420,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62RRN86UA9;
-				INFOPLIST_FILE = WorldWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/WorldWeather/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
