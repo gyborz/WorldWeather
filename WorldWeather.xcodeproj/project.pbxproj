@@ -102,8 +102,8 @@
 		E7425CAC22F2CAFF001018F1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */,
 				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
+				E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */,
 				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
 			);
 			path = Controller;

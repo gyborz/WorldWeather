@@ -40,9 +40,6 @@ class CurrentLocationView: UIView {
         cloudinessLabel.text = "Cloudiness: \(cloudiness)%"
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
-    
-    @IBAction func forecastButtonTapped(_ sender: UIButton) {
-    }
 
 }
 

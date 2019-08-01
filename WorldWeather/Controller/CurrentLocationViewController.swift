@@ -108,7 +108,7 @@ class CurrentLocationViewController: UIViewController {
                                   visibility: json["visibility"].intValue,
                                   wind: json["wind"]["speed"].double!,
                                   cloudiness: json["clouds"]["all"].intValue,
-                                  hour: Int())
+                                  date: Date())
         
         currentLocationView.updateUI(weatherData.city,
                                      weatherData.temperature,
@@ -122,18 +122,29 @@ class CurrentLocationViewController: UIViewController {
     
     func saveForecastDataFromJson(json: JSON) {
         forecastData = [WeatherData]()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
         for index in 0...8 {
-            let hourString = json["list"][index]["dt_txt"].stringValue
-            let hour = Int(hourString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+            let dateString = json["list"][index]["dt_txt"].stringValue
+            let date = dateFormatter.date(from: dateString)!
+            
             let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,
                                              city: String(), description: String(),
                                              temperature: Int(json["list"][index]["main"]["temp"].double! - 273.15),
                                              pressure: Int(), humidity: Int(), visibility: Int(), wind: Double(), cloudiness: Int(),
-                                             hour: hour!)
+                                             date: date)
             forecastData.append(newWeatherData)
         }
         DispatchQueue.main.async {
             self.weatherCollectionView.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ForecastSegue" {
+            let destinationVC = segue.destination as! ForecastViewController
+            //destinationVC.forecastData = forecastData
+            print("performed segue")
         }
     }
 
@@ -171,7 +182,13 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastViewCell", for: indexPath) as? ForecastCollectionViewCell
-        cell?.hourLabel.text = "\(forecastData[indexPath.row].hour)"
+    
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        let dateString = dateFormatter.string(from: forecastData[indexPath.row].date)
+        let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+        
+        cell?.hourLabel.text = "\(hour!)"
         cell?.degreeLabel.text = "\(forecastData[indexPath.row].temperature)°"
         return cell!
     }

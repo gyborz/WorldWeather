@@ -19,9 +19,9 @@ class WeatherData {
     let visibility: Int
     let wind: Double
     let cloudiness: Int
-    let hour: Int
+    let date: Date
     
-    init(weatherId: Int, city: String, description: String, temperature: Int, pressure: Int, humidity: Int, visibility: Int, wind: Double, cloudiness: Int, hour: Int) {
+    init(weatherId: Int, city: String, description: String, temperature: Int, pressure: Int, humidity: Int, visibility: Int, wind: Double, cloudiness: Int, date: Date) {
         self.weatherId = weatherId
         self.city = city
         self.description = description
@@ -31,7 +31,7 @@ class WeatherData {
         self.visibility = visibility
         self.wind = wind
         self.cloudiness = cloudiness
-        self.hour = hour
+        self.date = date
     }
     
 }
