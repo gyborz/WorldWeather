@@ -18,7 +18,7 @@ class ForecastTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        weatherImageView.backgroundColor = .white
+        weatherImageView.backgroundColor = .blue
     }
 
 }

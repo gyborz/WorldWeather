@@ -10,15 +10,58 @@ import UIKit
 
 class ForecastViewController: UIViewController {
     
-    var forecastData: [WeatherData]!
+    var forecastWeatherData: [WeatherData]!
+    var daysData = [ForecastDayData]()
     
     @IBOutlet weak var forecastTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadDays()
+        
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
+        forecastTableView.isUserInteractionEnabled = false
+    }
+    
+    func loadDays() {
+        let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        var minTemp = Int.max
+        var maxTemp = Int.min
+        let calendar = Calendar.current     /// gregorian calendar !!
+        var dateFlag = forecastWeatherData[0].date
+        
+        for index in 0...forecastWeatherData.count - 1 {
+            if forecastWeatherData[index].temperature < minTemp {
+                minTemp = forecastWeatherData[index].temperature
+            }
+            if forecastWeatherData[index].temperature > maxTemp {
+                maxTemp = forecastWeatherData[index].temperature
+            }
+            
+            if index < forecastWeatherData.count - 1 {
+                if calendar.component(.day, from: dateFlag) != calendar.component(.day, from: forecastWeatherData[index + 1].date) {
+                    let forecastDay = ForecastDayData(maxTemperature: maxTemp,
+                                                      minTemperature: minTemp,
+                                                      day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                    daysData.append(forecastDay)
+                    
+                    minTemp = Int.max
+                    maxTemp = Int.min
+                    dateFlag = forecastWeatherData[index + 1].date
+                }
+            } else {
+                let forecastDay = ForecastDayData(maxTemperature: maxTemp,
+                                                  minTemperature: minTemp,
+                                                  day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                daysData.append(forecastDay)
+                
+                minTemp = Int.max
+                maxTemp = Int.min
+            }
+        }
+        
     }
     
     @IBAction func closeButtonTapped(_ sender: UIButton) {
@@ -30,12 +73,14 @@ class ForecastViewController: UIViewController {
 extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return daysData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
-        
+        cell.dayLabel.text = daysData[indexPath.row].day
+        cell.hottestLabel.text = "\(daysData[indexPath.row].maxTemperature)°"
+        cell.coldestLabel.text = "\(daysData[indexPath.row].minTemperature)°"
         return cell
     }
     

@@ -14,7 +14,8 @@ class CurrentLocationViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     let appId = "3656721177232952a61339c39bec961e"
-    var forecastData: [WeatherData]!
+    var forecastWeatherDataFor24Hours: [WeatherData]!
+    var forecastWeatherDataForDays: [WeatherData]!
     var weatherData: WeatherData!
     
     @IBOutlet weak var currentLocationView: CurrentLocationView!
@@ -83,6 +84,7 @@ class CurrentLocationViewController: UIViewController {
                     do {
                         let json = try JSON(data: data)
                         print(json)
+                        print(url)
                         self.saveForecastDataFromJson(json: json)
                     } catch let error {
                         print(error)
@@ -121,9 +123,13 @@ class CurrentLocationViewController: UIViewController {
     }
     
     func saveForecastDataFromJson(json: JSON) {
-        forecastData = [WeatherData]()
+        var dayIndex = 0    /// this variable indicates from which list item begins the next day's weather information
+        let today = Date()
+        let calendar = Calendar.current
+        
+        forecastWeatherDataFor24Hours = [WeatherData]()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         for index in 0...8 {
             let dateString = json["list"][index]["dt_txt"].stringValue
             let date = dateFormatter.date(from: dateString)!
@@ -133,18 +139,34 @@ class CurrentLocationViewController: UIViewController {
                                              temperature: Int(json["list"][index]["main"]["temp"].double! - 273.15),
                                              pressure: Int(), humidity: Int(), visibility: Int(), wind: Double(), cloudiness: Int(),
                                              date: date)
-            forecastData.append(newWeatherData)
+            forecastWeatherDataFor24Hours.append(newWeatherData)
+            
+            if calendar.component(.day, from: today) < calendar.component(.day, from: date) {
+                dayIndex = index
+            }
         }
         DispatchQueue.main.async {
             self.weatherCollectionView.reloadData()
+        }
+        
+        forecastWeatherDataForDays = [WeatherData]()
+        for index in dayIndex...json["list"].count - 1 {
+            let dateString = json["list"][index]["dt_txt"].stringValue
+            let date = dateFormatter.date(from: dateString)!
+            
+            let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,
+                                             city: String(), description: String(),
+                                             temperature: Int(json["list"][index]["main"]["temp"].double! - 273.15),
+                                             pressure: Int(), humidity: Int(), visibility: Int(), wind: Double(), cloudiness: Int(),
+                                             date: date)
+            forecastWeatherDataForDays.append(newWeatherData)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ForecastSegue" {
             let destinationVC = segue.destination as! ForecastViewController
-            //destinationVC.forecastData = forecastData
-            print("performed segue")
+            destinationVC.forecastWeatherData = forecastWeatherDataForDays
         }
     }
 
@@ -173,10 +195,10 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
 extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if forecastData == nil {
+        if forecastWeatherDataFor24Hours == nil {
             return 0
         } else {
-            return forecastData.count
+            return forecastWeatherDataFor24Hours.count
         }
     }
     
@@ -185,11 +207,11 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
     
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: forecastData[indexPath.row].date)
+        let dateString = dateFormatter.string(from: forecastWeatherDataFor24Hours[indexPath.row].date)
         let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell?.hourLabel.text = "\(hour!)"
-        cell?.degreeLabel.text = "\(forecastData[indexPath.row].temperature)°"
+        cell?.degreeLabel.text = "\(forecastWeatherDataFor24Hours[indexPath.row].temperature)°"
         return cell!
     }
     
