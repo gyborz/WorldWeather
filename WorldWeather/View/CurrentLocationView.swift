@@ -20,9 +20,13 @@ class CurrentLocationView: UIView {
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
     @IBOutlet weak var forecastButton: UIButton!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         
         forecastButton.backgroundColor = .clear
         forecastButton.layer.cornerRadius = 15

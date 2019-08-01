@@ -12,11 +12,13 @@ import CoreLocation
 
 class CurrentLocationViewController: UIViewController {
     
+    let defaults = UserDefaults.standard
     let locationManager = CLLocationManager()
     let appId = "3656721177232952a61339c39bec961e"
     var forecastWeatherDataFor24Hours: [WeatherData]!
     var forecastWeatherDataForDays: [WeatherData]!
     var weatherData: WeatherData!
+    let temperatureUnitRange = 0..<2
     
     @IBOutlet weak var currentLocationView: CurrentLocationView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -33,6 +35,8 @@ class CurrentLocationViewController: UIViewController {
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
         weatherCollectionView.backgroundColor = .clear
+        
+        currentLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -168,6 +172,10 @@ class CurrentLocationViewController: UIViewController {
             let destinationVC = segue.destination as! ForecastViewController
             destinationVC.forecastWeatherData = forecastWeatherDataForDays
         }
+    }
+    
+    @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
+        defaults.set(sender.selectedSegmentIndex, forKey: "temperatureUnit")
     }
 
 }

@@ -184,6 +184,19 @@
                                                     <segue destination="F0J-8J-KWU" kind="presentation" identifier="ForecastSegue" modalPresentationStyle="overCurrentContext" id="MXJ-da-f6r"/>
                                                 </connections>
                                             </button>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="miX-sg-bau">
+                                                <rect key="frame" x="16" y="681" width="61" height="29"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="YEx-b4-9r3"/>
+                                                </constraints>
+                                                <segments>
+                                                    <segment title="C°"/>
+                                                    <segment title="F°"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="segmentedControlTapped:" destination="9pv-A4-QxB" eventType="valueChanged" id="h2k-2y-Dzl"/>
+                                                </connections>
+                                            </segmentedControl>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -193,6 +206,7 @@
                                             <constraint firstItem="jKa-3y-eld" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="8KE-7Y-KfL"/>
                                             <constraint firstItem="Vqh-vK-yIW" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="9fu-NB-eU8"/>
                                             <constraint firstAttribute="bottom" secondItem="Hu3-8z-Hx9" secondAttribute="bottom" constant="99" id="9wN-6J-ROT"/>
+                                            <constraint firstItem="Hu3-8z-Hx9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="miX-sg-bau" secondAttribute="trailing" constant="8" symbolic="YES" id="BG4-39-ASq"/>
                                             <constraint firstItem="Hu3-8z-Hx9" firstAttribute="centerX" secondItem="Vqh-vK-yIW" secondAttribute="centerX" id="Cdg-OC-Nf3"/>
                                             <constraint firstItem="Q0d-3S-Cf2" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="Jwd-l8-6bf"/>
                                             <constraint firstAttribute="trailing" secondItem="vUW-dm-gFm" secondAttribute="trailing" id="Qb4-bo-nN0"/>
@@ -202,6 +216,8 @@
                                             <constraint firstItem="2Fi-DN-JHB" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="VRQ-lw-spw"/>
                                             <constraint firstItem="4J0-Rs-cf5" firstAttribute="top" secondItem="jKa-3y-eld" secondAttribute="bottom" id="VUP-Zp-Xi7"/>
                                             <constraint firstItem="CeP-Kj-Fqi" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="Vnh-KB-44Z"/>
+                                            <constraint firstItem="miX-sg-bau" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" constant="16" id="VzU-vI-piw"/>
+                                            <constraint firstItem="miX-sg-bau" firstAttribute="top" secondItem="Vqh-vK-yIW" secondAttribute="bottom" constant="13" id="Wwp-rN-oEZ"/>
                                             <constraint firstAttribute="trailing" secondItem="CeP-Kj-Fqi" secondAttribute="trailing" id="abG-N7-GCN"/>
                                             <constraint firstItem="vUW-dm-gFm" firstAttribute="top" secondItem="Vkh-fF-SDa" secondAttribute="bottom" constant="39" id="fXG-e2-g4Q"/>
                                             <constraint firstItem="CeP-Kj-Fqi" firstAttribute="top" secondItem="vUW-dm-gFm" secondAttribute="bottom" constant="22" id="fa1-Sc-Tao"/>
@@ -224,6 +240,7 @@
                                             <outlet property="forecastButton" destination="Hu3-8z-Hx9" id="em1-YE-YeS"/>
                                             <outlet property="humidityLabel" destination="uLg-mV-gmk" id="VAV-sC-1Ek"/>
                                             <outlet property="pressureLabel" destination="IBz-qw-kpD" id="RoA-q6-u78"/>
+                                            <outlet property="segmentedControl" destination="miX-sg-bau" id="tpS-2T-AsZ"/>
                                             <outlet property="temperatureLabel" destination="vUW-dm-gFm" id="9Oa-P2-cA4"/>
                                             <outlet property="visibilityLabel" destination="2Fi-DN-JHB" id="ICk-ED-2iG"/>
                                             <outlet property="windLabel" destination="aud-Bm-Xb6" id="RJj-bm-GbN"/>
@@ -259,7 +276,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="816" y="-321"/>
+            <point key="canvasLocation" x="815.20000000000005" y="-321.42857142857144"/>
         </scene>
         <!--Forecast View Controller-->
         <scene sceneID="z5n-I5-gCY">
@@ -396,7 +413,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="816" y="519"/>
+            <point key="canvasLocation" x="815" y="411"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
