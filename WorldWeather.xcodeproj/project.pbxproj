@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9B9634598D25ADAFB7C9A2B1 /* Pods_WorldWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD94C0F22C3A0D6A2E96092 /* Pods_WorldWeather.framework */; };
+		E7425CAE22F2CFFE001018F1 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */; };
+		E7425CB022F2D272001018F1 /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7425CAF22F2D272001018F1 /* ForecastTableViewCell.swift */; };
 		E767634022F03BA100DEC8B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767633F22F03BA100DEC8B6 /* AppDelegate.swift */; };
 		E767634222F03BA100DEC8B6 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */; };
 		E767634422F03BA100DEC8B6 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767634322F03BA100DEC8B6 /* SecondViewController.swift */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		2AD94C0F22C3A0D6A2E96092 /* Pods_WorldWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WorldWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE7059248F17A08184759799 /* Pods-WorldWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorldWeather.release.xcconfig"; path = "Target Support Files/Pods-WorldWeather/Pods-WorldWeather.release.xcconfig"; sourceTree = "<group>"; };
+		E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
+		E7425CAF22F2D272001018F1 /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
 		E767633C22F03BA100DEC8B6 /* WorldWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E767633F22F03BA100DEC8B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 				E767634522F03BA100DEC8B6 /* Main.storyboard */,
 				E767635322F05B2B00DEC8B6 /* CurrentLocationView.swift */,
 				E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */,
+				E7425CAF22F2D272001018F1 /* ForecastTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -97,6 +102,7 @@
 		E7425CAC22F2CAFF001018F1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */,
 				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
 				E767634322F03BA100DEC8B6 /* SecondViewController.swift */,
 			);
@@ -247,7 +253,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7425CB022F2D272001018F1 /* ForecastTableViewCell.swift in Sources */,
 				E767634422F03BA100DEC8B6 /* SecondViewController.swift in Sources */,
+				E7425CAE22F2CFFE001018F1 /* ForecastViewController.swift in Sources */,
 				E767634022F03BA100DEC8B6 /* AppDelegate.swift in Sources */,
 				E767634222F03BA100DEC8B6 /* CurrentLocationViewController.swift in Sources */,
 				E767635622F0784700DEC8B6 /* ForecastCollectionViewCell.swift in Sources */,
