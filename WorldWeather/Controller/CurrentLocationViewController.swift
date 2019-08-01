@@ -36,7 +36,7 @@ class CurrentLocationViewController: UIViewController {
         weatherCollectionView.dataSource = self
         weatherCollectionView.backgroundColor = .clear
         
-        currentLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
+        //currentLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,10 +105,13 @@ class CurrentLocationViewController: UIViewController {
     }
     
     func updateWeatherData(with json: JSON) {
+        
+        let temperature = getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
+        
         weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
                                   city: json["name"].stringValue,
                                   description: json["weather"][0]["description"].stringValue,
-                                  temperature: Int(json["main"]["temp"].double! - 273.15),
+                                  temperature: temperature,
                                   pressure: json["main"]["pressure"].intValue,
                                   humidity: json["main"]["humidity"].intValue,
                                   visibility: json["visibility"].intValue,
@@ -137,10 +140,11 @@ class CurrentLocationViewController: UIViewController {
         for index in 0...8 {
             let dateString = json["list"][index]["dt_txt"].stringValue
             let date = dateFormatter.date(from: dateString)!
+            let temperature = getTemperatureInCorrectUnit(from: json["list"][index]["main"]["temp"].double!)
             
             let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,
                                              city: String(), description: String(),
-                                             temperature: Int(json["list"][index]["main"]["temp"].double! - 273.15),
+                                             temperature: temperature,
                                              pressure: Int(), humidity: Int(), visibility: Int(), wind: Double(), cloudiness: Int(),
                                              date: date)
             forecastWeatherDataFor24Hours.append(newWeatherData)
@@ -157,10 +161,11 @@ class CurrentLocationViewController: UIViewController {
         for index in dayIndex...json["list"].count - 1 {
             let dateString = json["list"][index]["dt_txt"].stringValue
             let date = dateFormatter.date(from: dateString)!
+            let temperature = getTemperatureInCorrectUnit(from: json["list"][index]["main"]["temp"].double!)
             
             let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,
                                              city: String(), description: String(),
-                                             temperature: Int(json["list"][index]["main"]["temp"].double! - 273.15),
+                                             temperature: temperature,
                                              pressure: Int(), humidity: Int(), visibility: Int(), wind: Double(), cloudiness: Int(),
                                              date: date)
             forecastWeatherDataForDays.append(newWeatherData)
@@ -174,8 +179,15 @@ class CurrentLocationViewController: UIViewController {
         }
     }
     
-    @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
-        defaults.set(sender.selectedSegmentIndex, forKey: "temperatureUnit")
+    func getTemperatureInCorrectUnit(from kelvin: Double) -> Int {
+        var temperature = 0
+        if defaults.integer(forKey: "temperatureUnit") == 0 {
+            temperature = Int(kelvin - 273.15)
+        } else {
+            temperature = Int((kelvin - 273.15) * 9) / 5 + 32     /// Fahrenheit
+        }
+        
+        return temperature
     }
 
 }
