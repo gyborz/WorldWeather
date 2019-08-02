@@ -29,7 +29,7 @@ class ForecastViewController: UIViewController {
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         var minTemp = Int.max
         var maxTemp = Int.min
-        let calendar = Calendar.current     /// gregorian calendar !!
+        let calendar = Calendar.current             /// gregorian calendar !!
         var dateFlag = forecastWeatherData[0].date
         
         for index in 0...forecastWeatherData.count - 1 {
@@ -41,6 +41,7 @@ class ForecastViewController: UIViewController {
             }
             
             if index < forecastWeatherData.count - 1 {
+                // watch out for the dates' values in the equation (see explanation under CurrentLocationViewController - saveForecastDataFromJSON(json:))
                 if calendar.component(.day, from: dateFlag) != calendar.component(.day, from: forecastWeatherData[index + 1].date) {
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
@@ -51,14 +52,6 @@ class ForecastViewController: UIViewController {
                     maxTemp = Int.min
                     dateFlag = forecastWeatherData[index + 1].date
                 }
-            } else {
-                let forecastDay = ForecastDayData(maxTemperature: maxTemp,
-                                                  minTemperature: minTemp,
-                                                  day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
-                daysData.append(forecastDay)
-                
-                minTemp = Int.max
-                maxTemp = Int.min
             }
         }
         

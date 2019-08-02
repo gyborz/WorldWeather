@@ -177,7 +177,7 @@
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="155" id="e1H-K8-rDZ"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <state key="normal" title="5 day forecast">
+                                                <state key="normal" title="4 day forecast">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>

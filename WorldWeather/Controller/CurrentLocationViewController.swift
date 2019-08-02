@@ -149,7 +149,11 @@ class CurrentLocationViewController: UIViewController {
                                              date: date)
             forecastWeatherDataFor24Hours.append(newWeatherData)
             
-            if calendar.component(.day, from: today) < calendar.component(.day, from: date) {
+            if calendar.component(.day, from: today) < calendar.component(.day, from: date) && dayIndex == 0 {
+                // important: the date variable is always showing in UTC time, but the value itself is still the parsed one from the json file
+                // example: if the 'date' variable in the equation shows: 2019-08-02 22:00:00 UTC,
+                // the value itself is parsed from json so in reality it's 2019-08-03 00:00:00 the next day !!!
+                // same equation happens at the ForecastViewController's loadDays() method !!
                 dayIndex = index
             }
         }
