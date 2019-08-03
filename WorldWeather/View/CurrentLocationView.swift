@@ -24,9 +24,6 @@ class CurrentLocationView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
-//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
-        
         forecastButton.backgroundColor = .clear
         forecastButton.layer.cornerRadius = 15
         forecastButton.layer.borderWidth = 1

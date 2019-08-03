@@ -8,11 +8,15 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SearchLocationViewController: UIViewController {
+    
+    @IBOutlet weak var searchLocationView: SearchLocationView!
+    @IBOutlet weak var locationTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        
     }
 
 
