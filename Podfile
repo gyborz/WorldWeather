@@ -8,5 +8,6 @@ target 'WorldWeather' do
   # Pods for WorldWeather
 
 pod 'SwiftyJSON', '~> 4.0'
+pod 'SwipeCellKit', :git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'develop'
 
 end
