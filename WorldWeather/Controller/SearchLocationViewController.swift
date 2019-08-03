@@ -16,7 +16,7 @@ class SearchLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        //searchLocationView:.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
 
 

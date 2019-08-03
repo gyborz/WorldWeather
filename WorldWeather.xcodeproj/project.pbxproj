@@ -20,6 +20,7 @@
 		E767635622F0784700DEC8B6 /* ForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */; };
 		E779469422F5C6EB0005F896 /* SearchLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E779469322F5C6EB0005F896 /* SearchLocationView.swift */; };
 		E798428C22F3338800EC3820 /* ForecastDayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E798428B22F3338800EC3820 /* ForecastDayData.swift */; };
+		E7C1D0C822F60BA900552AED /* ForecastTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7C1D0C722F60BA900552AED /* ForecastTableViewCell.xib */; };
 		E7DF814122F188BC00B4B6C4 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DF814022F188BC00B4B6C4 /* WeatherData.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		E779469322F5C6EB0005F896 /* SearchLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationView.swift; sourceTree = "<group>"; };
 		E798428B22F3338800EC3820 /* ForecastDayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDayData.swift; sourceTree = "<group>"; };
+		E7C1D0C722F60BA900552AED /* ForecastTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastTableViewCell.xib; sourceTree = "<group>"; };
 		E7DF814022F188BC00B4B6C4 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		FD20E6AD27DE0CF3B2F2942C /* Pods-WorldWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorldWeather.debug.xcconfig"; path = "Target Support Files/Pods-WorldWeather/Pods-WorldWeather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +103,7 @@
 				E767635522F0784700DEC8B6 /* ForecastCollectionViewCell.swift */,
 				E7425CAF22F2D272001018F1 /* ForecastTableViewCell.swift */,
 				E779469322F5C6EB0005F896 /* SearchLocationView.swift */,
+				E7C1D0C722F60BA900552AED /* ForecastTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7C1D0C822F60BA900552AED /* ForecastTableViewCell.xib in Resources */,
 				E767634C22F03BA400DEC8B6 /* LaunchScreen.storyboard in Resources */,
 				E767634922F03BA400DEC8B6 /* Assets.xcassets in Resources */,
 				E767634722F03BA100DEC8B6 /* Main.storyboard in Resources */,

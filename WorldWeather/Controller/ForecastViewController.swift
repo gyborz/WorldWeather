@@ -22,6 +22,8 @@ class ForecastViewController: UIViewController {
         
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
+        forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
+        forecastTableView.rowHeight = 60
         forecastTableView.isUserInteractionEnabled = false
     }
     

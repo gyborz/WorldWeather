@@ -35,8 +35,6 @@ class CurrentLocationViewController: UIViewController {
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
         weatherCollectionView.backgroundColor = .clear
-        
-        //currentLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
     
     override func viewDidAppear(_ animated: Bool) {
