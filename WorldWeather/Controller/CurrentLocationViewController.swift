@@ -214,6 +214,10 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         // TODO: - alert
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // TODO: - alert
+    }
+    
 }
 
 extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
