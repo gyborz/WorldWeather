@@ -18,7 +18,8 @@ class SearchLocationViewController: UIViewController {
         
         //searchLocationView:.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
-
+    
+    
 
 }
 
