@@ -10,6 +10,11 @@ import UIKit
 
 class GetWeatherViewController: UIViewController {
     
+    var forecastWeatherDataForHours: [WeatherData]!
+    var forecastWeatherDataForDays: [WeatherData]!
+    let restManager = RestManager()
+    
+    @IBOutlet weak var getWeatherView: GetWeatherView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
     @IBOutlet weak var forecastTableView: UITableView!
 
@@ -26,6 +31,25 @@ class GetWeatherViewController: UIViewController {
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
         weatherCollectionView.backgroundColor = .clear
+    }
+    
+    func updateView(with weatherData: WeatherData) {
+        getWeatherView.updateUI(weatherData.city,
+                                weatherData.temperature,
+                                weatherData.description,
+                                weatherData.pressure,
+                                weatherData.humidity,
+                                weatherData.wind,
+                                weatherData.cloudiness,
+                                weatherData.visibility)
+    }
+    
+    func getWeatherInformation(with text: String) {
+        restManager.getWeatherData(with: text) { (weatherData) in
+            DispatchQueue.main.async {
+                self.updateView(with: weatherData)
+            }
+        }
     }
     
     @IBAction func closeButtonTapped(_ sender: UIButton) {

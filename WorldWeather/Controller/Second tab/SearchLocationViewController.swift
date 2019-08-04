@@ -19,7 +19,12 @@ class SearchLocationViewController: UIViewController {
         //searchLocationView:.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GetWeather" {
+            let destinationVC = segue.destination as! GetWeatherViewController
+            destinationVC.getWeatherInformation(with: searchLocationView.textField.text!)
+        }
+    }
 
 }
 

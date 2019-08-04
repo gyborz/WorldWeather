@@ -294,7 +294,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="7Ek-7G-65u" kind="presentation" modalPresentationStyle="overCurrentContext" id="S2Y-fe-dUq"/>
+                                            <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeather" modalPresentationStyle="overCurrentContext" id="S2Y-fe-dUq"/>
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WUd-hL-YQh">
@@ -561,6 +561,7 @@
                     </view>
                     <connections>
                         <outlet property="forecastTableView" destination="hcH-w1-Dgk" id="7OQ-Xx-XpT"/>
+                        <outlet property="getWeatherView" destination="Mag-IE-fSY" id="2eH-0w-oju"/>
                         <outlet property="weatherCollectionView" destination="WDB-GH-zDh" id="gxM-As-muZ"/>
                     </connections>
                 </viewController>

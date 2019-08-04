@@ -49,6 +49,95 @@ class RestManager {
         }
     }
     
+    func getWeatherData(with text: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
+        var urlString = String()
+        
+        if text.contains(",") || text.contains(" ") {
+            if text.split(separator: ",").count == 2 {
+                let city = String(text.split(separator: ",")[0])
+                let country = String(text.split(separator: ",")[1])
+                
+                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
+            } else if text.split(separator: " ").count == 2 {
+                let city = text.components(separatedBy: " ").joined()
+                
+                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
+            }
+        } else {
+            urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(text)&appid=\(appId)"
+        }
+        
+        if let url = URL(string: urlString) {
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let data = data {
+                    do {
+                        let json = try JSON(data: data)
+                        
+                        let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
+                        
+                        let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
+                                                      city: json["name"].stringValue,
+                                                      description: json["weather"][0]["description"].stringValue,
+                                                      temperature: temperature,
+                                                      pressure: json["main"]["pressure"].intValue,
+                                                      humidity: json["main"]["humidity"].intValue,
+                                                      visibility: json["visibility"].intValue,
+                                                      wind: json["wind"]["speed"].double!,
+                                                      cloudiness: json["clouds"]["all"].intValue,
+                                                      date: Date())
+                        completionHandler(weatherData)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                
+                if let error = error {
+                    print(error)
+                    // TODO: - alert
+                }
+                }.resume()
+            
+        }
+        
+    }
+    
+    func getWeatherData(with city: String, in country: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
+        if let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)") {
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let data = data {
+                    do {
+                        let json = try JSON(data: data)
+                        
+                        let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
+                        
+                        let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
+                                                      city: json["name"].stringValue,
+                                                      description: json["weather"][0]["description"].stringValue,
+                                                      temperature: temperature,
+                                                      pressure: json["main"]["pressure"].intValue,
+                                                      humidity: json["main"]["humidity"].intValue,
+                                                      visibility: json["visibility"].intValue,
+                                                      wind: json["wind"]["speed"].double!,
+                                                      cloudiness: json["clouds"]["all"].intValue,
+                                                      date: Date())
+                        completionHandler(weatherData)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                
+                if let error = error {
+                    print(error)
+                    // TODO: - alert
+                }
+                }.resume()
+            
+        }
+        
+    }
+    
     func getWeatherForecastData(with coordinates: [String: String], completionHandler: @escaping (_ forecastWeatherDataFor24Hours: [WeatherData], _ forecastWeatherDataForDays: [WeatherData]) -> Void) {
         if let url = URL(string: "http://api.openweathermap.org/data/2.5/forecast?lat=\(coordinates["lat"]!)&lon=\(coordinates["lon"]!)&appid=\(appId)") {
             
@@ -72,6 +161,8 @@ class RestManager {
             
         }
     }
+    
+    
     
     func saveForecastDataFromJson(json: JSON) -> (forHours: [WeatherData], forDays: [WeatherData]) {
         var dayIndex = 0    /// this variable indicates from which list item begins the next day's weather information
