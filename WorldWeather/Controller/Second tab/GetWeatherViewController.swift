@@ -21,6 +21,11 @@ class GetWeatherViewController: UIViewController {
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
         forecastTableView.rowHeight = 60
         forecastTableView.allowsSelection = false
+        
+        weatherCollectionView.delegate = self
+        weatherCollectionView.dataSource = self
+        weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
+        weatherCollectionView.backgroundColor = .clear
     }
     
     @IBAction func closeButtonTapped(_ sender: UIButton) {
@@ -44,6 +49,36 @@ extension GetWeatherViewController: UITableViewDelegate, UITableViewDataSource {
         cell.dayLabel.text = "Monday"
         cell.hottestLabel.text = "25°"
         cell.coldestLabel.text = "14°"
+        return cell
+    }
+    
+}
+
+extension GetWeatherViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if forecastWeatherDataFor24Hours == nil {
+//            return 0
+//        } else {
+//            return forecastWeatherDataFor24Hours.count
+//        }
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        //let dateString = dateFormatter.string(from: forecastWeatherDataFor24Hours[indexPath.row].date)
+        //let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+        
+        //cell?.hourLabel.text = "\(hour!)"
+        //cell?.degreeLabel.text = "\(forecastWeatherDataFor24Hours[indexPath.row].temperature)°"
+        
+        cell.hourLabel.text = "12"
+        cell.degreeLabel.text = "28°"
+        
         return cell
     }
     

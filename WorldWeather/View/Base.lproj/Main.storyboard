@@ -487,10 +487,10 @@
                                         </constraints>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WDB-GH-zDh">
-                                        <rect key="frame" x="0.0" y="163" width="343" height="115"/>
+                                        <rect key="frame" x="0.0" y="163" width="343" height="125"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="115" id="Psy-gH-m7u"/>
+                                            <constraint firstAttribute="height" constant="125" id="Psy-gH-m7u"/>
                                         </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oGc-By-Rx9">
                                             <size key="itemSize" width="80" height="139"/>
@@ -498,30 +498,11 @@
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ForecastViewCell" id="qt4-pP-MDG" customClass="ForecastCollectionViewCell" customModule="WorldWeather" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="-12" width="80" height="139"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="139"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </view>
-                                            </collectionViewCell>
-                                        </cells>
+                                        <cells/>
                                     </collectionView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-w1-Dgk">
                                         <rect key="frame" x="0.0" y="288" width="343" height="285"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ForecastTableViewCell" id="p4r-xQ-ahf" customClass="ForecastTableViewCell" customModule="WorldWeather" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="343" height="44"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p4r-xQ-ahf" id="fqt-RO-RZ5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="43.666666666666664"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1at-qC-qEg">
                                         <rect key="frame" x="130" y="581" width="83" height="33"/>
@@ -554,7 +535,7 @@
                                     <constraint firstItem="bpk-kL-R4Q" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="jld-1w-vKA"/>
                                     <constraint firstItem="1at-qC-qEg" firstAttribute="top" secondItem="hcH-w1-Dgk" secondAttribute="bottom" constant="8" id="l7r-89-B3l"/>
                                     <constraint firstAttribute="trailing" secondItem="pjU-vn-bRy" secondAttribute="trailing" constant="8" id="ne8-wd-opt"/>
-                                    <constraint firstItem="hcH-w1-Dgk" firstAttribute="top" secondItem="WDB-GH-zDh" secondAttribute="bottom" constant="10" id="shy-l5-fWy"/>
+                                    <constraint firstItem="hcH-w1-Dgk" firstAttribute="top" secondItem="WDB-GH-zDh" secondAttribute="bottom" id="shy-l5-fWy"/>
                                     <constraint firstItem="pjU-vn-bRy" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" constant="8" id="yWv-md-mBd"/>
                                 </constraints>
                                 <connections>

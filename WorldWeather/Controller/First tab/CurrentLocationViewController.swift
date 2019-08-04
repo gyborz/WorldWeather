@@ -230,16 +230,16 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as? ForecastCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
     
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
         let dateString = dateFormatter.string(from: forecastWeatherDataFor24Hours[indexPath.row].date)
         let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
-        cell?.hourLabel.text = "\(hour!)"
-        cell?.degreeLabel.text = "\(forecastWeatherDataFor24Hours[indexPath.row].temperature)°"
-        return cell!
+        cell.hourLabel.text = "\(hour!)"
+        cell.degreeLabel.text = "\(forecastWeatherDataFor24Hours[indexPath.row].temperature)°"
+        return cell
     }
     
     
