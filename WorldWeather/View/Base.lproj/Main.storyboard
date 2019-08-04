@@ -585,6 +585,9 @@
                                         <state key="normal" title="Close">
                                             <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="closeButtonTapped:" destination="7Ek-7G-65u" eventType="touchUpInside" id="TVy-My-oXC"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -628,6 +631,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BML-ku-gU1"/>
                     </view>
+                    <connections>
+                        <outlet property="forecastTableView" destination="hcH-w1-Dgk" id="7OQ-Xx-XpT"/>
+                        <outlet property="weatherCollectionView" destination="WDB-GH-zDh" id="gxM-As-muZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAv-Ey-9LJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
