@@ -446,53 +446,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mag-IE-fSY" customClass="GetWeatherView" customModule="WorldWeather" customModuleProvider="target">
                                 <rect key="frame" x="16" y="76" width="343" height="622"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WDB-GH-zDh">
-                                        <rect key="frame" x="0.0" y="163" width="343" height="115"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="115" id="Psy-gH-m7u"/>
-                                        </constraints>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oGc-By-Rx9">
-                                            <size key="itemSize" width="80" height="139"/>
-                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ForecastViewCell" id="qt4-pP-MDG" customClass="ForecastCollectionViewCell" customModule="WorldWeather" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="80" height="139"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="139"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </view>
-                                            </collectionViewCell>
-                                        </cells>
-                                    </collectionView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-w1-Dgk">
-                                        <rect key="frame" x="0.0" y="288" width="343" height="285"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ForecastTableViewCell" id="p4r-xQ-ahf" customClass="ForecastTableViewCell" customModule="WorldWeather" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="343" height="44"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p4r-xQ-ahf" id="fqt-RO-RZ5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="43.666666666666664"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
-                                    </tableView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1at-qC-qEg">
-                                        <rect key="frame" x="130" y="581" width="83" height="33"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="83" id="3Ky-Df-qhm"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                        <state key="normal" title="Close">
-                                            <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                    </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bpk-kL-R4Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="622"/>
+                                    </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="pjU-vn-bRy">
                                         <rect key="frame" x="8" y="8" width="327" height="145"/>
                                         <subviews>
@@ -583,23 +539,85 @@
                                             <constraint firstItem="oGw-VA-gfj" firstAttribute="leading" secondItem="pjU-vn-bRy" secondAttribute="leading" id="jio-tf-xLb"/>
                                         </constraints>
                                     </stackView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WDB-GH-zDh">
+                                        <rect key="frame" x="0.0" y="163" width="343" height="115"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="115" id="Psy-gH-m7u"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oGc-By-Rx9">
+                                            <size key="itemSize" width="80" height="139"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ForecastViewCell" id="qt4-pP-MDG" customClass="ForecastCollectionViewCell" customModule="WorldWeather" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="139"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="139"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </view>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-w1-Dgk">
+                                        <rect key="frame" x="0.0" y="288" width="343" height="285"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ForecastTableViewCell" id="p4r-xQ-ahf" customClass="ForecastTableViewCell" customModule="WorldWeather" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p4r-xQ-ahf" id="fqt-RO-RZ5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="43.666666666666664"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1at-qC-qEg">
+                                        <rect key="frame" x="130" y="581" width="83" height="33"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="83" id="3Ky-Df-qhm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                        <state key="normal" title="Close">
+                                            <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="bpk-kL-R4Q" firstAttribute="top" secondItem="Mag-IE-fSY" secondAttribute="top" id="7Ap-mm-PdI"/>
                                     <constraint firstItem="1at-qC-qEg" firstAttribute="centerX" secondItem="hcH-w1-Dgk" secondAttribute="centerX" id="8XK-SW-qG2"/>
                                     <constraint firstItem="WDB-GH-zDh" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="8ko-TQ-9EW"/>
                                     <constraint firstAttribute="bottom" secondItem="1at-qC-qEg" secondAttribute="bottom" constant="8" id="Bak-fB-RCI"/>
                                     <constraint firstItem="pjU-vn-bRy" firstAttribute="top" secondItem="Mag-IE-fSY" secondAttribute="top" constant="8" id="Myy-pE-YED"/>
                                     <constraint firstAttribute="trailing" secondItem="hcH-w1-Dgk" secondAttribute="trailing" id="Po6-Qn-cRd"/>
+                                    <constraint firstAttribute="trailing" secondItem="bpk-kL-R4Q" secondAttribute="trailing" id="Ps3-aN-QxV"/>
                                     <constraint firstItem="hcH-w1-Dgk" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="QoM-Bt-cIr"/>
                                     <constraint firstAttribute="trailing" secondItem="WDB-GH-zDh" secondAttribute="trailing" id="ccX-9m-eKi"/>
+                                    <constraint firstAttribute="bottom" secondItem="bpk-kL-R4Q" secondAttribute="bottom" id="f0k-nN-mJM"/>
                                     <constraint firstItem="WDB-GH-zDh" firstAttribute="top" secondItem="pjU-vn-bRy" secondAttribute="bottom" constant="10" id="ggq-lW-zJo"/>
                                     <constraint firstItem="1at-qC-qEg" firstAttribute="top" secondItem="hcH-w1-Dgk" secondAttribute="bottom" constant="8" id="iUt-Hs-Qat"/>
+                                    <constraint firstItem="bpk-kL-R4Q" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="jld-1w-vKA"/>
                                     <constraint firstItem="1at-qC-qEg" firstAttribute="top" secondItem="hcH-w1-Dgk" secondAttribute="bottom" constant="8" id="l7r-89-B3l"/>
                                     <constraint firstAttribute="trailing" secondItem="pjU-vn-bRy" secondAttribute="trailing" constant="8" id="ne8-wd-opt"/>
                                     <constraint firstItem="hcH-w1-Dgk" firstAttribute="top" secondItem="WDB-GH-zDh" secondAttribute="bottom" constant="10" id="shy-l5-fWy"/>
                                     <constraint firstItem="pjU-vn-bRy" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" constant="8" id="yWv-md-mBd"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="backgroundImage" destination="bpk-kL-R4Q" id="8QF-iC-eEL"/>
+                                    <outlet property="cityLabel" destination="0mD-UP-RQW" id="7Xr-0W-YeH"/>
+                                    <outlet property="closeButton" destination="1at-qC-qEg" id="nC0-Ny-WNQ"/>
+                                    <outlet property="cloudinessLabel" destination="Fzt-hV-obc" id="aRn-o0-Mwx"/>
+                                    <outlet property="humidityLabel" destination="BOc-LG-r5S" id="524-gm-EA9"/>
+                                    <outlet property="pressureLabel" destination="6qZ-Hi-bRg" id="enC-yp-UKq"/>
+                                    <outlet property="temperatureLabel" destination="oGw-VA-gfj" id="d1x-lk-aje"/>
+                                    <outlet property="visibilityLabel" destination="aRy-53-nwJ" id="Rhd-E0-U6v"/>
+                                    <outlet property="windLabel" destination="CCa-K3-cVa" id="L5n-3Z-JGG"/>
+                                </connections>
                             </view>
                         </subviews>
                         <constraints>
