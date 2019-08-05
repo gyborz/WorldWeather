@@ -34,6 +34,8 @@ class CurrentLocationViewController: UIViewController {
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
         weatherCollectionView.backgroundColor = .clear
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUITemperatureUnit(_:)), name: NSNotification.Name("didChangeTemperatureUnit"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,6 +71,10 @@ class CurrentLocationViewController: UIViewController {
             let destinationVC = segue.destination as! ForecastViewController
             destinationVC.forecastWeatherData = forecastWeatherDataForDays
         }
+    }
+    
+    @objc func updateUITemperatureUnit(_ notification: Notification) {
+        locationManager.startUpdatingLocation()
     }
 
 }

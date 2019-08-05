@@ -10,13 +10,14 @@ import UIKit
 
 class SearchLocationViewController: UIViewController {
     
+    let defaults = UserDefaults.standard
     @IBOutlet weak var searchLocationView: SearchLocationView!
     @IBOutlet weak var locationTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //searchLocationView:.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
+        searchLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -25,6 +26,11 @@ class SearchLocationViewController: UIViewController {
             destinationVC.getWeatherInformation(with: searchLocationView.textField.text!)
         }
     }
-
+    
+    @IBAction func chooseTemperatureUnit(_ sender: UISegmentedControl) {
+        defaults.set(sender.selectedSegmentIndex, forKey: "temperatureUnit")
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "didChangeTemperatureUnit")))
+    }
+    
 }
 
