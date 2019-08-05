@@ -31,7 +31,7 @@ class CurrentLocationView: UIView {
     }
     
     func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
-        cityLabel.text = city
+        cityLabel.text = String(city.split(separator: ",")[0])
         temperatureLabel.text = "\(temperature)°"
         descriptionLabel.text = description.capitalizingFirstLetter()
         pressureLabel.text = "Pressure: \(pressure) hPa"

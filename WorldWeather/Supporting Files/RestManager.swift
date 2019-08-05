@@ -25,59 +25,7 @@ class RestManager {
                         let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
                         
                         let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
-                                                  city: json["name"].stringValue,
-                                                  description: json["weather"][0]["description"].stringValue,
-                                                  temperature: temperature,
-                                                  pressure: json["main"]["pressure"].intValue,
-                                                  humidity: json["main"]["humidity"].intValue,
-                                                  visibility: json["visibility"].intValue,
-                                                  wind: json["wind"]["speed"].double!,
-                                                  cloudiness: json["clouds"]["all"].intValue,
-                                                  date: Date())
-                        completionHandler(weatherData)
-                    } catch let error {
-                        print(error)
-                    }
-                }
-                
-                if let error = error {
-                    print(error)
-                    // TODO: - alert
-                }
-            }.resume()
-            
-        }
-    }
-    
-    func getWeatherData(with text: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
-        var urlString = String()
-        
-        if text.contains(",") || text.contains(" ") {
-            if text.split(separator: ",").count == 2 {
-                let city = String(text.split(separator: ",")[0])
-                let country = String(text.split(separator: ",")[1])
-                
-                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
-            } else if text.split(separator: " ").count == 2 {
-                let city = text.components(separatedBy: " ").joined()
-                
-                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
-            }
-        } else {
-            urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(text)&appid=\(appId)"
-        }
-        
-        if let url = URL(string: urlString) {
-            
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
-                    do {
-                        let json = try JSON(data: data)
-                        
-                        let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
-                        
-                        let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
-                                                      city: json["name"].stringValue,
+                                                      city: json["name"].stringValue + ", " + json["sys"]["country"].stringValue,
                                                       description: json["weather"][0]["description"].stringValue,
                                                       temperature: temperature,
                                                       pressure: json["main"]["pressure"].intValue,
@@ -96,14 +44,15 @@ class RestManager {
                     print(error)
                     // TODO: - alert
                 }
-                }.resume()
+            }.resume()
             
         }
-        
     }
     
-    func getWeatherData(with city: String, in country: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
-        if let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)") {
+    func getWeatherData(with text: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
+        let urlString = trimmedString(from: text)
+        
+        if let url = URL(string: urlString) {
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let data = data {
@@ -113,7 +62,7 @@ class RestManager {
                         let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
                         
                         let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
-                                                      city: json["name"].stringValue,
+                                                      city: json["name"].stringValue + ", " + json["sys"]["country"].stringValue,
                                                       description: json["weather"][0]["description"].stringValue,
                                                       temperature: temperature,
                                                       pressure: json["main"]["pressure"].intValue,
@@ -219,6 +168,24 @@ class RestManager {
         }
         
         return temperature
+    }
+    
+    func trimmedString(from text: String) -> String {
+        var urlString: String
+        if text.split(separator: ",").count == 2 {
+            let cityWithWhitespaces = String(text.split(separator: ",")[0])
+            let city = cityWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
+            let countryWithWhitespaces = String(text.split(separator: ",")[1])
+            let country = countryWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
+            
+            urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
+        } else {
+            let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
+            let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
+            
+            urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
+        }
+        return urlString
     }
     
 }
