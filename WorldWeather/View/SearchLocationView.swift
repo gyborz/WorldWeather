@@ -23,6 +23,12 @@ class SearchLocationView: UIView {
         getWeatherButton.layer.cornerRadius = 15
         getWeatherButton.layer.borderWidth = 1
         getWeatherButton.layer.borderColor = UIColor.white.cgColor
+        
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard)))
+    }
+    
+    @objc func dismissKeyboard() {
+        self.endEditing(true)
     }
 
 }
