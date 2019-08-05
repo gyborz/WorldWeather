@@ -18,6 +18,11 @@ class SearchLocationViewController: UIViewController {
         super.viewDidLoad()
         
         searchLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
+        
+        locationTableView.delegate = self
+        locationTableView.dataSource = self
+        locationTableView.register(UINib(nibName: "LocationTableViewCell", bundle: nil), forCellReuseIdentifier: "LocationTableViewCell")
+        locationTableView.rowHeight = 70
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -34,3 +39,17 @@ class SearchLocationViewController: UIViewController {
     
 }
 
+extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell") as! LocationTableViewCell
+        cell.cityLabel.text = "Rio de Janeiro, BR"
+        cell.temperatureLabel.text = "123°"
+        return cell
+    }
+    
+}
