@@ -50,7 +50,7 @@ class RestManager {
     }
     
     func getWeatherData(with text: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
-        let urlString = trimmedString(from: text)
+        let urlString = trimmedString(from: text, isForecast: false)
         
         if let url = URL(string: urlString) {
             
@@ -111,7 +111,31 @@ class RestManager {
         }
     }
     
-    
+    func getWeatherForecastData(with text: String, completionHandler: @escaping (_ forecastWeatherDataFor24Hours: [WeatherData], _ forecastWeatherDataForDays: [WeatherData]) -> Void) {
+        let urlString = trimmedString(from: text, isForecast: true)
+        
+        if let url = URL(string: urlString) {
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let data = data {
+                    do {
+                        let json = try JSON(data: data)
+                        
+                        let forecastData = self.saveForecastDataFromJson(json: json)
+                        completionHandler(forecastData.forHours, forecastData.forDays)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                
+                if let error = error {
+                    print(error)
+                    // TODO: - alert
+                }
+                }.resume()
+            
+        }
+    }
     
     func saveForecastDataFromJson(json: JSON) -> (forHours: [WeatherData], forDays: [WeatherData]) {
         var dayIndex = 0    /// this variable indicates from which list item begins the next day's weather information
@@ -170,21 +194,38 @@ class RestManager {
         return temperature
     }
     
-    func trimmedString(from text: String) -> String {
+    func trimmedString(from text: String, isForecast: Bool) -> String {
         var urlString: String
-        if text.split(separator: ",").count == 2 {
-            let cityWithWhitespaces = String(text.split(separator: ",")[0])
-            let city = cityWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
-            let countryWithWhitespaces = String(text.split(separator: ",")[1])
-            let country = countryWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
-            
-            urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
+        if isForecast {
+            if text.split(separator: ",").count == 2 {
+                let cityWithWhitespaces = String(text.split(separator: ",")[0])
+                let city = cityWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
+                let countryWithWhitespaces = String(text.split(separator: ",")[1])
+                let country = countryWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
+                
+                urlString = "http://api.openweathermap.org/data/2.5/forecast?q=\(city),\(country)&appid=\(appId)"
+            } else {
+                let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
+                let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
+                
+                urlString = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=\(appId)"
+            }
         } else {
-            let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
-            let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
-            
-            urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
+            if text.split(separator: ",").count == 2 {
+                let cityWithWhitespaces = String(text.split(separator: ",")[0])
+                let city = cityWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
+                let countryWithWhitespaces = String(text.split(separator: ",")[1])
+                let country = countryWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
+                
+                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
+            } else {
+                let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
+                let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
+                
+                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
+            }
         }
+        
         return urlString
     }
     
