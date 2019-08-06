@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwipeCellKit
 
 class SearchLocationViewController: UIViewController {
     
@@ -37,10 +38,14 @@ class SearchLocationViewController: UIViewController {
             previousLocationNames = previousLocations
             previousLocationsWeather = []
             for location in previousLocationNames {
-                restManager.getWeatherData(with: location) { (weatherData) in
+                self.restManager.getWeatherData(with: location) { (weatherData) in
                     DispatchQueue.main.async {
                         self.previousLocationsWeather.append(weatherData)
                         self.locationTableView.reloadData()
+//                        if location == self.previousLocationNames.last {
+//                            self.previousLocationsWeather.reverse()
+//                            self.locationTableView.reloadData()
+//                        }
                     }
                 }
             }
@@ -85,6 +90,8 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell") as! LocationTableViewCell
         
+        cell.delegate = self
+        
         cell.cityLabel.text = previousLocationsWeather[indexPath.row].city
         let temperature = previousLocationsWeather[indexPath.row].temperature
         
@@ -103,6 +110,33 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
         }
         
         return cell
+    }
+    
+}
+
+extension SearchLocationViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            self.locationTableView.beginUpdates()
+            self.previousLocationNames.removeAll() { $0 == self.previousLocationsWeather[indexPath.row].city }
+            self.previousLocationsWeather.remove(at: indexPath.row)
+            self.defaults.set(self.previousLocationNames, forKey: "previousLocations")
+        }
+
+        deleteAction.image = UIImage(named: "delete")
+        self.locationTableView.endUpdates()
+        
+        return [deleteAction]
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
     }
     
 }
