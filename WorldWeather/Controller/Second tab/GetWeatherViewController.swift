@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol PreviousLocationDelegate {
+    func addLocation(_ name: String)
+}
+
 class GetWeatherViewController: UIViewController {
     
     var forecastWeatherDataForHours: [WeatherData]!
     var forecastWeatherDataForDays: [WeatherData]!
     var daysData = [ForecastDayData]()
     let restManager = RestManager()
+    var delegate: PreviousLocationDelegate?
     
     @IBOutlet weak var getWeatherView: GetWeatherView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
@@ -80,6 +85,7 @@ class GetWeatherViewController: UIViewController {
         restManager.getWeatherData(with: text) { (weatherData) in
             DispatchQueue.main.async {
                 self.updateView(with: weatherData)
+                self.delegate?.addLocation(weatherData.city)
             }
         }
         restManager.getWeatherForecastData(with: text) { (forHours, forDays) in
