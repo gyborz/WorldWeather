@@ -11,6 +11,7 @@ import UIKit
 class SearchLocationViewController: UIViewController {
     
     let defaults = UserDefaults.standard
+    var isTemperatureInCelsius = Bool()
     var previousLocationNames = [String]()
     var previousLocationsWeather = [WeatherData]()
     let restManager = RestManager()
@@ -43,6 +44,7 @@ class SearchLocationViewController: UIViewController {
                     }
                 }
             }
+            isTemperatureInCelsius = self.defaults.integer(forKey: "temperatureUnit") == 0 ? true : false
         }
     }
     
@@ -57,8 +59,7 @@ class SearchLocationViewController: UIViewController {
     @IBAction func chooseTemperatureUnit(_ sender: UISegmentedControl) {
         defaults.set(sender.selectedSegmentIndex, forKey: "temperatureUnit")
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "didChangeTemperatureUnit")))
-        loadPreviousLocations()
-        //locationTableView.reloadData()
+        locationTableView.reloadData()
     }
     
 }
@@ -70,7 +71,6 @@ extension SearchLocationViewController: PreviousLocationDelegate {
             previousLocationNames.append(name)
             defaults.set(previousLocationNames, forKey: "previousLocations")
             loadPreviousLocations()
-            //locationTableView.reloadData()
         }
     }
     
@@ -86,7 +86,21 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell") as! LocationTableViewCell
         
         cell.cityLabel.text = previousLocationsWeather[indexPath.row].city
-        cell.temperatureLabel.text = "\(previousLocationsWeather[indexPath.row].temperature)°"
+        let temperature = previousLocationsWeather[indexPath.row].temperature
+        
+        if isTemperatureInCelsius {
+            if defaults.integer(forKey: "temperatureUnit") == 0 {
+                cell.temperatureLabel.text = "\(temperature)°"
+            } else {
+                cell.temperatureLabel.text = "\(temperature * 9 / 5 + 32)°"     /// to Fahrenheit
+            }
+        } else {
+            if defaults.integer(forKey: "temperatureUnit") == 1 {
+                cell.temperatureLabel.text = "\(temperature)°"
+            } else {
+                cell.temperatureLabel.text = "\((temperature - 32) * 5 / 9)°"   /// to Celsius
+            }
+        }
         
         return cell
     }

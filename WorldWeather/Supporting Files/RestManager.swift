@@ -188,7 +188,7 @@ class RestManager {
         if defaults.integer(forKey: "temperatureUnit") == 0 {
             temperature = Int(kelvin - 273.15)
         } else {
-            temperature = Int((kelvin - 273.15) * 9) / 5 + 32     /// Fahrenheit
+            temperature = Int((kelvin - 273.15) * 9 / 5 + 32)     /// Fahrenheit
         }
         
         return temperature
