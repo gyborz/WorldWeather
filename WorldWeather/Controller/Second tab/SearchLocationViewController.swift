@@ -15,6 +15,7 @@ class SearchLocationViewController: UIViewController {
     var isTemperatureInCelsius = Bool()
     var previousLocationNames = [String]()
     var previousLocationsWeather = [WeatherData]()
+    var selectedWeatherData: WeatherData!
     let restManager = RestManager()
     
     @IBOutlet weak var searchLocationView: SearchLocationView!
@@ -42,10 +43,6 @@ class SearchLocationViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.previousLocationsWeather.append(weatherData)
                         self.locationTableView.reloadData()
-//                        if location == self.previousLocationNames.last {
-//                            self.previousLocationsWeather.reverse()
-//                            self.locationTableView.reloadData()
-//                        }
                     }
                 }
             }
@@ -58,6 +55,12 @@ class SearchLocationViewController: UIViewController {
             let destinationVC = segue.destination as! GetWeatherViewController
             destinationVC.delegate = self
             destinationVC.getWeatherInformation(with: searchLocationView.textField.text!)
+        }
+        if segue.identifier == "LocationSegue" {
+            let destinationVC = GetWeatherViewController()
+            present(destinationVC, animated: true) {
+                destinationVC.updateView(with: self.selectedWeatherData)
+            }
         }
     }
     
@@ -110,6 +113,12 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedWeatherData = previousLocationsWeather[indexPath.row]
+        print(selectedWeatherData!)
+        //performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))
     }
     
 }
