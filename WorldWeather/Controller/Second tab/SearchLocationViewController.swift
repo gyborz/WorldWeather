@@ -57,10 +57,8 @@ class SearchLocationViewController: UIViewController {
             destinationVC.getWeatherInformation(with: searchLocationView.textField.text!)
         }
         if segue.identifier == "LocationSegue" {
-            let destinationVC = GetWeatherViewController()
-            present(destinationVC, animated: true) {
-                destinationVC.updateView(with: self.selectedWeatherData)
-            }
+            let destinationVC = segue.destination as! GetWeatherViewController
+            destinationVC.getWeatherInformation(with: selectedWeatherData.city)
         }
     }
     
@@ -117,8 +115,8 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedWeatherData = previousLocationsWeather[indexPath.row]
-        print(selectedWeatherData!)
-        //performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))
+        performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))
+        locationTableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

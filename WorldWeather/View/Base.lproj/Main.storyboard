@@ -369,6 +369,7 @@
                     <connections>
                         <outlet property="locationTableView" destination="2zH-2D-iPb" id="S8P-2p-NEf"/>
                         <outlet property="searchLocationView" destination="bKv-8T-488" id="Jfu-fs-idO"/>
+                        <segue destination="7Ek-7G-65u" kind="presentation" identifier="LocationSegue" modalPresentationStyle="overCurrentContext" id="a1K-hA-ES5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -585,4 +586,7 @@
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="a1K-hA-ES5"/>
+    </inferredMetricsTieBreakers>
 </document>
