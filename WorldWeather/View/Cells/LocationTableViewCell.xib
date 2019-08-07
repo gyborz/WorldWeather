@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationTableViewCell" id="KGk-i7-Jjw" customClass="LocationTableViewCell" customModule="WorldWeather" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VIY-Ar-Pj8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rio de Janeiro, BR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nhi-Y7-miz">
+                        <rect key="frame" x="16" y="17" width="170.5" height="26"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J5V-Vr-cvw">
+                        <rect key="frame" x="202" y="7.5" width="45" height="45"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="4SE-gD-Dn5"/>
+                            <constraint firstAttribute="width" constant="45" id="Zfa-cK-LwW"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="125°" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cld-nV-aKt">
+                        <rect key="frame" x="258" y="16.5" width="46" height="27"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="Nhi-Y7-miz" secondAttribute="bottom" constant="16.5" id="36N-KI-Ddr"/>
+                    <constraint firstItem="Cld-nV-aKt" firstAttribute="leading" secondItem="J5V-Vr-cvw" secondAttribute="trailing" constant="11" id="5Yk-cn-XTS"/>
+                    <constraint firstItem="Nhi-Y7-miz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="6c4-PV-d58"/>
+                    <constraint firstAttribute="trailing" secondItem="Cld-nV-aKt" secondAttribute="trailing" constant="16" id="Hub-Ox-tln"/>
+                    <constraint firstItem="Cld-nV-aKt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16.5" id="I7A-uG-6As"/>
+                    <constraint firstItem="Nhi-Y7-miz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="KPe-JJ-sdO"/>
+                    <constraint firstItem="J5V-Vr-cvw" firstAttribute="centerY" secondItem="Cld-nV-aKt" secondAttribute="centerY" id="Loe-GO-g49"/>
+                    <constraint firstAttribute="bottom" secondItem="VIY-Ar-Pj8" secondAttribute="bottom" id="MnY-Bi-upw"/>
+                    <constraint firstItem="J5V-Vr-cvw" firstAttribute="leading" secondItem="Nhi-Y7-miz" secondAttribute="trailing" constant="15.5" id="VX3-We-egc"/>
+                    <constraint firstAttribute="bottom" secondItem="Cld-nV-aKt" secondAttribute="bottom" constant="16" id="agA-z5-NLt"/>
+                    <constraint firstAttribute="trailing" secondItem="VIY-Ar-Pj8" secondAttribute="trailing" id="dHO-fK-XWB"/>
+                    <constraint firstItem="VIY-Ar-Pj8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="hte-hE-XKJ"/>
+                    <constraint firstItem="VIY-Ar-Pj8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xRa-tT-BfW"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="backgroundImageView" destination="VIY-Ar-Pj8" id="8Li-4r-mh5"/>
+                <outlet property="cityLabel" destination="Nhi-Y7-miz" id="HcW-Ck-kR3"/>
+                <outlet property="temperatureLabel" destination="Cld-nV-aKt" id="Knn-Ud-s3v"/>
+                <outlet property="weatherImageView" destination="J5V-Vr-cvw" id="bwH-JP-wHC"/>
+            </connections>
+            <point key="canvasLocation" x="95.652173913043484" y="34.821428571428569"/>
+        </tableViewCell>
+    </objects>
+</document>

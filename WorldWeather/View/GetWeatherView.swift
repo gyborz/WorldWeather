@@ -1,39 +1,37 @@
 //
-//  CurrentLocationView.swift
+//  GetWeatherView.swift
 //  WorldWeather
 //
-//  Created by Gyorgy Borz on 2019. 07. 30..
+//  Created by Gyorgy Borz on 2019. 08. 04..
 //  Copyright © 2019. Gyorgy Borz. All rights reserved.
 //
 
 import UIKit
 
-class CurrentLocationView: UIView {
+class GetWeatherView: UIView {
 
     @IBOutlet weak var backgroundImage: UIImageView!
-    @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
-    @IBOutlet weak var forecastButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        forecastButton.backgroundColor = .clear
-        forecastButton.layer.cornerRadius = 15
-        forecastButton.layer.borderWidth = 1
-        forecastButton.layer.borderColor = UIColor.white.cgColor
+        closeButton.backgroundColor = .clear
+        closeButton.layer.cornerRadius = 15
+        closeButton.layer.borderWidth = 1
+        closeButton.layer.borderColor = UIColor.red.cgColor
     }
     
     func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
-        cityLabel.text = String(city.split(separator: ",")[0])
+        cityLabel.text = city
         temperatureLabel.text = "\(temperature)°"
-        descriptionLabel.text = description.capitalizingFirstLetter()
         pressureLabel.text = "Pressure: \(pressure) hPa"
         humidityLabel.text = "Humidity: \(humidity)%"
         windLabel.text = "Wind: \(Int(wind * 3.6)) km/h"
@@ -41,14 +39,4 @@ class CurrentLocationView: UIView {
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
 
-}
-
-extension String {
-    func capitalizingFirstLetter() -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
-    
-    mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
-    }
 }
