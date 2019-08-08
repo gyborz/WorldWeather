@@ -383,14 +383,28 @@
                     <view key="view" contentMode="scaleToFill" id="MHH-oM-nsn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZjK-XJ-HTZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="top" secondItem="MHH-oM-nsn" secondAttribute="top" id="PPK-yH-SKR"/>
+                            <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="leading" secondItem="MHH-oM-nsn" secondAttribute="leading" id="Yea-wF-cR2"/>
+                            <constraint firstAttribute="bottom" secondItem="ZjK-XJ-HTZ" secondAttribute="bottom" id="aTP-Rn-xWX"/>
+                            <constraint firstAttribute="trailing" secondItem="ZjK-XJ-HTZ" secondAttribute="trailing" id="sge-A6-drf"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="efG-rS-dTv"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="KB9-qd-88c"/>
+                    <connections>
+                        <outlet property="mapView" destination="ZjK-XJ-HTZ" id="UQ9-jY-xlY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5F-Bi-Lb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="814" y="1037"/>
+            <point key="canvasLocation" x="813.60000000000002" y="1036.6995073891626"/>
         </scene>
         <!--Get Weather View Controller-->
         <scene sceneID="Oqh-lj-lnG">
