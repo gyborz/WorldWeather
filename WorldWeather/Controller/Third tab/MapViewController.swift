@@ -118,7 +118,13 @@ class MapViewController: UIViewController {
         annotation.title = title
         mapView.addAnnotation(annotation)
     }
-
+    
+    @IBAction func searchButtonTapped(_ sender: UIButton) {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.delegate = self
+        present(searchController, animated: true)
+    }
+    
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -141,6 +147,62 @@ extension MapViewController: CLLocationManagerDelegate {
     
 }
 
+extension MapViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // ignoring the user
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        // activity indicator
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .gray
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+
+        self.view.addSubview(activityIndicator)
+        
+        // hide search bar
+        searchBar.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
+        
+        // search request
+        let searchRequest = MKLocalSearch.Request()
+        searchRequest.naturalLanguageQuery = searchBar.text
+        
+        let activeSearch = MKLocalSearch(request: searchRequest)
+        
+        activeSearch.start { [weak self] (response, error) in
+            guard let self = self else { return }
+            
+            activityIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            if error != nil {
+                // TODO: - alert
+                return
+            }
+            
+            guard let response = response else {
+                // TODO: - alert
+                return
+            }
+            
+            let latitude = response.boundingRegion.center.latitude
+            let longitude = response.boundingRegion.center.longitude
+            let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            let cityName = response.mapItems.first?.placemark.locality ?? ""
+            DispatchQueue.main.async {
+                self.centerViewOnTappedLocation(locationCoordinate)
+                self.addAnnotationOnLocation(pointedCoordinate: locationCoordinate, with: cityName)
+            }
+            
+        }
+    }
+    
+}
+
 extension MapViewController: MKMapViewDelegate {}
 
 extension MapViewController: UIGestureRecognizerDelegate {}
+

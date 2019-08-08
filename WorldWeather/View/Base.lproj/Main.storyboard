@@ -387,12 +387,22 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZjK-XJ-HTZ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jqs-lt-Mmt">
+                                <rect key="frame" x="311" y="44" width="48" height="30"/>
+                                <state key="normal" title="Search"/>
+                                <connections>
+                                    <action selector="searchButtonTapped:" destination="kwa-Oa-XEN" eventType="touchUpInside" id="dxD-I1-5Vu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Jqs-lt-Mmt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="efG-rS-dTv" secondAttribute="leading" symbolic="YES" id="0wu-xS-qRy"/>
+                            <constraint firstItem="Jqs-lt-Mmt" firstAttribute="top" secondItem="efG-rS-dTv" secondAttribute="top" id="ORv-Up-07d"/>
                             <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="top" secondItem="MHH-oM-nsn" secondAttribute="top" id="PPK-yH-SKR"/>
                             <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="leading" secondItem="MHH-oM-nsn" secondAttribute="leading" id="Yea-wF-cR2"/>
                             <constraint firstAttribute="bottom" secondItem="ZjK-XJ-HTZ" secondAttribute="bottom" id="aTP-Rn-xWX"/>
+                            <constraint firstItem="efG-rS-dTv" firstAttribute="trailing" secondItem="Jqs-lt-Mmt" secondAttribute="trailing" constant="16" id="kvH-6Y-OFB"/>
                             <constraint firstAttribute="trailing" secondItem="ZjK-XJ-HTZ" secondAttribute="trailing" id="sge-A6-drf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="efG-rS-dTv"/>
