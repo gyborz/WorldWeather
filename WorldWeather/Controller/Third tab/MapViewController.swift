@@ -13,6 +13,7 @@ import CoreLocation
 class MapViewController: UIViewController {
     
     let locationManager = CLLocationManager()
+    let geoCoder = CLGeocoder()
     let regionInMeters: Double = 10000
     
     @IBOutlet weak var mapView: MKMapView!
@@ -51,13 +52,11 @@ class MapViewController: UIViewController {
             mapView.showsUserLocation = true
             centerViewOnUserLocation()
             locationManager.startUpdatingLocation()
-            break
         case .denied:
             // TODO: - alert showing how to turn on permissions
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            break
         case .restricted:
             // TODO: - alert for restriction problem
             break
@@ -79,16 +78,44 @@ class MapViewController: UIViewController {
     
     @objc func revealRegionDetailsWithLongPressOnMap(sender: UILongPressGestureRecognizer) {
         if sender.state != UIGestureRecognizer.State.began { return }
+        
         let touchLocation = sender.location(in: mapView)
         let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
         print("Tapped at lat: \(locationCoordinate.latitude) long: \(locationCoordinate.longitude)")
 
-        addAnnotationOnLocation(pointedCoordinate: locationCoordinate)
+        centerViewOnTappedLocation(locationCoordinate)
+        
+        let location = CLLocation(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude)
+        geoCoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            
+            if error != nil {
+                // TODO: - alert
+                return
+            }
+            
+            guard let placemark = placemarks?.first else {
+                // TODO: - alert
+                return
+            }
+            
+            let cityName = placemark.locality ?? ""
+            DispatchQueue.main.async {
+                self.addAnnotationOnLocation(pointedCoordinate: locationCoordinate, with: cityName)
+            }
+        }
     }
     
-    func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D) {
+    func centerViewOnTappedLocation(_ location: CLLocationCoordinate2D) {
+        let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D, with title: String) {
+        mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = pointedCoordinate
+        annotation.title = title
         mapView.addAnnotation(annotation)
     }
 
@@ -96,17 +123,17 @@ class MapViewController: UIViewController {
 
 extension MapViewController: CLLocationManagerDelegate {
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        
-        /// updating the user's location
-        if location.horizontalAccuracy > 0 {
-            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-            mapView.setRegion(region, animated: true)
-            print("updated location \(location.coordinate)")
-        }
-    }
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let location = locations.last else { return }
+//        
+//        /// updating the user's location
+//        if location.horizontalAccuracy > 0 {
+//            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+//            let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+//            mapView.setRegion(region, animated: true)
+//            print("updated location \(location.coordinate)")
+//        }
+//    }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorization()
