@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     let regionInMeters: Double = 10000
@@ -20,16 +20,25 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        mapView.delegate = self
+        setupMapView()
         
         setupLocationManager()
+    }
+    
+    func setupMapView() {
+        mapView.delegate = self
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(revealRegionDetailsWithLongPressOnMap(sender:)))
+        longPress.minimumPressDuration = 0.5
+        longPress.delaysTouchesBegan = true
+        longPress.delegate = self
+        mapView.addGestureRecognizer(longPress)
     }
     
     func setupLocationManager() {
         /// check if location services are enabled on the device
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             checkLocationAuthorization()
         } else {
             // TODO: - alert
@@ -67,6 +76,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.setRegion(region, animated: true)
         }
     }
+    
+    @objc func revealRegionDetailsWithLongPressOnMap(sender: UILongPressGestureRecognizer) {
+        if sender.state != UIGestureRecognizer.State.began { return }
+        let touchLocation = sender.location(in: mapView)
+        let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
+        print("Tapped at lat: \(locationCoordinate.latitude) long: \(locationCoordinate.longitude)")
+
+        addAnnotationOnLocation(pointedCoordinate: locationCoordinate)
+    }
+    
+    func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = pointedCoordinate
+        mapView.addAnnotation(annotation)
+    }
 
 }
 
@@ -80,6 +104,7 @@ extension MapViewController: CLLocationManagerDelegate {
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
+            print("updated location \(location.coordinate)")
         }
     }
     
@@ -88,3 +113,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
 }
+
+extension MapViewController: MKMapViewDelegate {}
+
+extension MapViewController: UIGestureRecognizerDelegate {}
