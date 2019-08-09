@@ -25,10 +25,7 @@ class CurrentLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        setupLocationManager()
         
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
@@ -76,13 +73,49 @@ class CurrentLocationViewController: UIViewController {
     @objc func updateUITemperatureUnit(_ notification: Notification) {
         locationManager.startUpdatingLocation()
     }
+    
+    func setupLocationManager() {
+        /// check if location services are enabled on the device
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            checkLocationAuthorization()
+        } else {
+            // TODO: - alert
+        }
+    }
+    
+    func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            break
+        case .denied:
+            // TODO: - alert showing how to turn on permissions
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            break
+        case .restricted:
+            // TODO: - alert for restriction problem
+            break
+        case .authorizedAlways:
+            /// won't happen
+            break
+        @unknown default:
+            // TODO: - special alert
+            break
+        }
+    }
 
 }
 
 extension CurrentLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations[locations.count - 1]
+        guard let location = locations.last else { return }
+        
+        /// check if the latitude and longitude are valid
         if location.horizontalAccuracy > 0 {
             locationManager.stopUpdatingLocation()
             let coordinates = ["lat": String(location.coordinate.latitude), "lon": String(location.coordinate.longitude)]
@@ -110,7 +143,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        // TODO: - alert
+        checkLocationAuthorization()
     }
     
 }

@@ -99,6 +99,24 @@ class GetWeatherViewController: UIViewController {
         }
     }
     
+    func getWeatherInformation(with coordinates: [String: String]) {
+        restManager.getWeatherData(with: coordinates) { (weatherData) in
+            DispatchQueue.main.async {
+                self.updateView(with: weatherData)
+                self.delegate?.addLocation(weatherData.city)
+            }
+        }
+        restManager.getWeatherForecastData(with: coordinates) { (forHours, forDays) in
+            self.forecastWeatherDataForHours = forHours
+            self.forecastWeatherDataForDays = forDays
+            self.loadDays()
+            DispatchQueue.main.async {
+                self.forecastTableView.reloadData()
+                self.weatherCollectionView.reloadData()
+            }
+        }
+    }
+    
     @IBAction func closeButtonTapped(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
