@@ -27,7 +27,6 @@ class CurrentLocationView: UIView {
         forecastButton.backgroundColor = .clear
         forecastButton.layer.cornerRadius = 15
         forecastButton.layer.borderWidth = 1
-        forecastButton.layer.borderColor = UIColor.white.cgColor
     }
     
     func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
@@ -39,6 +38,45 @@ class CurrentLocationView: UIView {
         windLabel.text = "Wind: \(Int(wind * 3.6)) km/h"
         cloudinessLabel.text = "Cloudiness: \(cloudiness)%"
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
+    }
+    
+    func updateBackgroundImage(with pictureName: String) {
+        let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
+        backgroundImage.image = UIImage(named: pictureName)
+        if imageNames.contains(pictureName) {
+            cityLabel.textColor = .white
+            temperatureLabel.textColor = .white
+            descriptionLabel.textColor = .white
+            pressureLabel.textColor = .white
+            humidityLabel.textColor = .white
+            windLabel.textColor = .white
+            cloudinessLabel.textColor = .white
+            visibilityLabel.textColor = .white
+            forecastButton.setTitleColor(.white, for: .normal)
+            forecastButton.layer.borderColor = UIColor.white.cgColor
+        } else if pictureName == "fog" {
+            cityLabel.textColor = .black
+            temperatureLabel.textColor = .black
+            descriptionLabel.textColor = .black
+            pressureLabel.textColor = .black
+            humidityLabel.textColor = .black
+            windLabel.textColor = .black
+            cloudinessLabel.textColor = .black
+            visibilityLabel.textColor = .black
+            forecastButton.setTitleColor(.white, for: .normal)
+            forecastButton.layer.borderColor = UIColor.white.cgColor
+        } else {
+            cityLabel.textColor = .black
+            temperatureLabel.textColor = .black
+            descriptionLabel.textColor = .black
+            pressureLabel.textColor = .black
+            humidityLabel.textColor = .black
+            windLabel.textColor = .black
+            cloudinessLabel.textColor = .black
+            visibilityLabel.textColor = .black
+            forecastButton.setTitleColor(.black, for: .normal)
+            forecastButton.layer.borderColor = UIColor.black.cgColor
+        }
     }
 
 }

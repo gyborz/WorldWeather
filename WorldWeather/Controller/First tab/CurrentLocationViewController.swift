@@ -17,6 +17,16 @@ class CurrentLocationViewController: UIViewController {
     var forecastWeatherDataForHours: [WeatherData]!
     var forecastWeatherDataForDays: [WeatherData]!
     let restManager = RestManager()
+    var imageName = String()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
+        if imageNames.contains(imageName) {
+            return .lightContent
+        } else {
+            return .default
+        }
+    }
     
     @IBOutlet weak var currentLocationView: CurrentLocationView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -61,6 +71,9 @@ class CurrentLocationViewController: UIViewController {
                                      weatherData.wind,
                                      weatherData.cloudiness,
                                      weatherData.visibility)
+        imageName = weatherData.getPictureNameFromWeatherID(id: weatherData.weatherId)
+        currentLocationView.updateBackgroundImage(with: imageName)
+        self.setNeedsStatusBarAppearanceUpdate()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -168,6 +181,8 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
         
         cell.hourLabel.text = "\(hour!)"
         cell.degreeLabel.text = "\(forecastWeatherDataForHours[indexPath.row].temperature)°"
+        cell.updateUIAccordingTo(backgroundPicture: imageName)
+        
         return cell
     }
     

@@ -21,4 +21,15 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         weatherImageView.backgroundColor = .white
     }
     
+    func updateUIAccordingTo(backgroundPicture imageName: String) {
+        let imageNames = ["sunny", "cloudy_moon", "fog", "background", "night", "rainy", "thunderstorm"]
+        if imageNames.contains(imageName) {
+            hourLabel.textColor = .white
+            degreeLabel.textColor = .white
+        } else {
+            hourLabel.textColor = .black
+            degreeLabel.textColor = .black
+        }
+    }
+    
 }
