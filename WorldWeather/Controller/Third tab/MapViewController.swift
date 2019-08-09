@@ -15,15 +15,24 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     let geoCoder = CLGeocoder()
     let regionInMeters: Double = 10000
+    var coordinates = [String: String]()
     
     @IBOutlet weak var mapView: MKMapView!
-
+    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var getWeatherButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupUI()
 
         setupMapView()
         
         setupLocationManager()
+    }
+    
+    func setupUI() {
+        getWeatherButton.isHidden = true
     }
     
     func setupMapView() {
@@ -81,7 +90,7 @@ class MapViewController: UIViewController {
         
         let touchLocation = sender.location(in: mapView)
         let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
-        print("Tapped at lat: \(locationCoordinate.latitude) long: \(locationCoordinate.longitude)")
+        coordinates = ["lat": String(locationCoordinate.latitude), "lon": String(locationCoordinate.longitude)]
 
         centerViewOnTappedLocation(locationCoordinate)
         
@@ -102,6 +111,7 @@ class MapViewController: UIViewController {
             let cityName = placemark.locality ?? ""
             DispatchQueue.main.async {
                 self.addAnnotationOnLocation(pointedCoordinate: locationCoordinate, with: cityName)
+                self.getWeatherButton.isHidden = false
             }
         }
     }
@@ -119,27 +129,35 @@ class MapViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
+    private func mapViewRegionDidChangeFromUserInteraction() -> Bool {
+        let view = mapView.subviews[0]
+        //  Look through gesture recognizers to determine whether this region change is from user interaction
+        if let gestureRecognizers = view.gestureRecognizers {
+            for recognizer in gestureRecognizers {
+                if recognizer.state == UIGestureRecognizer.State.began || recognizer.state == UIGestureRecognizer.State.ended {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         present(searchController, animated: true)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GetWeatherFromMap" {
+            let destinationVC = segue.destination as! GetWeatherViewController
+            destinationVC.getWeatherInformation(with: coordinates)
+        }
+    }
+    
 }
 
 extension MapViewController: CLLocationManagerDelegate {
-    
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let location = locations.last else { return }
-//        
-//        /// updating the user's location
-//        if location.horizontalAccuracy > 0 {
-//            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-//            let region = MKCoordinateRegion.init(center: center, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-//            mapView.setRegion(region, animated: true)
-//            print("updated location \(location.coordinate)")
-//        }
-//    }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorization()
@@ -162,9 +180,10 @@ extension MapViewController: UISearchBarDelegate {
 
         self.view.addSubview(activityIndicator)
         
-        // hide search bar
+        // hide search bar and getWeatherButton
         searchBar.resignFirstResponder()
         dismiss(animated: true, completion: nil)
+        getWeatherButton.isHidden = true
         
         // search request
         let searchRequest = MKLocalSearch.Request()
@@ -191,6 +210,7 @@ extension MapViewController: UISearchBarDelegate {
             let latitude = response.boundingRegion.center.latitude
             let longitude = response.boundingRegion.center.longitude
             let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            self.coordinates = ["lat": String(latitude), "lon": String(longitude)]
             let cityName = response.mapItems.first?.placemark.locality ?? ""
             DispatchQueue.main.async {
                 self.centerViewOnTappedLocation(locationCoordinate)
@@ -202,7 +222,19 @@ extension MapViewController: UISearchBarDelegate {
     
 }
 
-extension MapViewController: MKMapViewDelegate {}
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        if mapViewRegionDidChangeFromUserInteraction() {
+            getWeatherButton.isHidden = true
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        getWeatherButton.isHidden = false
+    }
+    
+}
 
 extension MapViewController: UIGestureRecognizerDelegate {}
 
