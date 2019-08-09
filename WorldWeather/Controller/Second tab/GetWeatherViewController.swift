@@ -103,6 +103,7 @@ class GetWeatherViewController: UIViewController {
         restManager.getWeatherData(with: coordinates) { (weatherData) in
             DispatchQueue.main.async {
                 self.updateView(with: weatherData)
+                self.delegate?.addLocation(weatherData.city)
             }
         }
         restManager.getWeatherForecastData(with: coordinates) { (forHours, forDays) in

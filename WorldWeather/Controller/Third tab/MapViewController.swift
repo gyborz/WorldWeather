@@ -151,6 +151,8 @@ class MapViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GetWeatherFromMap" {
             let destinationVC = segue.destination as! GetWeatherViewController
+            let secondTab = tabBarController?.customizableViewControllers![1]
+            destinationVC.delegate = secondTab as? PreviousLocationDelegate
             destinationVC.getWeatherInformation(with: coordinates)
         }
     }
