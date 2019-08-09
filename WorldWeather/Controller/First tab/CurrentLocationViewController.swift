@@ -71,7 +71,7 @@ class CurrentLocationViewController: UIViewController {
                                      weatherData.wind,
                                      weatherData.cloudiness,
                                      weatherData.visibility)
-        imageName = weatherData.getPictureNameFromWeatherID(id: weatherData.weatherId)
+        imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
         currentLocationView.updateBackgroundImage(with: imageName)
         self.setNeedsStatusBarAppearanceUpdate()
     }
@@ -173,15 +173,18 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
-    
+        
+        let weatherItem = forecastWeatherDataForHours[indexPath.row]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: forecastWeatherDataForHours[indexPath.row].date)
+        let dateString = dateFormatter.string(from: weatherItem.date)
         let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"
-        cell.degreeLabel.text = "\(forecastWeatherDataForHours[indexPath.row].temperature)°"
-        cell.updateUIAccordingTo(backgroundPicture: imageName)
+        cell.degreeLabel.text = "\(weatherItem.temperature)°"
+        
+        let icons = weatherItem.getIconNameFromWeatherID(id: weatherItem.weatherId)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
         
         return cell
     }
