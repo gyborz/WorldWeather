@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--First-->
+        <!--Current-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="CurrentLocationViewController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
@@ -196,7 +196,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Current" image="location" id="acW-dT-cKf"/>
                     <size key="freeformSize" width="375" height="812"/>
                     <connections>
                         <outlet property="currentLocationView" destination="GVN-pH-etq" id="4W9-Tl-XJp"/>
@@ -250,7 +250,7 @@
             </objects>
             <point key="canvasLocation" x="1668" y="-333.25123152709364"/>
         </scene>
-        <!--Second-->
+        <!--Search-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SearchLocationViewController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
@@ -365,7 +365,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="search" selectedImage="search" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="locationTableView" destination="2zH-2D-iPb" id="S8P-2p-NEf"/>
                         <outlet property="searchLocationView" destination="bKv-8T-488" id="Jfu-fs-idO"/>
@@ -376,7 +376,7 @@
             </objects>
             <point key="canvasLocation" x="813.60000000000002" y="355.41871921182269"/>
         </scene>
-        <!--Item-->
+        <!--Map-->
         <scene sceneID="ZU2-bI-bML">
             <objects>
                 <viewController id="kwa-Oa-XEN" customClass="MapViewController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
@@ -416,7 +416,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="efG-rS-dTv"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="KB9-qd-88c"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" id="KB9-qd-88c"/>
                     <connections>
                         <outlet property="getWeatherButton" destination="csB-SE-6ca" id="WN5-eW-CVe"/>
                         <outlet property="mapView" destination="ZjK-XJ-HTZ" id="UQ9-jY-xlY"/>
@@ -636,10 +636,11 @@
     </scenes>
     <resources>
         <image name="background" width="906.5" height="1585"/>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="location" width="25" height="25"/>
+        <image name="map" width="25" height="25"/>
+        <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uqh-lx-qeC"/>
+        <segue reference="S2Y-fe-dUq"/>
     </inferredMetricsTieBreakers>
 </document>
