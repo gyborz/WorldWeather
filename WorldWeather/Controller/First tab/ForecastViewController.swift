@@ -12,6 +12,7 @@ class ForecastViewController: UIViewController {
     
     var forecastWeatherData: [WeatherData]!
     var daysData = [ForecastDayData]()
+    var idForWeatherImage = Int()
     
     @IBOutlet weak var forecastView: UIView!
     @IBOutlet weak var forecastTableView: UITableView!
@@ -33,7 +34,7 @@ class ForecastViewController: UIViewController {
         forecastTableView.dataSource = self
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
         forecastTableView.rowHeight = 60
-        //forecastTableView.separatorStyle = .none
+        forecastTableView.separatorStyle = .none
         forecastTableView.isUserInteractionEnabled = false
     }
     
@@ -58,11 +59,15 @@ class ForecastViewController: UIViewController {
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
                                                       day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                    forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
                     maxTemp = Int.min
                     dateFlag = forecastWeatherData[index + 1].date
+                }
+                if calendar.component(.hour, from: forecastWeatherData[index].date) == 12 {
+                    idForWeatherImage = forecastWeatherData[index].weatherId
                 }
             }
         }
@@ -83,9 +88,17 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
-        cell.dayLabel.text = daysData[indexPath.row].day
-        cell.hottestLabel.text = "\(daysData[indexPath.row].maxTemperature)°"
-        cell.coldestLabel.text = "\(daysData[indexPath.row].minTemperature)°"
+        
+        let day = daysData[indexPath.row]
+        
+        cell.dayLabel.text = day.day
+        cell.hottestLabel.text = "\(day.maxTemperature)°"
+        cell.coldestLabel.text = "\(day.minTemperature)°"
+        
+        let imageName = day.getBackgroundPictureNameFromWeatherID(id: day.weatherID)
+        let icons = day.getIconNameFromWeatherID(id: day.weatherID)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
+        
         return cell
     }
     

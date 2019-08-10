@@ -14,11 +14,11 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var degreeLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        self.backgroundColor = .clear
-    }
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        
+//        //self.backgroundColor = .clear
+//    }
     
     func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
         let imageNames = ["sunny", "cloudy_moon", "fog", "background", "night", "rainy", "thunderstorm"]

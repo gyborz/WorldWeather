@@ -40,16 +40,16 @@ class CurrentLocationView: UIView {
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
     
-    func updateBackgroundImage(with pictureName: String) {
+    func updateBackgroundImage(with imageName: String) {
         let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
         
         UIView.transition(with: self,
                           duration: 0.5,
                           options: .transitionCrossDissolve,
-                          animations: { self.backgroundImage.image = UIImage(named: pictureName) },
+                          animations: { self.backgroundImage.image = UIImage(named: imageName) },
                           completion: nil)
         
-        if imageNames.contains(pictureName) {
+        if imageNames.contains(imageName) {
             cityLabel.textColor = .white
             temperatureLabel.textColor = .white
             descriptionLabel.textColor = .white
@@ -60,7 +60,7 @@ class CurrentLocationView: UIView {
             visibilityLabel.textColor = .white
             forecastButton.setTitleColor(.white, for: .normal)
             forecastButton.layer.borderColor = UIColor.white.cgColor
-        } else if pictureName == "fog" {
+        } else if imageName == "fog" {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
             descriptionLabel.textColor = .black
