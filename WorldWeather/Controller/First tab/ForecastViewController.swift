@@ -13,17 +13,27 @@ class ForecastViewController: UIViewController {
     var forecastWeatherData: [WeatherData]!
     var daysData = [ForecastDayData]()
     
+    @IBOutlet weak var forecastView: UIView!
     @IBOutlet weak var forecastTableView: UITableView!
+    @IBOutlet weak var closeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadDays()
         
+        forecastView.layer.cornerRadius = 10
+        
+        closeButton.backgroundColor = .clear
+        closeButton.layer.cornerRadius = 15
+        closeButton.layer.borderWidth = 1
+        closeButton.layer.borderColor = UIColor.red.cgColor
+        
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
         forecastTableView.rowHeight = 60
+        //forecastTableView.separatorStyle = .none
         forecastTableView.isUserInteractionEnabled = false
     }
     

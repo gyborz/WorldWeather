@@ -216,18 +216,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bg-zY-gWA">
-                                <rect key="frame" x="22" y="217" width="330" height="298"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6bg-zY-gWA">
+                                <rect key="frame" x="22" y="247" width="331" height="318"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fxa-3R-eqp">
-                                        <rect key="frame" x="0.0" y="0.0" width="330" height="249"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fxa-3R-eqp">
+                                        <rect key="frame" x="0.0" y="8" width="331" height="240"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="240" id="g5F-ym-Nbh"/>
+                                        </constraints>
                                     </tableView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srU-8w-MgA">
-                                        <rect key="frame" x="124" y="257" width="83" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srU-8w-MgA">
+                                        <rect key="frame" x="124" y="267" width="83" height="33"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="83" id="FZy-c2-8ZI"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Close">
                                             <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -238,12 +241,28 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="fxa-3R-eqp" secondAttribute="trailing" id="G8b-O2-bEV"/>
+                                    <constraint firstItem="fxa-3R-eqp" firstAttribute="top" secondItem="6bg-zY-gWA" secondAttribute="top" constant="8" id="RAR-eX-I5N"/>
+                                    <constraint firstAttribute="bottom" secondItem="srU-8w-MgA" secondAttribute="bottom" constant="18" id="Sje-kl-bbs"/>
+                                    <constraint firstItem="srU-8w-MgA" firstAttribute="centerX" secondItem="6bg-zY-gWA" secondAttribute="centerX" id="ZeV-QJ-gIu"/>
+                                    <constraint firstItem="fxa-3R-eqp" firstAttribute="leading" secondItem="6bg-zY-gWA" secondAttribute="leading" id="k5T-41-2dk"/>
+                                    <constraint firstAttribute="height" constant="318" id="lrp-ed-p3I"/>
+                                    <constraint firstItem="srU-8w-MgA" firstAttribute="top" secondItem="fxa-3R-eqp" secondAttribute="bottom" constant="19" id="pcS-A5-Rf4"/>
+                                </constraints>
                             </view>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="6bg-zY-gWA" firstAttribute="leading" secondItem="JvU-ee-zQK" secondAttribute="leading" constant="22" id="PNK-aB-xVz"/>
+                            <constraint firstItem="6bg-zY-gWA" firstAttribute="centerX" secondItem="lW5-3e-GFV" secondAttribute="centerX" id="iLW-C9-qCK"/>
+                            <constraint firstItem="6bg-zY-gWA" firstAttribute="centerY" secondItem="lW5-3e-GFV" secondAttribute="centerY" id="uo5-cb-pwR"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="JvU-ee-zQK"/>
                     </view>
                     <connections>
+                        <outlet property="closeButton" destination="srU-8w-MgA" id="ySl-rZ-cDg"/>
                         <outlet property="forecastTableView" destination="fxa-3R-eqp" id="Bim-of-QWj"/>
+                        <outlet property="forecastView" destination="6bg-zY-gWA" id="gm3-9N-CiT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BST-gH-LHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
