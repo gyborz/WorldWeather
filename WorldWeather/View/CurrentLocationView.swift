@@ -42,7 +42,13 @@ class CurrentLocationView: UIView {
     
     func updateBackgroundImage(with pictureName: String) {
         let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
-        backgroundImage.image = UIImage(named: pictureName)
+        
+        UIView.transition(with: self,
+                          duration: 0.5,
+                          options: .transitionCrossDissolve,
+                          animations: { self.backgroundImage.image = UIImage(named: pictureName) },
+                          completion: nil)
+        
         if imageNames.contains(pictureName) {
             cityLabel.textColor = .white
             temperatureLabel.textColor = .white

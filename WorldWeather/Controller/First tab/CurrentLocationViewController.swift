@@ -37,6 +37,8 @@ class CurrentLocationViewController: UIViewController {
         
         setupLocationManager()
         
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
