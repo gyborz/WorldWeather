@@ -64,7 +64,7 @@ class WeatherData {
             if 5 < hour && hour < 19 {
                 return "cloudy1"
             } else {
-                return "night"
+                return "cloudy_moon"
             }
             
         case 803...804 :
@@ -86,10 +86,10 @@ class WeatherData {
         case 200...232 :
             return (white: "stormwhite", black: "stormblack")
 
-        case 300...321 :
+        case 300...321, 500 :
             return (white: "drizzlewhite", black: "drizzleblack")
             
-        case 500...531 :
+        case 501...531 :
             return (white: "rainwhite", black: "rainblack")
             
         case 600...622 :
@@ -113,7 +113,7 @@ class WeatherData {
             if 5 < hour && hour < 19 {
                 return (white: "cloudywhite", black: "cloudyblack")
             } else {
-                return (white: "moonwhite", black: "moonblack")
+                return (white: "cloudynightwhite", black: "cloudynightblack")
             }
             
         case 803...804 :
