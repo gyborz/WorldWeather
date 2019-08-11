@@ -82,6 +82,7 @@ class CurrentLocationViewController: UIViewController {
         if segue.identifier == "ForecastSegue" {
             let destinationVC = segue.destination as! ForecastViewController
             destinationVC.forecastWeatherData = forecastWeatherDataForDays
+            destinationVC.imageName = imageName
         }
     }
     

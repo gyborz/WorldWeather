@@ -13,6 +13,7 @@ class ForecastViewController: UIViewController {
     var forecastWeatherData: [WeatherData]!
     var daysData = [ForecastDayData]()
     var idForWeatherImage = Int()
+    var imageName = "background"
     
     @IBOutlet weak var forecastView: UIView!
     @IBOutlet weak var forecastTableView: UITableView!
@@ -23,19 +24,7 @@ class ForecastViewController: UIViewController {
         
         loadDays()
         
-        forecastView.layer.cornerRadius = 10
-        
-        closeButton.backgroundColor = .clear
-        closeButton.layer.cornerRadius = 15
-        closeButton.layer.borderWidth = 1
-        closeButton.layer.borderColor = UIColor.red.cgColor
-        
-        forecastTableView.delegate = self
-        forecastTableView.dataSource = self
-        forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
-        forecastTableView.rowHeight = 60
-        forecastTableView.separatorStyle = .none
-        forecastTableView.isUserInteractionEnabled = false
+        loadUI()
     }
     
     func loadDays() {
@@ -71,7 +60,28 @@ class ForecastViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func loadUI() {
+        let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
         
+        forecastView.layer.cornerRadius = 10
+        forecastView.layer.borderWidth = 2
+        forecastView.layer.borderColor = UIColor.white.cgColor
+        forecastView.layer.borderColor = imageNames.contains(imageName) ? UIColor.white.cgColor : UIColor.black.cgColor
+        forecastView.backgroundColor = UIColor(white: 1, alpha: 0.2)
+        
+        closeButton.backgroundColor = .clear
+        closeButton.layer.cornerRadius = 15
+        closeButton.layer.borderWidth = 1
+        closeButton.layer.borderColor = UIColor.red.cgColor
+        
+        forecastTableView.delegate = self
+        forecastTableView.dataSource = self
+        forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
+        forecastTableView.rowHeight = 60
+        forecastTableView.separatorStyle = .none
+        forecastTableView.isUserInteractionEnabled = false
     }
     
     @IBAction func closeButtonTapped(_ sender: UIButton) {
