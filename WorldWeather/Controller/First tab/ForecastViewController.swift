@@ -69,9 +69,9 @@ class ForecastViewController: UIViewController {
         forecastView.layer.borderWidth = 2
         forecastView.layer.borderColor = UIColor.white.cgColor
         forecastView.layer.borderColor = imageNames.contains(imageName) ? UIColor.white.cgColor : UIColor.black.cgColor
-        forecastView.backgroundColor = UIColor(white: 1, alpha: 0.2)
+        forecastView.backgroundColor = imageNames.contains(imageName) ? UIColor(white: 1, alpha: 0.5) : UIColor(white: 0.45, alpha: 0.5)
         
-        closeButton.backgroundColor = .clear
+        closeButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
         closeButton.layer.cornerRadius = 15
         closeButton.layer.borderWidth = 1
         closeButton.layer.borderColor = UIColor.red.cgColor
