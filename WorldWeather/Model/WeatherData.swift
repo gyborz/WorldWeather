@@ -41,10 +41,10 @@ class WeatherData {
         case 200...232 :
             return "thunderstorm"
             
-        case 300...321 :
+        case 300...321, 500 :
             return "drizzle"
             
-        case 500...531 :
+        case 501...531 :
             return "rainy"
             
         case 600...622 :

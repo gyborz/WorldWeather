@@ -21,7 +21,7 @@ class SearchLocationView: UIView {
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
         
-        getWeatherButton.backgroundColor = .clear
+        getWeatherButton.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
         getWeatherButton.layer.cornerRadius = 15
         getWeatherButton.layer.borderWidth = 1
         getWeatherButton.layer.borderColor = UIColor.black.cgColor

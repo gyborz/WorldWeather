@@ -326,6 +326,7 @@
                                             <segment title="in C°"/>
                                             <segment title="in F°"/>
                                         </segments>
+                                        <color key="tintColor" red="0.15473349700116978" green="0.27753438662508328" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="chooseTemperatureUnit:" destination="8rJ-Kc-sve" eventType="valueChanged" id="dXK-zE-Cms"/>
                                         </connections>

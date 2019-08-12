@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VIY-Ar-Pj8">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VIY-Ar-Pj8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rio de Janeiro, BR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nhi-Y7-miz">
@@ -60,7 +60,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="backgroundImageView" destination="VIY-Ar-Pj8" id="8Li-4r-mh5"/>
+                <outlet property="backgroundImage" destination="VIY-Ar-Pj8" id="8Li-4r-mh5"/>
                 <outlet property="cityLabel" destination="Nhi-Y7-miz" id="HcW-Ck-kR3"/>
                 <outlet property="temperatureLabel" destination="Cld-nV-aKt" id="Knn-Ud-s3v"/>
                 <outlet property="weatherImageView" destination="J5V-Vr-cvw" id="bwH-JP-wHC"/>

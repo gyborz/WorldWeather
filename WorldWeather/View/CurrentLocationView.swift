@@ -60,6 +60,7 @@ class CurrentLocationView: UIView {
             visibilityLabel.textColor = .white
             forecastButton.setTitleColor(.white, for: .normal)
             forecastButton.layer.borderColor = UIColor.white.cgColor
+            forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         } else if imageName == "fog" {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
@@ -71,6 +72,7 @@ class CurrentLocationView: UIView {
             visibilityLabel.textColor = .black
             forecastButton.setTitleColor(.white, for: .normal)
             forecastButton.layer.borderColor = UIColor.white.cgColor
+            forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         } else {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
@@ -82,6 +84,7 @@ class CurrentLocationView: UIView {
             visibilityLabel.textColor = .black
             forecastButton.setTitleColor(.black, for: .normal)
             forecastButton.layer.borderColor = UIColor.black.cgColor
+            forecastButton.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         }
     }
 

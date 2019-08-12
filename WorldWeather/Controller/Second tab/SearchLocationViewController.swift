@@ -99,11 +99,12 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell") as! LocationTableViewCell
+        let weatherData = previousLocationsWeather[indexPath.row]
         
         cell.delegate = self
         
-        cell.cityLabel.text = previousLocationsWeather[indexPath.row].city
-        let temperature = previousLocationsWeather[indexPath.row].temperature
+        cell.cityLabel.text = weatherData.city
+        let temperature = weatherData.temperature
         
         if isTemperatureInCelsius {
             if defaults.integer(forKey: "temperatureUnit") == 0 {
@@ -118,6 +119,10 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
                 cell.temperatureLabel.text = "\((temperature - 32) * 5 / 9)°"   /// to Celsius
             }
         }
+        
+        let imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
+        let icons = weatherData.getIconNameFromWeatherID(id: weatherData.weatherId)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
         
         return cell
     }
