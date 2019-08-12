@@ -26,7 +26,7 @@ class GetWeatherView: UIView {
         
         backgroundImage.layer.cornerRadius = 10
         
-        closeButton.backgroundColor = .clear
+        closeButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
         closeButton.layer.cornerRadius = 15
         closeButton.layer.borderWidth = 1
         closeButton.layer.borderColor = UIColor.red.cgColor
