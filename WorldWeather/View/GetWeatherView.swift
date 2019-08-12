@@ -13,6 +13,7 @@ class GetWeatherView: UIView {
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
@@ -23,6 +24,8 @@ class GetWeatherView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        backgroundImage.layer.cornerRadius = 10
+        
         closeButton.backgroundColor = .clear
         closeButton.layer.cornerRadius = 15
         closeButton.layer.borderWidth = 1
@@ -32,11 +35,51 @@ class GetWeatherView: UIView {
     func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
         cityLabel.text = city
         temperatureLabel.text = "\(temperature)°"
+        descriptionLabel.text = description.capitalizingFirstLetter()
         pressureLabel.text = "Pressure: \(pressure) hPa"
         humidityLabel.text = "Humidity: \(humidity)%"
         windLabel.text = "Wind: \(Int(wind * 3.6)) km/h"
         cloudinessLabel.text = "Cloudiness: \(cloudiness)%"
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
+    }
+    
+    func updateBackgroundImage(with imageName: String) {
+        let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
+        
+        UIView.transition(with: self,
+                          duration: 0.5,
+                          options: .transitionCrossDissolve,
+                          animations: { self.backgroundImage.image = UIImage(named: imageName) },
+                          completion: nil)
+        
+        if imageNames.contains(imageName) {
+            cityLabel.textColor = .white
+            temperatureLabel.textColor = .white
+            descriptionLabel.textColor = .white
+            pressureLabel.textColor = .white
+            humidityLabel.textColor = .white
+            windLabel.textColor = .white
+            cloudinessLabel.textColor = .white
+            visibilityLabel.textColor = .white
+        } else if imageName == "fog" {
+            cityLabel.textColor = .black
+            temperatureLabel.textColor = .black
+            descriptionLabel.textColor = .black
+            pressureLabel.textColor = .black
+            humidityLabel.textColor = .black
+            windLabel.textColor = .black
+            cloudinessLabel.textColor = .black
+            visibilityLabel.textColor = .black
+        } else {
+            cityLabel.textColor = .black
+            temperatureLabel.textColor = .black
+            descriptionLabel.textColor = .black
+            pressureLabel.textColor = .black
+            humidityLabel.textColor = .black
+            windLabel.textColor = .black
+            cloudinessLabel.textColor = .black
+            visibilityLabel.textColor = .black
+        }
     }
 
 }

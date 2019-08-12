@@ -19,6 +19,7 @@ class GetWeatherViewController: UIViewController {
     var daysData = [ForecastDayData]()
     let restManager = RestManager()
     var delegate: PreviousLocationDelegate?
+    var imageName = String()
     
     @IBOutlet weak var getWeatherView: GetWeatherView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
@@ -26,12 +27,16 @@ class GetWeatherViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getWeatherView.layer.cornerRadius = 10
 
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
         forecastTableView.rowHeight = 60
         forecastTableView.allowsSelection = false
+        forecastTableView.backgroundColor = .clear
+        forecastTableView.separatorStyle = .none
         
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
@@ -79,6 +84,8 @@ class GetWeatherViewController: UIViewController {
                                 weatherData.wind,
                                 weatherData.cloudiness,
                                 weatherData.visibility)
+        imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
+        getWeatherView.updateBackgroundImage(with: imageName)
     }
     
     func getWeatherInformation(with text: String) {
