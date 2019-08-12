@@ -18,11 +18,17 @@ class SearchLocationViewController: UIViewController {
     var selectedWeatherData: WeatherData!
     let restManager = RestManager()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     @IBOutlet weak var searchLocationView: SearchLocationView!
     @IBOutlet weak var locationTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setNeedsStatusBarAppearanceUpdate()
         
         searchLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
         
@@ -30,6 +36,8 @@ class SearchLocationViewController: UIViewController {
         locationTableView.dataSource = self
         locationTableView.register(UINib(nibName: "LocationTableViewCell", bundle: nil), forCellReuseIdentifier: "LocationTableViewCell")
         locationTableView.rowHeight = 70
+        locationTableView.backgroundColor = .clear
+        locationTableView.separatorColor = .black
         
         loadPreviousLocations()
     }
@@ -85,6 +93,7 @@ extension SearchLocationViewController: PreviousLocationDelegate {
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        locationTableView.separatorStyle = previousLocationsWeather.count != 0 ? .none : .singleLine
         return previousLocationsWeather.count
     }
     

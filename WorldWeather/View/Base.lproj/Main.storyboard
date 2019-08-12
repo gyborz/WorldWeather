@@ -280,7 +280,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bKv-8T-488" customClass="SearchLocationView" customModule="WorldWeather" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lcy-9m-pCy">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background2" translatesAutoresizingMaskIntoConstraints="NO" id="lcy-9m-pCy">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSQ-pZ-B9Y">
@@ -310,7 +310,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Get weather">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeather" modalPresentationStyle="overCurrentContext" id="S2Y-fe-dUq"/>
@@ -336,21 +336,18 @@
                                             <constraint firstAttribute="height" constant="28" id="WkV-zo-rHU"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="23"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2zH-2D-iPb">
-                                        <rect key="frame" x="0.0" y="289" width="375" height="438"/>
+                                        <rect key="frame" x="0.0" y="289" width="375" height="523"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.25990387799999998" green="0.75296348329999996" blue="0.756554544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="WUd-hL-YQh" firstAttribute="centerX" secondItem="bKv-8T-488" secondAttribute="centerX" id="493-oH-0Uf"/>
                                     <constraint firstAttribute="trailing" secondItem="2zH-2D-iPb" secondAttribute="trailing" id="B6k-px-g4Z"/>
                                     <constraint firstItem="t79-lQ-2F2" firstAttribute="centerX" secondItem="bKv-8T-488" secondAttribute="centerX" id="Gwz-aA-wN8"/>
                                     <constraint firstAttribute="trailing" secondItem="NSQ-pZ-B9Y" secondAttribute="trailing" id="H1P-1u-5q9"/>
-                                    <constraint firstAttribute="bottom" secondItem="2zH-2D-iPb" secondAttribute="bottom" constant="85" id="Kgl-uz-Sw0"/>
                                     <constraint firstItem="JHT-U9-2KC" firstAttribute="centerX" secondItem="bKv-8T-488" secondAttribute="centerX" id="NXd-CR-0f6"/>
                                     <constraint firstItem="NSQ-pZ-B9Y" firstAttribute="top" secondItem="bKv-8T-488" secondAttribute="top" constant="59" id="O3d-cU-3VG"/>
                                     <constraint firstItem="lcy-9m-pCy" firstAttribute="leading" secondItem="bKv-8T-488" secondAttribute="leading" id="Q0c-0G-JRW"/>
@@ -364,6 +361,7 @@
                                     <constraint firstAttribute="bottom" secondItem="lcy-9m-pCy" secondAttribute="bottom" id="g73-69-N6B"/>
                                     <constraint firstItem="lcy-9m-pCy" firstAttribute="top" secondItem="bKv-8T-488" secondAttribute="top" id="h3y-mp-OdY"/>
                                     <constraint firstItem="JHT-U9-2KC" firstAttribute="top" secondItem="t79-lQ-2F2" secondAttribute="bottom" constant="20" id="hO9-gb-C65"/>
+                                    <constraint firstAttribute="bottom" secondItem="2zH-2D-iPb" secondAttribute="bottom" id="iil-hj-VOP"/>
                                     <constraint firstAttribute="trailing" secondItem="lcy-9m-pCy" secondAttribute="trailing" id="pOw-Yb-jJc"/>
                                     <constraint firstItem="m2f-3O-zGr" firstAttribute="leading" secondItem="bKv-8T-488" secondAttribute="leading" constant="5" id="yiH-gg-RuP"/>
                                 </constraints>
@@ -655,6 +653,7 @@
     </scenes>
     <resources>
         <image name="background" width="906.5" height="1585"/>
+        <image name="background2" width="511" height="974.5"/>
         <image name="location" width="25" height="25"/>
         <image name="map" width="25" height="25"/>
         <image name="search" width="25" height="25"/>
