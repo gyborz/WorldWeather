@@ -23,7 +23,7 @@ class ForecastTableViewCell: UITableViewCell {
 //    }
     
     func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
-        let imageNames = ["sunny", "cloudy_moon", "fog", "background", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "fog", "night", "rainy", "thunderstorm"]
         
         self.backgroundImage.image = UIImage(named: imageName)
         

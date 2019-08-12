@@ -41,7 +41,7 @@ class CurrentLocationView: UIView {
     }
     
     func updateBackgroundImage(with imageName: String) {
-        let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
         
         UIView.transition(with: self,
                           duration: 0.5,

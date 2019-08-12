@@ -63,11 +63,10 @@ class ForecastViewController: UIViewController {
     }
     
     func loadUI() {
-        let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
         
         forecastView.layer.cornerRadius = 10
         forecastView.layer.borderWidth = 2
-        forecastView.layer.borderColor = UIColor.white.cgColor
         forecastView.layer.borderColor = imageNames.contains(imageName) ? UIColor.white.cgColor : UIColor.black.cgColor
         forecastView.backgroundColor = imageNames.contains(imageName) ? UIColor(white: 1, alpha: 0.5) : UIColor(white: 0.45, alpha: 0.5)
         

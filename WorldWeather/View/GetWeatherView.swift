@@ -44,13 +44,9 @@ class GetWeatherView: UIView {
     }
     
     func updateBackgroundImage(with imageName: String) {
-        let imageNames = ["sunny", "cloudy_moon", "background", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
         
-        UIView.transition(with: self,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: { self.backgroundImage.image = UIImage(named: imageName) },
-                          completion: nil)
+        self.backgroundImage.image = UIImage(named: imageName)
         
         if imageNames.contains(imageName) {
             cityLabel.textColor = .white
@@ -61,7 +57,7 @@ class GetWeatherView: UIView {
             windLabel.textColor = .white
             cloudinessLabel.textColor = .white
             visibilityLabel.textColor = .white
-        } else if imageName == "fog" {
+        } else if imageName == "background" {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
             descriptionLabel.textColor = .black
