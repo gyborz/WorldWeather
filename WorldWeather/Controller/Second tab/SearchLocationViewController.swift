@@ -51,7 +51,7 @@ class SearchLocationViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.previousLocationsWeather.append(weatherData)
                         
-                        guard self.locationTableView != nil else { return }
+                        guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
                         self.locationTableView.reloadData()
                     }
                 }

@@ -281,7 +281,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background2" translatesAutoresizingMaskIntoConstraints="NO" id="lcy-9m-pCy">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="812.00000000000023"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSQ-pZ-B9Y">
                                         <rect key="frame" x="0.0" y="59" width="375" height="39"/>
@@ -405,15 +405,23 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZjK-XJ-HTZ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jqs-lt-Mmt">
-                                <rect key="frame" x="311" y="44" width="48" height="30"/>
-                                <state key="normal" title="Search"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jqs-lt-Mmt">
+                                <rect key="frame" x="315" y="44" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="HkY-LI-wnf"/>
+                                    <constraint firstAttribute="height" constant="50" id="bVm-Gu-bJu"/>
+                                </constraints>
+                                <state key="normal" image="magnifier"/>
                                 <connections>
                                     <action selector="searchButtonTapped:" destination="kwa-Oa-XEN" eventType="touchUpInside" id="dxD-I1-5Vu"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csB-SE-6ca">
-                                <rect key="frame" x="144" y="686" width="87" height="30"/>
+                                <rect key="frame" x="130" y="671" width="115" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="115" id="nEk-k9-hbF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <state key="normal" title="Get Weather"/>
                                 <connections>
                                     <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherFromMap" modalPresentationStyle="overCurrentContext" id="uqh-lx-qeC"/>
@@ -428,8 +436,8 @@
                             <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="leading" secondItem="MHH-oM-nsn" secondAttribute="leading" id="Yea-wF-cR2"/>
                             <constraint firstItem="csB-SE-6ca" firstAttribute="centerX" secondItem="MHH-oM-nsn" secondAttribute="centerX" id="YtM-6f-8Nv"/>
                             <constraint firstAttribute="bottom" secondItem="ZjK-XJ-HTZ" secondAttribute="bottom" id="aTP-Rn-xWX"/>
-                            <constraint firstItem="efG-rS-dTv" firstAttribute="bottom" secondItem="csB-SE-6ca" secondAttribute="bottom" constant="13" id="ekH-gG-JRj"/>
-                            <constraint firstItem="efG-rS-dTv" firstAttribute="trailing" secondItem="Jqs-lt-Mmt" secondAttribute="trailing" constant="16" id="kvH-6Y-OFB"/>
+                            <constraint firstItem="efG-rS-dTv" firstAttribute="bottom" secondItem="csB-SE-6ca" secondAttribute="bottom" constant="25" id="egb-YO-05p"/>
+                            <constraint firstItem="efG-rS-dTv" firstAttribute="trailing" secondItem="Jqs-lt-Mmt" secondAttribute="trailing" constant="10" id="kvH-6Y-OFB"/>
                             <constraint firstAttribute="trailing" secondItem="ZjK-XJ-HTZ" secondAttribute="trailing" id="sge-A6-drf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="efG-rS-dTv"/>
@@ -457,7 +465,7 @@
                                 <rect key="frame" x="16" y="76" width="343" height="602"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background2" translatesAutoresizingMaskIntoConstraints="NO" id="bpk-kL-R4Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="602.00000000000023"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="602"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pjU-vn-bRy">
                                         <rect key="frame" x="8" y="8" width="327" height="145"/>
@@ -677,10 +685,11 @@
         <image name="background" width="906.5" height="1585"/>
         <image name="background2" width="511" height="974.5"/>
         <image name="location" width="25" height="25"/>
+        <image name="magnifier" width="128" height="128"/>
         <image name="map" width="25" height="25"/>
         <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="S2Y-fe-dUq"/>
+        <segue reference="uqh-lx-qeC"/>
     </inferredMetricsTieBreakers>
 </document>
