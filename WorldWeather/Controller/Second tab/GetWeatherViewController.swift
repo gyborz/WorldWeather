@@ -39,6 +39,10 @@ class GetWeatherViewController: UIViewController {
         forecastTableView.backgroundColor = .clear
         forecastTableView.separatorStyle = .none
         
+        if UIScreen.main.bounds.height >= 812 {
+            forecastTableView.isUserInteractionEnabled = false
+        }
+        
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")

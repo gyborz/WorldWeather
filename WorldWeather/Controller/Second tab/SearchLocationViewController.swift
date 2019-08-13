@@ -50,6 +50,8 @@ class SearchLocationViewController: UIViewController {
                 self.restManager.getWeatherData(with: location) { (weatherData) in
                     DispatchQueue.main.async {
                         self.previousLocationsWeather.append(weatherData)
+                        
+                        guard self.locationTableView != nil else { return }
                         self.locationTableView.reloadData()
                     }
                 }
