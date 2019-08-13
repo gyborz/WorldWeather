@@ -17,6 +17,16 @@ class CurrentLocationViewController: UIViewController {
     var forecastWeatherDataForHours: [WeatherData]!
     var forecastWeatherDataForDays: [WeatherData]!
     let restManager = RestManager()
+    var imageName = String()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
+        if imageNames.contains(imageName) {
+            return .lightContent
+        } else {
+            return .default
+        }
+    }
     
     @IBOutlet weak var currentLocationView: CurrentLocationView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -26,6 +36,8 @@ class CurrentLocationViewController: UIViewController {
         super.viewDidLoad()
         
         setupLocationManager()
+        
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
@@ -61,12 +73,16 @@ class CurrentLocationViewController: UIViewController {
                                      weatherData.wind,
                                      weatherData.cloudiness,
                                      weatherData.visibility)
+        imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
+        currentLocationView.updateBackgroundImage(with: imageName)
+        self.setNeedsStatusBarAppearanceUpdate()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ForecastSegue" {
             let destinationVC = segue.destination as! ForecastViewController
             destinationVC.forecastWeatherData = forecastWeatherDataForDays
+            destinationVC.imageName = imageName
         }
     }
     
@@ -160,14 +176,19 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
-    
+        
+        let weatherItem = forecastWeatherDataForHours[indexPath.row]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: forecastWeatherDataForHours[indexPath.row].date)
+        let dateString = dateFormatter.string(from: weatherItem.date)
         let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"
-        cell.degreeLabel.text = "\(forecastWeatherDataForHours[indexPath.row].temperature)°"
+        cell.degreeLabel.text = "\(weatherItem.temperature)°"
+        
+        let icons = weatherItem.getIconNameFromWeatherID(id: weatherItem.weatherId)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
+        
         return cell
     }
     

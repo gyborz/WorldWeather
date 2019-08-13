@@ -19,6 +19,8 @@ class GetWeatherViewController: UIViewController {
     var daysData = [ForecastDayData]()
     let restManager = RestManager()
     var delegate: PreviousLocationDelegate?
+    var idForWeatherImage = Int()
+    var imageName = "background"
     
     @IBOutlet weak var getWeatherView: GetWeatherView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
@@ -26,12 +28,20 @@ class GetWeatherViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getWeatherView.layer.cornerRadius = 10
 
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
         forecastTableView.rowHeight = 60
         forecastTableView.allowsSelection = false
+        forecastTableView.backgroundColor = .clear
+        forecastTableView.separatorStyle = .none
+        
+        if UIScreen.main.bounds.height >= 812 {
+            forecastTableView.isUserInteractionEnabled = false
+        }
         
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
@@ -60,11 +70,15 @@ class GetWeatherViewController: UIViewController {
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
                                                       day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                    forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
                     maxTemp = Int.min
                     dateFlag = forecastWeatherDataForDays[index + 1].date
+                }
+                if calendar.component(.hour, from: forecastWeatherDataForDays[index].date) == 12 {
+                    idForWeatherImage = forecastWeatherDataForDays[index].weatherId
                 }
             }
         }
@@ -79,6 +93,8 @@ class GetWeatherViewController: UIViewController {
                                 weatherData.wind,
                                 weatherData.cloudiness,
                                 weatherData.visibility)
+        imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
+        getWeatherView.updateBackgroundImage(with: imageName)
     }
     
     func getWeatherInformation(with text: String) {
@@ -131,9 +147,17 @@ extension GetWeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
-        cell.dayLabel.text = daysData[indexPath.row].day
-        cell.hottestLabel.text = "\(daysData[indexPath.row].maxTemperature)°"
-        cell.coldestLabel.text = "\(daysData[indexPath.row].minTemperature)°"
+        
+        let day = daysData[indexPath.row]
+        
+        cell.dayLabel.text = day.day
+        cell.hottestLabel.text = "\(day.maxTemperature)°"
+        cell.coldestLabel.text = "\(day.minTemperature)°"
+        
+        let imageName = day.getBackgroundPictureNameFromWeatherID(id: day.weatherID)
+        let icons = day.getIconNameFromWeatherID(id: day.weatherID)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
+        
         return cell
     }
     
@@ -152,13 +176,17 @@ extension GetWeatherViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
         
+        let weatherItem = forecastWeatherDataForHours[indexPath.row]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: forecastWeatherDataForHours[indexPath.row].date)
+        let dateString = dateFormatter.string(from: weatherItem.date)
         let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"
-        cell.degreeLabel.text = "\(forecastWeatherDataForHours[indexPath.row].temperature)°"
+        cell.degreeLabel.text = "\(weatherItem.temperature)°"
+        
+        let icons = weatherItem.getIconNameFromWeatherID(id: weatherItem.weatherId)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
         
         return cell
     }

@@ -12,15 +12,29 @@ import SwipeCellKit
 class LocationTableViewCell: SwipeTableViewCell {
     
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//
+//    }
+    
+    func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
+        let imageNames = ["sunny", "cloudy_moon", "fog", "night", "rainy", "thunderstorm"]
         
-        backgroundImageView.backgroundColor = .orange
-        weatherImageView.backgroundColor = .blue
+        self.backgroundImage.image = UIImage(named: imageName)
+        
+        if imageNames.contains(imageName) {
+            cityLabel.textColor = .white
+            temperatureLabel.textColor = .white
+            weatherImageView.image = UIImage(named: icons.white)
+        } else {
+            cityLabel.textColor = .black
+            temperatureLabel.textColor = .black
+            weatherImageView.image = UIImage(named: icons.black)
+        }
     }
     
 }

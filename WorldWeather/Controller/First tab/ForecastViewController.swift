@@ -12,19 +12,19 @@ class ForecastViewController: UIViewController {
     
     var forecastWeatherData: [WeatherData]!
     var daysData = [ForecastDayData]()
+    var idForWeatherImage = Int()
+    var imageName = "background"
     
+    @IBOutlet weak var forecastView: UIView!
     @IBOutlet weak var forecastTableView: UITableView!
+    @IBOutlet weak var closeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadDays()
         
-        forecastTableView.delegate = self
-        forecastTableView.dataSource = self
-        forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
-        forecastTableView.rowHeight = 60
-        forecastTableView.isUserInteractionEnabled = false
+        loadUI()
     }
     
     func loadDays() {
@@ -48,15 +48,39 @@ class ForecastViewController: UIViewController {
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
                                                       day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                    forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
                     maxTemp = Int.min
                     dateFlag = forecastWeatherData[index + 1].date
                 }
+                if calendar.component(.hour, from: forecastWeatherData[index].date) == 12 {
+                    idForWeatherImage = forecastWeatherData[index].weatherId
+                }
             }
         }
+    }
+    
+    func loadUI() {
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
         
+        forecastView.layer.cornerRadius = 10
+        forecastView.layer.borderWidth = 2
+        forecastView.layer.borderColor = imageNames.contains(imageName) ? UIColor.white.cgColor : UIColor.black.cgColor
+        forecastView.backgroundColor = imageNames.contains(imageName) ? UIColor(white: 1, alpha: 0.5) : UIColor(white: 0.45, alpha: 0.5)
+        
+        closeButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
+        closeButton.layer.cornerRadius = 15
+        closeButton.layer.borderWidth = 1
+        closeButton.layer.borderColor = UIColor.red.cgColor
+        
+        forecastTableView.delegate = self
+        forecastTableView.dataSource = self
+        forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
+        forecastTableView.rowHeight = 60
+        forecastTableView.separatorStyle = .none
+        forecastTableView.isUserInteractionEnabled = false
     }
     
     @IBAction func closeButtonTapped(_ sender: UIButton) {
@@ -73,9 +97,17 @@ extension ForecastViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
-        cell.dayLabel.text = daysData[indexPath.row].day
-        cell.hottestLabel.text = "\(daysData[indexPath.row].maxTemperature)°"
-        cell.coldestLabel.text = "\(daysData[indexPath.row].minTemperature)°"
+        
+        let day = daysData[indexPath.row]
+        
+        cell.dayLabel.text = day.day
+        cell.hottestLabel.text = "\(day.maxTemperature)°"
+        cell.coldestLabel.text = "\(day.minTemperature)°"
+        
+        let imageName = day.getBackgroundPictureNameFromWeatherID(id: day.weatherID)
+        let icons = day.getIconNameFromWeatherID(id: day.weatherID)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
+        
         return cell
     }
     

@@ -18,6 +18,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="400" height="79.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f34-g3-yOL">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="79.5"/>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wednesday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWX-Mx-d1b">
                         <rect key="frame" x="13" y="28" width="103" height="24"/>
                         <constraints>
@@ -61,12 +64,17 @@
                     <constraint firstItem="PH6-3K-rds" firstAttribute="centerY" secondItem="AW6-Og-Og2" secondAttribute="centerY" id="91E-S6-xeu"/>
                     <constraint firstItem="1uw-82-Nub" firstAttribute="centerX" secondItem="AW6-Og-Og2" secondAttribute="centerX" id="NQH-1Z-q5R"/>
                     <constraint firstItem="gWX-Mx-d1b" firstAttribute="leading" secondItem="AW6-Og-Og2" secondAttribute="leading" constant="13" id="UGr-85-7aj"/>
+                    <constraint firstAttribute="bottom" secondItem="f34-g3-yOL" secondAttribute="bottom" id="bCQ-IX-Ax2"/>
+                    <constraint firstItem="f34-g3-yOL" firstAttribute="leading" secondItem="AW6-Og-Og2" secondAttribute="leading" id="k09-GV-k8C"/>
                     <constraint firstItem="gWX-Mx-d1b" firstAttribute="centerY" secondItem="AW6-Og-Og2" secondAttribute="centerY" id="mZK-Lq-PNO"/>
+                    <constraint firstItem="f34-g3-yOL" firstAttribute="top" secondItem="AW6-Og-Og2" secondAttribute="top" id="tbH-ul-KLs"/>
                     <constraint firstItem="1uw-82-Nub" firstAttribute="centerY" secondItem="AW6-Og-Og2" secondAttribute="centerY" id="vwD-Lo-NYb"/>
+                    <constraint firstAttribute="trailing" secondItem="f34-g3-yOL" secondAttribute="trailing" id="y0s-et-6Mw"/>
                     <constraint firstAttribute="trailing" secondItem="PH6-3K-rds" secondAttribute="trailing" constant="20" id="yVe-ll-nkW"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="backgroundImage" destination="f34-g3-yOL" id="EWx-S2-Cna"/>
                 <outlet property="coldestLabel" destination="7sA-8j-RlP" id="kGQ-Y0-BtQ"/>
                 <outlet property="dayLabel" destination="gWX-Mx-d1b" id="x3Y-hG-6kN"/>
                 <outlet property="hottestLabel" destination="6WW-sq-7H9" id="NMj-Yk-6iT"/>

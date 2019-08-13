@@ -18,11 +18,17 @@ class SearchLocationViewController: UIViewController {
     var selectedWeatherData: WeatherData!
     let restManager = RestManager()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     @IBOutlet weak var searchLocationView: SearchLocationView!
     @IBOutlet weak var locationTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setNeedsStatusBarAppearanceUpdate()
         
         searchLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
         
@@ -30,6 +36,8 @@ class SearchLocationViewController: UIViewController {
         locationTableView.dataSource = self
         locationTableView.register(UINib(nibName: "LocationTableViewCell", bundle: nil), forCellReuseIdentifier: "LocationTableViewCell")
         locationTableView.rowHeight = 70
+        locationTableView.backgroundColor = .clear
+        locationTableView.separatorColor = .black
         
         loadPreviousLocations()
     }
@@ -42,6 +50,8 @@ class SearchLocationViewController: UIViewController {
                 self.restManager.getWeatherData(with: location) { (weatherData) in
                     DispatchQueue.main.async {
                         self.previousLocationsWeather.append(weatherData)
+                        
+                        guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
                         self.locationTableView.reloadData()
                     }
                 }
@@ -85,16 +95,18 @@ extension SearchLocationViewController: PreviousLocationDelegate {
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        locationTableView.separatorStyle = previousLocationsWeather.count != 0 ? .none : .singleLine
         return previousLocationsWeather.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell") as! LocationTableViewCell
+        let weatherData = previousLocationsWeather[indexPath.row]
         
         cell.delegate = self
         
-        cell.cityLabel.text = previousLocationsWeather[indexPath.row].city
-        let temperature = previousLocationsWeather[indexPath.row].temperature
+        cell.cityLabel.text = weatherData.city
+        let temperature = weatherData.temperature
         
         if isTemperatureInCelsius {
             if defaults.integer(forKey: "temperatureUnit") == 0 {
@@ -109,6 +121,10 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
                 cell.temperatureLabel.text = "\((temperature - 32) * 5 / 9)°"   /// to Celsius
             }
         }
+        
+        let imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
+        let icons = weatherData.getIconNameFromWeatherID(id: weatherData.weatherId)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
         
         return cell
     }
