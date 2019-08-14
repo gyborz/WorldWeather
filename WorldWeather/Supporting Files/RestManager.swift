@@ -9,16 +9,21 @@
 import Foundation
 import SwiftyJSON
 
+enum WeatherError: Swift.Error {
+    case requestFailed
+    case unknownError
+}
+
 class RestManager {
     
     let defaults = UserDefaults.standard
     let appId = "3656721177232952a61339c39bec961e"
     
-    func getWeatherData(with coordinates: [String: String], completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
+    func getWeatherData(with coordinates: [String: String], completionHandler: @escaping (Result<WeatherData,Error>) -> Void) {
         if let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?lat=\(coordinates["lat"]!)&lon=\(coordinates["lon"]!)&appid=\(appId)") {
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
+                if let data = data, let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode {
                     do {
                         let json = try JSON(data: data)
                         
@@ -34,18 +39,18 @@ class RestManager {
                                                       wind: json["wind"]["speed"].double!,
                                                       cloudiness: json["clouds"]["all"].intValue,
                                                       date: Date())
-                        completionHandler(weatherData)
-                    } catch let error {
-                        print(error)
+                        completionHandler(.success(weatherData))
+                    } catch {
+                        completionHandler(.failure(WeatherError.unknownError))
                     }
                 }
                 
-                if let error = error {
-                    print(error)
-                    // TODO: - alert
+                if error != nil {
+                    completionHandler(.failure(WeatherError.requestFailed))
                 }
             }.resume()
-            
+        } else {
+            completionHandler(.failure(WeatherError.unknownError))
         }
     }
     

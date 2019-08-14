@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import CoreLocation
+//import Network
 
 class CurrentLocationViewController: UIViewController {
     
@@ -18,6 +19,7 @@ class CurrentLocationViewController: UIViewController {
     var forecastWeatherDataForDays: [WeatherData]!
     let restManager = RestManager()
     var imageName = String()
+    //let monitor = NWPathMonitor()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
@@ -34,6 +36,8 @@ class CurrentLocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //setupNetworkMonitor()
         
         setupLocationManager()
         
@@ -63,6 +67,20 @@ class CurrentLocationViewController: UIViewController {
             scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+225)
         }
     }
+    
+//    func setupNetworkMonitor() {
+//        monitor.pathUpdateHandler = { path in
+//            if path.status == .satisfied {
+//                print("We're connected")
+//            } else {
+//                print("No connection")
+//            }
+//            print(path.isExpensive)
+//        }
+//        
+//        let queue = DispatchQueue(label: "Monitor")
+//        monitor.start(queue: queue)
+//    }
     
     func updateView(with weatherData: WeatherData) {
         currentLocationView.updateUI(weatherData.city,
@@ -136,9 +154,29 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
             let coordinates = ["lat": String(location.coordinate.latitude), "lon": String(location.coordinate.longitude)]
             
-            restManager.getWeatherData(with: coordinates) { (weatherData) in
+//            restManager.getWeatherData(with: coordinates) { (weatherData) in
+//                DispatchQueue.main.async {
+//                    self.updateView(with: weatherData)
+//                }
+//            }
+            
+            restManager.getWeatherData(with: coordinates) { [weak self] (result) in /// using weak on self to avoid retain cycle (updateView(:))
+                guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.updateView(with: weatherData)
+                    switch result {
+                    case .success(let weatherData):
+                        self.updateView(with: weatherData)
+                    case .failure(let error):
+                        if error as! WeatherError == WeatherError.requestFailed {
+                            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                        } else {
+                            let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                        }
+                    }
                 }
             }
             
