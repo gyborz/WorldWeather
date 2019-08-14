@@ -39,8 +39,38 @@ class SearchLocationViewController: UIViewController {
         locationTableView.backgroundColor = .clear
         locationTableView.separatorColor = .black
         
-        loadPreviousLocations()
+        if defaults.bool(forKey: "isConnected") {
+            loadPreviousLocations()
+        } else {
+            let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//        if defaults.bool(forKey: "isConnected") {
+//            loadPreviousLocations()
+//        } else {
+//            let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            self.present(alert, animated: true)
+//        }
+//    }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        if defaults.bool(forKey: "isConnected") {
+//            loadPreviousLocations()
+//        } else {
+//            let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            self.present(alert, animated: true)
+//        }
+//    }
     
     func loadPreviousLocations() {
         if let previousLocations = defaults.array(forKey: "previousLocations") as? [String] {
@@ -106,13 +136,18 @@ class SearchLocationViewController: UIViewController {
 extension SearchLocationViewController: PreviousLocationDelegate {
     
     func addLocation(_ name: String) {
-        if !previousLocationNames.contains(name) {
-            previousLocationNames.append(name)
-            defaults.set(previousLocationNames, forKey: "previousLocations")
-            loadPreviousLocations()
+        if let previousLocations = defaults.array(forKey: "previousLocations") as? [String] {
+            previousLocationNames = previousLocations
+            if !previousLocationNames.contains(name) {
+                previousLocationNames.append(name)
+                defaults.set(previousLocationNames, forKey: "previousLocations")
+                loadPreviousLocations()
+            }
+        } else { /// this is for when the user opens the app for the first time and gets a location's weather from the map (didn't open the second tab yet)
+            let previousLocation = [name]
+            defaults.set(previousLocation, forKey: "previousLocations")
         }
     }
-    
 }
 
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
@@ -153,9 +188,15 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedWeatherData = previousLocationsWeather[indexPath.row]
-        performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))
-        locationTableView.deselectRow(at: indexPath, animated: true)
+        if defaults.bool(forKey: "isConnected") {
+            selectedWeatherData = previousLocationsWeather[indexPath.row]
+            performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))
+            locationTableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
     }
     
 }

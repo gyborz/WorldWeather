@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 import CoreLocation
-//import Network
+import Network
 
 class CurrentLocationViewController: UIViewController {
     
@@ -19,7 +19,7 @@ class CurrentLocationViewController: UIViewController {
     var forecastWeatherDataForDays: [WeatherData]!
     let restManager = RestManager()
     var imageName = String()
-    //let monitor = NWPathMonitor()
+    let monitor = NWPathMonitor()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
@@ -37,9 +37,7 @@ class CurrentLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //setupNetworkMonitor()
-        
-        setupLocationManager()
+        setupNetworkMonitor()
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
@@ -68,19 +66,22 @@ class CurrentLocationViewController: UIViewController {
         }
     }
     
-//    func setupNetworkMonitor() {
-//        monitor.pathUpdateHandler = { path in
-//            if path.status == .satisfied {
-//                print("We're connected")
-//            } else {
-//                print("No connection")
-//            }
-//            print(path.isExpensive)
-//        }
-//        
-//        let queue = DispatchQueue(label: "Monitor")
-//        monitor.start(queue: queue)
-//    }
+    func setupNetworkMonitor() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.setupLocationManager()
+                self.defaults.set(true, forKey: "isConnected")
+            } else {
+                let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                self.defaults.set(false, forKey: "isConnected")
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+    }
     
     func updateView(with weatherData: WeatherData) {
         currentLocationView.updateUI(weatherData.city,
@@ -123,13 +124,11 @@ class CurrentLocationViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
-            break
         case .denied:
             // TODO: - alert showing how to turn on permissions
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            break
         case .restricted:
             // TODO: - alert for restriction problem
             break
@@ -237,6 +236,5 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
         
         return cell
     }
-    
     
 }
