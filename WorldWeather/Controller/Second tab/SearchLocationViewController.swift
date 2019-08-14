@@ -46,15 +46,38 @@ class SearchLocationViewController: UIViewController {
         if let previousLocations = defaults.array(forKey: "previousLocations") as? [String] {
             previousLocationNames = previousLocations
             previousLocationsWeather = []
+            
             for location in previousLocationNames {
-                self.restManager.getWeatherData(with: location) { (weatherData) in
+                restManager.getWeatherData(with: location) { [weak self] (result) in /// using weak on self to avoid retain cycle (previousLocationsWeather)
+                    guard let self = self else { return }
                     DispatchQueue.main.async {
-                        self.previousLocationsWeather.append(weatherData)
-                        
-                        guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
-                        self.locationTableView.reloadData()
+                        switch result {
+                        case .success(let weatherData):
+                            self.previousLocationsWeather.append(weatherData)
+                            
+                            guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
+                            self.locationTableView.reloadData()
+                        case .failure(let error):
+                            if error as! WeatherError == WeatherError.requestFailed {
+                                let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                self.present(alert, animated: true)
+                            } else {
+                                let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                self.present(alert, animated: true)
+                            }
+                        }
                     }
                 }
+//                self.restManager.getWeatherData(with: location) { (weatherData) in
+//                    DispatchQueue.main.async {
+//                        self.previousLocationsWeather.append(weatherData)
+//                        
+//                        guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
+//                        self.locationTableView.reloadData()
+//                    }
+//                }
             }
             isTemperatureInCelsius = self.defaults.integer(forKey: "temperatureUnit") == 0 ? true : false
         }

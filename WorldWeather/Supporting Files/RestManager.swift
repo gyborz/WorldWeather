@@ -54,13 +54,13 @@ class RestManager {
         }
     }
     
-    func getWeatherData(with text: String, completionHandler: @escaping (_ weatherData: WeatherData) -> Void) {
+    func getWeatherData(with text: String, completionHandler: @escaping (Result<WeatherData,Error>) -> Void) {
         let urlString = trimmedString(from: text, isForecast: false)
         
         if let url = URL(string: urlString) {
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
+                if let data = data, let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode {
                     do {
                         let json = try JSON(data: data)
                         
@@ -76,69 +76,68 @@ class RestManager {
                                                       wind: json["wind"]["speed"].double!,
                                                       cloudiness: json["clouds"]["all"].intValue,
                                                       date: Date())
-                        completionHandler(weatherData)
-                    } catch let error {
-                        print(error)
+                        completionHandler(.success(weatherData))
+                    } catch {
+                        completionHandler(.failure(WeatherError.unknownError))
                     }
                 }
                 
-                if let error = error {
-                    print(error)
-                    // TODO: - alert
+                if error != nil {
+                    completionHandler(.failure(WeatherError.requestFailed))
                 }
-                }.resume()
-            
+            }.resume()
+        } else {
+            completionHandler(.failure(WeatherError.unknownError))
         }
-        
     }
     
-    func getWeatherForecastData(with coordinates: [String: String], completionHandler: @escaping (_ forecastWeatherDataFor24Hours: [WeatherData], _ forecastWeatherDataForDays: [WeatherData]) -> Void) {
+    func getWeatherForecastData(with coordinates: [String: String], completionHandler: @escaping (Result<(forHours: [WeatherData], forDays: [WeatherData]),Error>) -> Void) {
         if let url = URL(string: "http://api.openweathermap.org/data/2.5/forecast?lat=\(coordinates["lat"]!)&lon=\(coordinates["lon"]!)&appid=\(appId)") {
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
+                if let data = data, let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode {
                     do {
                         let json = try JSON(data: data)
                         
                         let forecastData = self.saveForecastDataFromJson(json: json)
-                        completionHandler(forecastData.forHours, forecastData.forDays)
-                    } catch let error {
-                        print(error)
+                        completionHandler(.success((forecastData.forHours, forecastData.forDays)))
+                    } catch {
+                        completionHandler(.failure(WeatherError.unknownError))
                     }
                 }
                 
-                if let error = error {
-                    print(error)
-                    // TODO: - alert
+                if error != nil {
+                    completionHandler(.failure(WeatherError.requestFailed))
                 }
-                }.resume()
-            
+            }.resume()
+        } else {
+            completionHandler(.failure(WeatherError.unknownError))
         }
     }
     
-    func getWeatherForecastData(with text: String, completionHandler: @escaping (_ forecastWeatherDataFor24Hours: [WeatherData], _ forecastWeatherDataForDays: [WeatherData]) -> Void) {
+    func getWeatherForecastData(with text: String, completionHandler: @escaping (Result<(forHours: [WeatherData], forDays: [WeatherData]),Error>) -> Void) {
         let urlString = trimmedString(from: text, isForecast: true)
         
         if let url = URL(string: urlString) {
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data {
+                if let data = data, let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode {
                     do {
                         let json = try JSON(data: data)
                         
                         let forecastData = self.saveForecastDataFromJson(json: json)
-                        completionHandler(forecastData.forHours, forecastData.forDays)
-                    } catch let error {
-                        print(error)
+                        completionHandler(.success((forecastData.forHours, forecastData.forDays)))
+                    } catch {
+                        completionHandler(.failure(WeatherError.unknownError))
                     }
                 }
                 
-                if let error = error {
-                    print(error)
-                    // TODO: - alert
+                if error != nil {
+                    completionHandler(.failure(WeatherError.requestFailed))
                 }
-                }.resume()
-            
+            }.resume()
+        } else {
+            completionHandler(.failure(WeatherError.unknownError))
         }
     }
     
