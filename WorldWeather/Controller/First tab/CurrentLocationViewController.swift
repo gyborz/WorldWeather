@@ -72,7 +72,7 @@ class CurrentLocationViewController: UIViewController {
                 self.setupLocationManager()
                 self.defaults.set(true, forKey: "isConnected")
             } else {
-                let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
                 self.defaults.set(false, forKey: "isConnected")
@@ -98,10 +98,16 @@ class CurrentLocationViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ForecastSegue" {
-            let destinationVC = segue.destination as! ForecastViewController
-            destinationVC.forecastWeatherData = forecastWeatherDataForDays
-            destinationVC.imageName = imageName
+        if defaults.bool(forKey: "isConnected") {
+            if segue.identifier == "ForecastSegue" {
+                let destinationVC = segue.destination as! ForecastViewController
+                destinationVC.forecastWeatherData = forecastWeatherDataForDays
+                destinationVC.imageName = imageName
+            }
+        } else {
+            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -150,6 +156,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         
         /// check if the latitude and longitude are valid
         if location.horizontalAccuracy > 0 {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             locationManager.stopUpdatingLocation()
             let coordinates = ["lat": String(location.coordinate.latitude), "lon": String(location.coordinate.longitude)]
             
@@ -164,10 +171,12 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         } else {
                             let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }
                     }
                 }
@@ -181,15 +190,18 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                         self.forecastWeatherDataForHours = forecastData.forHours
                         self.forecastWeatherDataForDays = forecastData.forDays
                         self.weatherCollectionView.reloadData()
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     case .failure(let error):
                         if error as! WeatherError == WeatherError.requestFailed {
                             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         } else {
                             let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }
                     }
                 }

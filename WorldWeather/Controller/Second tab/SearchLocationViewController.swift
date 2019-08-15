@@ -42,7 +42,7 @@ class SearchLocationViewController: UIViewController {
         if defaults.bool(forKey: "isConnected") {
             loadPreviousLocations()
         } else {
-            let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true)
         }
@@ -74,6 +74,7 @@ class SearchLocationViewController: UIViewController {
     
     func loadPreviousLocations() {
         if let previousLocations = defaults.array(forKey: "previousLocations") as? [String] {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             previousLocationNames = previousLocations
             previousLocationsWeather = []
             
@@ -87,15 +88,20 @@ class SearchLocationViewController: UIViewController {
                             
                             guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
                             self.locationTableView.reloadData()
+                            if location == self.previousLocationNames.last {
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            }
                         case .failure(let error):
                             if error as! WeatherError == WeatherError.requestFailed {
                                 let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                 self.present(alert, animated: true)
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             } else {
                                 let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                 self.present(alert, animated: true)
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             }
                         }
                     }
