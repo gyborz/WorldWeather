@@ -151,7 +151,8 @@ class GetWeatherViewController: UIViewController {
                 switch result {
                 case .success(let weatherData):
                     self.updateView(with: weatherData)
-                    self.delegate?.addLocation(weatherData.city)
+                    let locationName = weatherData.city.folding(options: .diacriticInsensitive, locale: .current)
+                    self.delegate?.addLocation(locationName)
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
                         let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)

@@ -115,9 +115,19 @@ class SearchLocationViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GetWeather" {
-            let destinationVC = segue.destination as! GetWeatherViewController
-            destinationVC.delegate = self
-            destinationVC.getWeatherInformation(with: searchLocationView.textField.text!)
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,- ")
+            if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
+                let alert = UIAlertController(title: "Please don't use special characters", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            } else {
+                let destinationVC = segue.destination as! GetWeatherViewController
+                destinationVC.delegate = self
+                
+                let locationName = (searchLocationView.textField.text?.folding(options: .diacriticInsensitive, locale: .current))!
+                destinationVC.getWeatherInformation(with: locationName)
+                searchLocationView.textField.text = ""
+            }
         }
         if segue.identifier == "LocationSegue" {
             let destinationVC = segue.destination as! GetWeatherViewController
@@ -146,6 +156,7 @@ extension SearchLocationViewController: PreviousLocationDelegate {
         } else { /// this is for when the user opens the app for the first time and gets a location's weather from the map (didn't open the second tab yet)
             let previousLocation = [name]
             defaults.set(previousLocation, forKey: "previousLocations")
+            loadPreviousLocations()
         }
     }
 }
