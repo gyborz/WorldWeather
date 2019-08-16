@@ -12,6 +12,7 @@ import SwiftyJSON
 enum WeatherError: Swift.Error {
     case requestFailed
     case unknownError
+    case responseError
 }
 
 class RestManager {
@@ -82,6 +83,10 @@ class RestManager {
                     }
                 }
                 
+                if (response as? HTTPURLResponse)?.statusCode == 404 {  /// searching with wrong city name can cause this response
+                    completionHandler(.failure(WeatherError.responseError))
+                }
+                
                 if error != nil {
                     completionHandler(.failure(WeatherError.requestFailed))
                 }
@@ -130,6 +135,10 @@ class RestManager {
                     } catch {
                         completionHandler(.failure(WeatherError.unknownError))
                     }
+                }
+                
+                if (response as? HTTPURLResponse)?.statusCode == 404 {  /// searching with wrong city name can cause this response
+                    completionHandler(.failure(WeatherError.responseError))
                 }
                 
                 if error != nil {

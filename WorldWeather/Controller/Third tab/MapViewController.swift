@@ -126,8 +126,12 @@ class MapViewController: UIViewController {
     }
     
     func centerViewOnTappedLocation(_ location: CLLocationCoordinate2D) {
-        let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
-        mapView.setRegion(region, animated: true)
+        if mapView.visibleMapRect.width > 99000 {
+            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            mapView.setRegion(region, animated: true)
+        } else {
+            mapView.setCenter(location, animated: true)
+        }
     }
     
     func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D, with title: String) {

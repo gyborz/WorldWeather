@@ -109,12 +109,23 @@ class GetWeatherViewController: UIViewController {
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
                         let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                        }))
+                        self.present(alert, animated: true)
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    } else if error as! WeatherError == WeatherError.responseError {
+                        let alert = UIAlertController(title: "Error: City not found", message: "Try again", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                        }))
                         self.present(alert, animated: true)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     } else {
                         let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                        }))
                         self.present(alert, animated: true)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
@@ -133,18 +144,8 @@ class GetWeatherViewController: UIViewController {
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                case .failure(let error):
-                    if error as! WeatherError == WeatherError.requestFailed {
-                        let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    } else {
-                        let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    }
+                case .failure:
+                    break
                 }
             }
         }
@@ -163,12 +164,16 @@ class GetWeatherViewController: UIViewController {
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
                         let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                        }))
                         self.present(alert, animated: true)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     } else {
                         let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.dismiss(animated: true, completion: nil)
+                        }))
                         self.present(alert, animated: true)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
@@ -187,18 +192,8 @@ class GetWeatherViewController: UIViewController {
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                case .failure(let error):
-                    if error as! WeatherError == WeatherError.requestFailed {
-                        let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    } else {
-                        let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    }
+                case .failure:
+                    break
                 }
             }
         }
