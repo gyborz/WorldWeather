@@ -56,7 +56,9 @@ class MapViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             checkLocationAuthorization()
         } else {
-            // TODO: - alert
+            let alert = UIAlertController(title: "Location services are disabled", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -67,19 +69,22 @@ class MapViewController: UIViewController {
             centerViewOnUserLocation()
             locationManager.startUpdatingLocation()
         case .denied:
-            // TODO: - alert showing how to turn on permissions
-            break
+            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            // TODO: - alert for restriction problem
-            break
+            let alert = UIAlertController(title: "Active restrictions block the app to use location services", message: "Check your parental controls to give access", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         case .authorizedAlways:
             /// won't happen
             break
         @unknown default:
-            // TODO: - special alert
-            break
+            let alert = UIAlertController(title: "Unknown error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -104,14 +109,13 @@ class MapViewController: UIViewController {
             guard let self = self else { return }
             
             if error != nil {
-                // TODO: - alert
+                let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
                 return
             }
             
-            guard let placemark = placemarks?.first else {
-                // TODO: - alert
-                return
-            }
+            guard let placemark = placemarks?.first else { return }
             
             let cityName = placemark.locality ?? ""
             DispatchQueue.main.async {
@@ -206,14 +210,13 @@ extension MapViewController: UISearchBarDelegate {
             UIApplication.shared.endIgnoringInteractionEvents()
             
             if error != nil {
-                // TODO: - alert
+                let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
                 return
             }
             
-            guard let response = response else {
-                // TODO: - alert
-                return
-            }
+            guard let response = response else { return }
             
             let latitude = response.boundingRegion.center.latitude
             let longitude = response.boundingRegion.center.longitude

@@ -122,7 +122,9 @@ class CurrentLocationViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             checkLocationAuthorization()
         } else {
-            // TODO: - alert
+            let alert = UIAlertController(title: "Location services are disabled", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -131,19 +133,22 @@ class CurrentLocationViewController: UIViewController {
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
         case .denied:
-            // TODO: - alert showing how to turn on permissions
-            break
+            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            // TODO: - alert for restriction problem
-            break
+            let alert = UIAlertController(title: "Active restrictions block the app to use location services", message: "Check your parental controls to give access", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         case .authorizedAlways:
             /// won't happen
             break
         @unknown default:
-            // TODO: - special alert
-            break
+            let alert = UIAlertController(title: "Unknown error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
 
@@ -206,13 +211,22 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                     }
                 }
             }
-        } else {
-            // TODO: - alert
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // TODO: - alert
+        if case CLError.Code.locationUnknown = error {
+            return
+        } else if case CLError.Code.headingFailure = error {
+            let alert = UIAlertController(title: "Error", message: "Couldn't determine location because of strong interference", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        } else if case CLError.Code.denied = error {
+            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+            locationManager.stopUpdatingLocation()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
