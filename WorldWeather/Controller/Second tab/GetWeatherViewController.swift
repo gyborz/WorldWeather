@@ -50,12 +50,17 @@ class GetWeatherViewController: UIViewController {
     }
     
     func loadDays() {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         var minTemp = Int.max
         var maxTemp = Int.min
         let calendar = Calendar.current             /// gregorian calendar !!
-        var dateFlag = forecastWeatherDataForDays[0].date
+        var dateForComparison = forecastWeatherDataForDays[0].date
         
+        // we go through all the forecast data and get the max and min temperatures and the midday's weather id (11-13)
+        // we always compare the starting date to the next item's date by day
+        // if they differ, we save a forecast day and set the next day's date as the comparison date
         for index in 0...forecastWeatherDataForDays.count - 1 {
             if forecastWeatherDataForDays[index].temperature < minTemp {
                 minTemp = forecastWeatherDataForDays[index].temperature
@@ -65,19 +70,23 @@ class GetWeatherViewController: UIViewController {
             }
             
             if index < forecastWeatherDataForDays.count - 1 {
-                // watch out for the dates' values in the equation (see explanation under CurrentLocationViewController - saveForecastDataFromJSON(json:))
-                if calendar.component(.day, from: dateFlag) != calendar.component(.day, from: forecastWeatherDataForDays[index + 1].date) {
+                let dayOfComparisonDate = Int(dateForComparison.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+                let dayOfTheNextItem = Int(forecastWeatherDataForDays[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+                let hourOfIndexedItem = Int(forecastWeatherDataForDays[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+                
+                if dayOfComparisonDate! != dayOfTheNextItem! {
+                    let dayDate = format.date(from: dateForComparison)!
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
-                                                      day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                                                      day: daysArray[(calendar.component(.weekday, from: dayDate) - 1)]) /// weekday - 1 to get the correct index for daysArray
                     forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
                     maxTemp = Int.min
-                    dateFlag = forecastWeatherDataForDays[index + 1].date
+                    dateForComparison = forecastWeatherDataForDays[index + 1].date
                 }
-                if calendar.component(.hour, from: forecastWeatherDataForDays[index].date) == 12 {
+                if [11,12,13].contains(hourOfIndexedItem!) {
                     idForWeatherImage = forecastWeatherDataForDays[index].weatherId
                 }
             }
@@ -243,10 +252,12 @@ extension GetWeatherViewController: UICollectionViewDelegate, UICollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
         
         let weatherItem = forecastWeatherDataForHours[indexPath.row]
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: weatherItem.date)
-        let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+//        let dateString = dateFormatter.string(from: weatherItem.date)
+//        let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+        
+        let hour = Int(weatherItem.date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"
         cell.degreeLabel.text = "\(weatherItem.temperature)°"

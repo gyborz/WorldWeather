@@ -249,10 +249,7 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
         
         let weatherItem = forecastWeatherDataForHours[indexPath.row]
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: weatherItem.date)
-        let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+        let hour = Int(weatherItem.date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"
         cell.degreeLabel.text = "\(weatherItem.temperature)°"

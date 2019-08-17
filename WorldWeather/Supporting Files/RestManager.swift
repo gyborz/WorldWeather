@@ -20,6 +20,9 @@ class RestManager {
     let defaults = UserDefaults.standard
     let appId = "3656721177232952a61339c39bec961e"
     
+    let currentDate = Date()
+    let format = DateFormatter()
+    
     func getWeatherData(with coordinates: [String: String], completionHandler: @escaping (Result<WeatherData,Error>) -> Void) {
         if let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?lat=\(coordinates["lat"]!)&lon=\(coordinates["lon"]!)&appid=\(appId)") {
             
@@ -30,6 +33,12 @@ class RestManager {
                         
                         let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
                         
+                        // get the current time of the location
+                        let seconds = json["timezone"].intValue
+                        self.format.timeZone = TimeZone(secondsFromGMT: seconds)
+                        self.format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        let date = self.format.string(from: self.currentDate)
+                        
                         let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
                                                       city: json["name"].stringValue + ", " + json["sys"]["country"].stringValue,
                                                       description: json["weather"][0]["description"].stringValue,
@@ -39,7 +48,7 @@ class RestManager {
                                                       visibility: json["visibility"].intValue,
                                                       wind: json["wind"]["speed"].double!,
                                                       cloudiness: json["clouds"]["all"].intValue,
-                                                      date: Date())
+                                                      date: date)
                         completionHandler(.success(weatherData))
                     } catch {
                         completionHandler(.failure(WeatherError.unknownError))
@@ -67,6 +76,12 @@ class RestManager {
                         
                         let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
                         
+                        // get the current time of the location
+                        let seconds = json["timezone"].intValue
+                        self.format.timeZone = TimeZone(secondsFromGMT: seconds)
+                        self.format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        let date = self.format.string(from: self.currentDate)
+                        
                         let weatherData = WeatherData(weatherId: json["weather"][0]["id"].intValue,
                                                       city: json["name"].stringValue + ", " + json["sys"]["country"].stringValue,
                                                       description: json["weather"][0]["description"].stringValue,
@@ -76,7 +91,7 @@ class RestManager {
                                                       visibility: json["visibility"].intValue,
                                                       wind: json["wind"]["speed"].double!,
                                                       cloudiness: json["clouds"]["all"].intValue,
-                                                      date: Date())
+                                                      date: date)
                         completionHandler(.success(weatherData))
                     } catch {
                         completionHandler(.failure(WeatherError.unknownError))
@@ -151,16 +166,28 @@ class RestManager {
     }
     
     func saveForecastDataFromJson(json: JSON) -> (forHours: [WeatherData], forDays: [WeatherData]) {
-        var dayIndex = 0    /// this variable indicates from which list item begins the next day's weather information
-        let today = Date()
-        let calendar = Calendar.current
         
+        // we get the current time adjusted to the location, then we adjust the forecast time to the timezone too
+        // in the first loop we get the weather of the next 24 hours
+        // simultaneously we check for the beginning of the next day (which occurs somewhere in the first 8 items)
+        // we compare the day of the two dates, if they differ, we store the day's index
+        var dayIndex = 0    /// this variable indicates from which list item begins the next day's weather information
         var forecastWeatherDataForHours = [WeatherData]()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let seconds = json["city"]["timezone"].intValue
+        format.timeZone = TimeZone(secondsFromGMT: seconds)
+        let today = self.format.string(from: self.currentDate)  /// get the current time of the location
+        let dayOfCurrentDate = Int(today.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+        
         for index in 0...8 {
-            let dateString = json["list"][index]["dt_txt"].stringValue
-            let date = dateFormatter.date(from: dateString)!
+            format.timeZone = .current
+            let forecastTimeString = json["list"][index]["dt_txt"].stringValue  /// get the forecast time from the API in string
+            let forecastDate = format.date(from: forecastTimeString)            /// turn the forecast string into date (it's in UTC)
+            format.timeZone = TimeZone(secondsFromGMT: seconds)                 /// set the timezone
+            let date = format.string(from: forecastDate!)                       /// get the adjusted forecast time in string
+            let dayOfDate = Int(date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+            
             let temperature = getTemperatureInCorrectUnit(from: json["list"][index]["main"]["temp"].double!)
             
             let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,
@@ -170,19 +197,23 @@ class RestManager {
                                              date: date)
             forecastWeatherDataForHours.append(newWeatherData)
             
-            if calendar.component(.day, from: today) < calendar.component(.day, from: date) && dayIndex == 0 {
-                // important: the date variable is always showing in UTC time, but the value itself is still the parsed one from the json file
-                // example: if the 'date' variable in the equation shows: 2019-08-02 22:00:00 UTC,
-                // the value itself is parsed from json so in reality it's 2019-08-03 00:00:00 the next day !!!
-                // same equation happens at the ForecastViewController's loadDays() method !!
+            if dayOfCurrentDate! != dayOfDate! && dayIndex == 0 {
                 dayIndex = index
             }
         }
         
+        // in the second loop we start from the next day's index (from previous loop)
+        // we adjust the time again (see previous loop) and save all the forecast data which are for the next few days
+        // the days are gonna be processed in the ForecastViewC's/GetWeatherViewC's loadDays() method
         var forecastWeatherDataForDays = [WeatherData]()
+        
         for index in dayIndex...json["list"].count - 1 {
-            let dateString = json["list"][index]["dt_txt"].stringValue
-            let date = dateFormatter.date(from: dateString)!
+            format.timeZone = .current
+            let forecastTimeString = json["list"][index]["dt_txt"].stringValue
+            let forecastDate = format.date(from: forecastTimeString)
+            format.timeZone = TimeZone(secondsFromGMT: seconds)
+            let date = format.string(from: forecastDate!)
+            
             let temperature = getTemperatureInCorrectUnit(from: json["list"][index]["main"]["temp"].double!)
             
             let newWeatherData = WeatherData(weatherId: json["list"][index]["weather"][0]["id"].intValue,

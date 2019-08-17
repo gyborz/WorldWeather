@@ -19,9 +19,9 @@ class WeatherData {
     let visibility: Int
     let wind: Double
     let cloudiness: Int
-    let date: Date
+    let date: String
     
-    init(weatherId: Int, city: String, description: String, temperature: Int, pressure: Int, humidity: Int, visibility: Int, wind: Double, cloudiness: Int, date: Date) {
+    init(weatherId: Int, city: String, description: String, temperature: Int, pressure: Int, humidity: Int, visibility: Int, wind: Double, cloudiness: Int, date: String) {
         self.weatherId = weatherId
         self.city = city
         self.description = description
@@ -35,7 +35,7 @@ class WeatherData {
     }
     
     func getBackgroundPictureNameFromWeatherID(id: Int) -> String {
-        let hour = Int(Calendar.current.component(.hour, from: Date()))
+        let hour = Int(date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])!
         
         switch (id) {
         case 200...232 :
@@ -80,7 +80,7 @@ class WeatherData {
     }
     
     func getIconNameFromWeatherID(id: Int) -> (white: String, black: String) {
-        let hour = Int(Calendar.current.component(.hour, from: date))
+        let hour = Int(date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])!
         
         switch (id) {
         case 200...232 :
