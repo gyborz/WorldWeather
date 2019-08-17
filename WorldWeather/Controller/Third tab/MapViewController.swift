@@ -246,7 +246,7 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        getWeatherButton.isHidden = false
+        getWeatherButton.isHidden = view.annotation?.title == "My Location" ? true : false
     }
     
 }
