@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PreviousLocationDelegate {
-    func addLocation(_ name: String)
+    func addLocation(_ name: String, _ coordinates: [String: String])
 }
 
 class GetWeatherViewController: UIViewController {
@@ -114,7 +114,7 @@ class GetWeatherViewController: UIViewController {
                 switch result {
                 case .success(let weatherData):
                     self.updateView(with: weatherData)
-                    self.delegate?.addLocation(weatherData.city)
+                    self.delegate?.addLocation(weatherData.city, [:])
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
                         let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
@@ -168,8 +168,7 @@ class GetWeatherViewController: UIViewController {
                 switch result {
                 case .success(let weatherData):
                     self.updateView(with: weatherData)
-                    let locationName = weatherData.city.folding(options: .diacriticInsensitive, locale: .current)
-                    self.delegate?.addLocation(locationName)
+                    self.delegate?.addLocation(weatherData.city, coordinates)
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
                         let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
@@ -252,11 +251,6 @@ extension GetWeatherViewController: UICollectionViewDelegate, UICollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
         
         let weatherItem = forecastWeatherDataForHours[indexPath.row]
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-//        let dateString = dateFormatter.string(from: weatherItem.date)
-//        let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
-        
         let hour = Int(weatherItem.date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"

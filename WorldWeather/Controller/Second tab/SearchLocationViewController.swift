@@ -13,10 +13,10 @@ class SearchLocationViewController: UIViewController {
     
     let defaults = UserDefaults.standard
     var isTemperatureInCelsius = Bool()
-    var previousLocationNames = [String]()
     var previousLocationsWeather = [WeatherData]()
     var selectedWeatherData: WeatherData!
     let restManager = RestManager()
+    var locations = [String : [String: String]]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -40,7 +40,7 @@ class SearchLocationViewController: UIViewController {
         locationTableView.separatorColor = .black
         
         if defaults.bool(forKey: "isConnected") {
-            loadPreviousLocations()
+            loadLocations()
         } else {
             let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -72,49 +72,75 @@ class SearchLocationViewController: UIViewController {
 //        }
 //    }
     
-    func loadPreviousLocations() {
-        if let previousLocations = defaults.array(forKey: "previousLocations") as? [String] {
+    func loadLocations() {
+        if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]] {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            previousLocationNames = previousLocations
+            locations = previousLocations
             previousLocationsWeather = []
+            var cityIndex = 0
             
-            for location in previousLocationNames {
-                restManager.getWeatherData(with: location) { [weak self] (result) in /// using weak on self to avoid retain cycle (previousLocationsWeather)
-                    guard let self = self else { return }
-                    DispatchQueue.main.async {
-                        switch result {
-                        case .success(let weatherData):
-                            self.previousLocationsWeather.append(weatherData)
-                            
-                            guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
-                            self.locationTableView.reloadData()
-                            if location == self.previousLocationNames.last {
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            }
-                        case .failure(let error):
-                            if error as! WeatherError == WeatherError.requestFailed {
-                                let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                                self.present(alert, animated: true)
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            } else {
-                                let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                                self.present(alert, animated: true)
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            for city in previousLocations {
+                if city.value != [:] {
+                    restManager.getWeatherData(with: city.value) { [weak self] (result) in
+                        guard let self = self else { return }
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(let weatherData):
+                                self.previousLocationsWeather.append(weatherData)
+                                cityIndex += 1
+                                
+                                guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
+                                if cityIndex == previousLocations.count {
+                                    self.locationTableView.reloadData()
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                }
+                            case .failure(let error):
+                                if error as! WeatherError == WeatherError.requestFailed {
+                                    let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                    self.present(alert, animated: true)
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                } else {
+                                    let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                    self.present(alert, animated: true)
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                }
                             }
                         }
                     }
-                }
-//                self.restManager.getWeatherData(with: location) { (weatherData) in
-//                    DispatchQueue.main.async {
-//                        self.previousLocationsWeather.append(weatherData)
-//                        
-//                        guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
-//                        self.locationTableView.reloadData()
-//                    }
-//                }
-            }
+                } else {
+                    restManager.getWeatherData(with: city.key) { [weak self] (result) in
+                        guard let self = self else { return }
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(let weatherData):
+                                self.previousLocationsWeather.append(weatherData)
+                                cityIndex += 1
+                                
+                                guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
+                                if cityIndex == previousLocations.count {
+                                    self.locationTableView.reloadData()
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                }
+                            case .failure(let error):
+                                if error as! WeatherError == WeatherError.requestFailed {
+                                    let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                    self.present(alert, animated: true)
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                } else {
+                                    let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                    self.present(alert, animated: true)
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                }
+                            }
+                        }
+                    }
+                }   /// city.value if else
+            }   /// for loop
+            
             isTemperatureInCelsius = self.defaults.integer(forKey: "temperatureUnit") == 0 ? true : false
         }
     }
@@ -137,7 +163,21 @@ class SearchLocationViewController: UIViewController {
         }
         if segue.identifier == "LocationSegue" {
             let destinationVC = segue.destination as! GetWeatherViewController
-            destinationVC.getWeatherInformation(with: selectedWeatherData.city)
+            
+            var coordinates = [String:String]()
+            let hasCoordinates = locations.contains { (key, value) -> Bool in
+                if key == selectedWeatherData.city && value != [:] {
+                    coordinates = value
+                    return true
+                } else {
+                    return false
+                }
+            }
+            if hasCoordinates {
+                destinationVC.getWeatherInformation(with: coordinates)
+            } else {
+                destinationVC.getWeatherInformation(with: selectedWeatherData.city)
+            }
         }
     }
     
@@ -151,20 +191,29 @@ class SearchLocationViewController: UIViewController {
 
 extension SearchLocationViewController: PreviousLocationDelegate {
     
-    func addLocation(_ name: String) {
-        if let previousLocations = defaults.array(forKey: "previousLocations") as? [String] {
-            previousLocationNames = previousLocations
-            if !previousLocationNames.contains(name) {
-                previousLocationNames.append(name)
-                defaults.set(previousLocationNames, forKey: "previousLocations")
-                loadPreviousLocations()
+    func addLocation(_ name: String, _ coordinates: [String: String]) {
+        if var previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]] {
+            let containsCity = previousLocations.contains { (key, value) -> Bool in
+                if key == name {
+                    return true
+                } else {
+                    return false
+                }
             }
-        } else { /// this is for when the user opens the app for the first time and gets a location's weather from the map (didn't open the second tab yet)
-            let previousLocation = [name]
-            defaults.set(previousLocation, forKey: "previousLocations")
-            loadPreviousLocations()
+            
+            if !containsCity {
+                previousLocations[name] = coordinates
+                defaults.set(previousLocations, forKey: "locations")
+                loadLocations()
+            }
+        } else {
+            var previousLocations = [String: [String: String]]()
+            previousLocations[name] = coordinates
+            defaults.set(previousLocations, forKey: "locations")
+            loadLocations()
         }
     }
+    
 }
 
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
@@ -225,9 +274,9 @@ extension SearchLocationViewController: SwipeTableViewCellDelegate {
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             self.locationTableView.beginUpdates()
-            self.previousLocationNames.removeAll() { $0 == self.previousLocationsWeather[indexPath.row].city }
+            self.locations.removeValue(forKey: self.previousLocationsWeather[indexPath.row].city)
             self.previousLocationsWeather.remove(at: indexPath.row)
-            self.defaults.set(self.previousLocationNames, forKey: "previousLocations")
+            self.defaults.set(self.locations, forKey: "locations")
         }
 
         deleteAction.image = UIImage(named: "delete")
