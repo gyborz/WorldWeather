@@ -48,30 +48,6 @@ class SearchLocationViewController: UIViewController {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        if defaults.bool(forKey: "isConnected") {
-//            loadPreviousLocations()
-//        } else {
-//            let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//            self.present(alert, animated: true)
-//        }
-//    }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        if defaults.bool(forKey: "isConnected") {
-//            loadPreviousLocations()
-//        } else {
-//            let alert = UIAlertController(title: "Network Error", message: "Check your network connection", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//            self.present(alert, animated: true)
-//        }
-//    }
-    
     func loadLocations() {
         if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]] {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -91,6 +67,7 @@ class SearchLocationViewController: UIViewController {
                                 
                                 guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
                                 if cityIndex == previousLocations.count {
+                                    self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 }
@@ -120,6 +97,7 @@ class SearchLocationViewController: UIViewController {
                                 
                                 guard self.locationTableView != nil else { return } /// can be nil when accessed from the mapViewC through delegation
                                 if cityIndex == previousLocations.count {
+                                    self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 }
