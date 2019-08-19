@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Current-->
+        <!--Current Location View Controller-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="CurrentLocationViewController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
@@ -196,7 +196,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Current" image="location" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="" image="location" id="acW-dT-cKf">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <size key="freeformSize" width="375" height="812"/>
                     <connections>
                         <outlet property="currentLocationView" destination="GVN-pH-etq" id="4W9-Tl-XJp"/>
@@ -269,7 +271,7 @@
             </objects>
             <point key="canvasLocation" x="1668" y="-333.25123152709364"/>
         </scene>
-        <!--Search-->
+        <!--Search Location View Controller-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SearchLocationViewController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
@@ -281,7 +283,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background2" translatesAutoresizingMaskIntoConstraints="NO" id="lcy-9m-pCy">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="812.00000000000023"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSQ-pZ-B9Y">
                                         <rect key="frame" x="0.0" y="59" width="375" height="39"/>
@@ -383,7 +385,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="search" selectedImage="search" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="" image="search" id="cPa-gy-q4n">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="locationTableView" destination="2zH-2D-iPb" id="S8P-2p-NEf"/>
                         <outlet property="searchLocationView" destination="bKv-8T-488" id="Jfu-fs-idO"/>
@@ -394,7 +398,7 @@
             </objects>
             <point key="canvasLocation" x="813.60000000000002" y="355.41871921182269"/>
         </scene>
-        <!--Map-->
+        <!--Map View Controller-->
         <scene sceneID="ZU2-bI-bML">
             <objects>
                 <viewController id="kwa-Oa-XEN" customClass="MapViewController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
@@ -442,7 +446,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="efG-rS-dTv"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="map" id="KB9-qd-88c"/>
+                    <tabBarItem key="tabBarItem" title="" image="map" id="KB9-qd-88c">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="getWeatherButton" destination="csB-SE-6ca" id="WN5-eW-CVe"/>
                         <outlet property="mapView" destination="ZjK-XJ-HTZ" id="UQ9-jY-xlY"/>
@@ -465,7 +471,7 @@
                                 <rect key="frame" x="16" y="76" width="343" height="602"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background2" translatesAutoresizingMaskIntoConstraints="NO" id="bpk-kL-R4Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="602"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="602.00000000000023"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pjU-vn-bRy">
                                         <rect key="frame" x="8" y="8" width="327" height="145"/>
@@ -665,10 +671,11 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                    <tabBar key="tabBar" contentMode="scaleToFill" itemPositioning="centered" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
