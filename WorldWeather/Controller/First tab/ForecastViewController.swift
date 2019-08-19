@@ -28,12 +28,17 @@ class ForecastViewController: UIViewController {
     }
     
     func loadDays() {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         var minTemp = Int.max
         var maxTemp = Int.min
         let calendar = Calendar.current             /// gregorian calendar !!
-        var dateFlag = forecastWeatherData[0].date
+        var dateForComparison = forecastWeatherData[0].date
         
+        // we go through all the forecast data and get the max and min temperatures and the midday's weather id (11-13)
+        // we always compare the starting date to the next item's date by day
+        // if they differ, we save a forecast day and set the next day's date as the comparison date
         for index in 0...forecastWeatherData.count - 1 {
             if forecastWeatherData[index].temperature < minTemp {
                 minTemp = forecastWeatherData[index].temperature
@@ -43,19 +48,23 @@ class ForecastViewController: UIViewController {
             }
             
             if index < forecastWeatherData.count - 1 {
-                // watch out for the dates' values in the equation (see explanation under CurrentLocationViewController - saveForecastDataFromJSON(json:))
-                if calendar.component(.day, from: dateFlag) != calendar.component(.day, from: forecastWeatherData[index + 1].date) {
+                let dayOfComparisonDate = Int(dateForComparison.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+                let dayOfTheNextItem = Int(forecastWeatherData[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+                let hourOfIndexedItem = Int(forecastWeatherData[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+                
+                if dayOfComparisonDate! != dayOfTheNextItem! {
+                    let dayDate = format.date(from: dateForComparison)!
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
-                                                      day: daysArray[(calendar.component(.weekday, from: dateFlag) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                                                      day: daysArray[(calendar.component(.weekday, from: dayDate) - 1)]) /// weekday - 1 to get the correct index for daysArray
                     forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
                     maxTemp = Int.min
-                    dateFlag = forecastWeatherData[index + 1].date
+                    dateForComparison = forecastWeatherData[index + 1].date
                 }
-                if calendar.component(.hour, from: forecastWeatherData[index].date) == 12 {
+                if [11,12,13].contains(hourOfIndexedItem!) {
                     idForWeatherImage = forecastWeatherData[index].weatherId
                 }
             }

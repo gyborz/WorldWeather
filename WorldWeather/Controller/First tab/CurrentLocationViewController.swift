@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import CoreLocation
+import Network
 
 class CurrentLocationViewController: UIViewController {
     
@@ -18,6 +19,7 @@ class CurrentLocationViewController: UIViewController {
     var forecastWeatherDataForDays: [WeatherData]!
     let restManager = RestManager()
     var imageName = String()
+    let monitor = NWPathMonitor()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
@@ -35,7 +37,7 @@ class CurrentLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupLocationManager()
+        setupNetworkMonitor()
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
@@ -64,6 +66,23 @@ class CurrentLocationViewController: UIViewController {
         }
     }
     
+    func setupNetworkMonitor() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.setupLocationManager()
+                self.defaults.set(true, forKey: "isConnected")
+            } else {
+                let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                self.defaults.set(false, forKey: "isConnected")
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+    }
+    
     func updateView(with weatherData: WeatherData) {
         currentLocationView.updateUI(weatherData.city,
                                      weatherData.temperature,
@@ -79,10 +98,16 @@ class CurrentLocationViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ForecastSegue" {
-            let destinationVC = segue.destination as! ForecastViewController
-            destinationVC.forecastWeatherData = forecastWeatherDataForDays
-            destinationVC.imageName = imageName
+        if defaults.bool(forKey: "isConnected") {
+            if segue.identifier == "ForecastSegue" {
+                let destinationVC = segue.destination as! ForecastViewController
+                destinationVC.forecastWeatherData = forecastWeatherDataForDays
+                destinationVC.imageName = imageName
+            }
+        } else {
+            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -97,7 +122,9 @@ class CurrentLocationViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             checkLocationAuthorization()
         } else {
-            // TODO: - alert
+            let alert = UIAlertController(title: "Location services are disabled", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
     
@@ -105,22 +132,23 @@ class CurrentLocationViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
-            break
         case .denied:
-            // TODO: - alert showing how to turn on permissions
-            break
+            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            break
         case .restricted:
-            // TODO: - alert for restriction problem
-            break
+            let alert = UIAlertController(title: "Active restrictions block the app to use location services", message: "Check your parental controls to give access", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         case .authorizedAlways:
             /// won't happen
             break
         @unknown default:
-            // TODO: - special alert
-            break
+            let alert = UIAlertController(title: "Unknown error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
 
@@ -133,29 +161,72 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         
         /// check if the latitude and longitude are valid
         if location.horizontalAccuracy > 0 {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             locationManager.stopUpdatingLocation()
             let coordinates = ["lat": String(location.coordinate.latitude), "lon": String(location.coordinate.longitude)]
             
-            restManager.getWeatherData(with: coordinates) { (weatherData) in
+            restManager.getWeatherData(with: coordinates) { [weak self] (result) in /// using weak on self to avoid retain cycle (updateView(:))
+                guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.updateView(with: weatherData)
+                    switch result {
+                    case .success(let weatherData):
+                        self.updateView(with: weatherData)
+                    case .failure(let error):
+                        if error as! WeatherError == WeatherError.requestFailed {
+                            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        } else {
+                            let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }
+                    }
                 }
             }
             
-            restManager.getWeatherForecastData(with: coordinates) { (forHours, forDays) in
-                self.forecastWeatherDataForHours = forHours
-                self.forecastWeatherDataForDays = forDays
+            restManager.getWeatherForecastData(with: coordinates) { [weak self] (result) in /// using weak on self to avoid retain cycle (forecast..ForHours and ..ForDays arrays)
+                guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.weatherCollectionView.reloadData()
+                    switch result {
+                    case .success(let forecastData):
+                        self.forecastWeatherDataForHours = forecastData.forHours
+                        self.forecastWeatherDataForDays = forecastData.forDays
+                        self.weatherCollectionView.reloadData()
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    case .failure(let error):
+                        if error as! WeatherError == WeatherError.requestFailed {
+                            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        } else {
+                            let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }
+                    }
                 }
             }
-        } else {
-            // TODO: - alert
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // TODO: - alert
+        if case CLError.Code.locationUnknown = error {
+            return
+        } else if case CLError.Code.headingFailure = error {
+            let alert = UIAlertController(title: "Error", message: "Couldn't determine location because of strong interference", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        } else if case CLError.Code.denied = error {
+            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+            locationManager.stopUpdatingLocation()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -178,10 +249,7 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ForecastCollectionViewCell", for: indexPath) as! ForecastCollectionViewCell
         
         let weatherItem = forecastWeatherDataForHours[indexPath.row]
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        let dateString = dateFormatter.string(from: weatherItem.date)
-        let hour = Int(dateString.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+        let hour = Int(weatherItem.date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
         
         cell.hourLabel.text = "\(hour!)"
         cell.degreeLabel.text = "\(weatherItem.temperature)°"
@@ -191,6 +259,5 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
         
         return cell
     }
-    
     
 }
