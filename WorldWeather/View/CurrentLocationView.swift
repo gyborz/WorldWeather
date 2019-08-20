@@ -18,15 +18,7 @@ class CurrentLocationView: UIView {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
-    @IBOutlet weak var forecastButton: UIButton!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        forecastButton.backgroundColor = .clear
-        forecastButton.layer.cornerRadius = 15
-        forecastButton.layer.borderWidth = 1
-    }
     
     func updateLabels(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
         cityLabel.text = String(city.split(separator: ",")[0])
@@ -52,9 +44,6 @@ class CurrentLocationView: UIView {
             windLabel.textColor = .white
             cloudinessLabel.textColor = .white
             visibilityLabel.textColor = .white
-            forecastButton.setTitleColor(.white, for: .normal)
-            forecastButton.layer.borderColor = UIColor.white.cgColor
-            forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         } else if backgroundImage == "fog" {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
@@ -64,9 +53,6 @@ class CurrentLocationView: UIView {
             windLabel.textColor = .black
             cloudinessLabel.textColor = .black
             visibilityLabel.textColor = .black
-            forecastButton.setTitleColor(.white, for: .normal)
-            forecastButton.layer.borderColor = UIColor.white.cgColor
-            forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         } else {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
@@ -76,9 +62,6 @@ class CurrentLocationView: UIView {
             windLabel.textColor = .black
             cloudinessLabel.textColor = .black
             visibilityLabel.textColor = .black
-            forecastButton.setTitleColor(.black, for: .normal)
-            forecastButton.layer.borderColor = UIColor.black.cgColor
-            forecastButton.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         }
     }
 

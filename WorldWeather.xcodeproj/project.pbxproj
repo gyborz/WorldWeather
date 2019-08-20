@@ -11,7 +11,6 @@
 		E72729D122F6C93500054A46 /* GetWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72729D022F6C93500054A46 /* GetWeatherViewController.swift */; };
 		E72729D522F6C9EA00054A46 /* GetWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72729D422F6C9EA00054A46 /* GetWeatherView.swift */; };
 		E730ACBF22F6F0D5000CEC5D /* ForecastCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E730ACBE22F6F0D5000CEC5D /* ForecastCollectionViewCell.xib */; };
-		E7425CAE22F2CFFE001018F1 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */; };
 		E7425CB022F2D272001018F1 /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7425CAF22F2D272001018F1 /* ForecastTableViewCell.swift */; };
 		E7480EF222F71138004AB7CF /* RestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7480EF122F71138004AB7CF /* RestManager.swift */; };
 		E757B7B722F88F7B00D620D7 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E757B7B522F88F7B00D620D7 /* LocationTableViewCell.swift */; };
@@ -37,7 +36,6 @@
 		E72729D022F6C93500054A46 /* GetWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWeatherViewController.swift; sourceTree = "<group>"; };
 		E72729D422F6C9EA00054A46 /* GetWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWeatherView.swift; sourceTree = "<group>"; };
 		E730ACBE22F6F0D5000CEC5D /* ForecastCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForecastCollectionViewCell.xib; sourceTree = "<group>"; };
-		E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		E7425CAF22F2D272001018F1 /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
 		E7480EF122F71138004AB7CF /* RestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestManager.swift; sourceTree = "<group>"; };
 		E757B7B522F88F7B00D620D7 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				E767634122F03BA100DEC8B6 /* CurrentLocationViewController.swift */,
-				E7425CAD22F2CFFE001018F1 /* ForecastViewController.swift */,
 			);
 			path = "First tab";
 			sourceTree = "<group>";
@@ -322,7 +319,6 @@
 				E779469422F5C6EB0005F896 /* SearchLocationView.swift in Sources */,
 				E767634422F03BA100DEC8B6 /* SearchLocationViewController.swift in Sources */,
 				E7480EF222F71138004AB7CF /* RestManager.swift in Sources */,
-				E7425CAE22F2CFFE001018F1 /* ForecastViewController.swift in Sources */,
 				E798428C22F3338800EC3820 /* ForecastDayData.swift in Sources */,
 				E767634022F03BA100DEC8B6 /* AppDelegate.swift in Sources */,
 				E72729D122F6C93500054A46 /* GetWeatherViewController.swift in Sources */,

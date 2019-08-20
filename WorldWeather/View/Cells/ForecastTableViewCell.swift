@@ -16,16 +16,14 @@ class ForecastTableViewCell: UITableViewCell {
     @IBOutlet weak var hottestLabel: UILabel!
     @IBOutlet weak var coldestLabel: UILabel!
 
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        
-//        //self.backgroundColor = .clear
-//    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.backgroundColor = .clear
+    }
     
     func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
         let imageNames = ["sunny", "cloudy_moon", "fog", "night", "rainy", "thunderstorm"]
-        
-        self.backgroundImage.image = UIImage(named: imageName)
         
         if imageNames.contains(imageName) {
             dayLabel.textColor = .white

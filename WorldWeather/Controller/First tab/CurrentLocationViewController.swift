@@ -20,6 +20,8 @@ class CurrentLocationViewController: UIViewController {
     let restManager = RestManager()
     var imageName = String()
     let monitor = NWPathMonitor()
+    var idForWeatherImage = Int()
+    var daysData = [ForecastDayData]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
@@ -33,7 +35,8 @@ class CurrentLocationViewController: UIViewController {
     @IBOutlet weak var currentLocationView: CurrentLocationView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
-
+    @IBOutlet weak var forecastTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,23 +51,34 @@ class CurrentLocationViewController: UIViewController {
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
         weatherCollectionView.backgroundColor = .clear
         
+        forecastTableView.delegate = self
+        forecastTableView.dataSource = self
+        forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
+        forecastTableView.rowHeight = 55
+        forecastTableView.separatorStyle = .none
+        forecastTableView.isUserInteractionEnabled = false
+        forecastTableView.backgroundColor = .clear
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateUITemperatureUnit(_:)), name: NSNotification.Name("didChangeTemperatureUnit"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if UIScreen.main.bounds.height >= 812 {
+        if UIScreen.main.bounds.height == 896 {
             scrollView.isScrollEnabled = false
+        } else if UIScreen.main.bounds.height == 812 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+84)
         } else if UIScreen.main.bounds.height == 736 {
             scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+50)
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+130)
         } else if UIScreen.main.bounds.height == 667 {
             scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+125)
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+200)
         } else if UIScreen.main.bounds.height == 568 {
             scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+225)
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+300)
         }
     }
     
@@ -105,20 +119,6 @@ class CurrentLocationViewController: UIViewController {
         defaults.set(imageName, forKey: "backgroundImage")
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if defaults.bool(forKey: "isConnected") {
-            if segue.identifier == "ForecastSegue" {
-                let destinationVC = segue.destination as! ForecastViewController
-                destinationVC.forecastWeatherData = forecastWeatherDataForDays
-                destinationVC.imageName = imageName
-            }
-        } else {
-            let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
-    }
-    
     @objc func updateUITemperatureUnit(_ notification: Notification) {
         locationManager.startUpdatingLocation()
     }
@@ -157,6 +157,50 @@ class CurrentLocationViewController: UIViewController {
             let alert = UIAlertController(title: "Unknown error", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true)
+        }
+    }
+    
+    func loadDays() {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        var minTemp = Int.max
+        var maxTemp = Int.min
+        let calendar = Calendar.current             /// gregorian calendar !!
+        var dateForComparison = forecastWeatherDataForDays[0].date
+        
+        // we go through all the forecast data and get the max and min temperatures and the midday's weather id (11-13)
+        // we always compare the starting date to the next item's date by day
+        // if they differ, we save a forecast day and set the next day's date as the comparison date
+        for index in 0...forecastWeatherDataForDays.count - 1 {
+            if forecastWeatherDataForDays[index].temperature < minTemp {
+                minTemp = forecastWeatherDataForDays[index].temperature
+            }
+            if forecastWeatherDataForDays[index].temperature > maxTemp {
+                maxTemp = forecastWeatherDataForDays[index].temperature
+            }
+            
+            if index < forecastWeatherDataForDays.count - 1 {
+                let dayOfComparisonDate = Int(dateForComparison.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+                let dayOfTheNextItem = Int(forecastWeatherDataForDays[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
+                let hourOfIndexedItem = Int(forecastWeatherDataForDays[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
+                
+                if dayOfComparisonDate != dayOfTheNextItem || index + 1 == forecastWeatherDataForDays.count - 1 {
+                    let dayDate = format.date(from: dateForComparison)!
+                    let forecastDay = ForecastDayData(maxTemperature: maxTemp,
+                                                      minTemperature: minTemp,
+                                                      day: daysArray[(calendar.component(.weekday, from: dayDate) - 1)]) /// weekday - 1 to get the correct index for daysArray
+                    forecastDay.weatherID = idForWeatherImage
+                    daysData.append(forecastDay)
+                    
+                    minTemp = Int.max
+                    maxTemp = Int.min
+                    dateForComparison = forecastWeatherDataForDays[index + 1].date
+                }
+                if [11,12,13].contains(hourOfIndexedItem!) {
+                    idForWeatherImage = forecastWeatherDataForDays[index].weatherId
+                }
+            }
         }
     }
 
@@ -202,7 +246,9 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                     case .success(let forecastData):
                         self.forecastWeatherDataForHours = forecastData.forHours
                         self.forecastWeatherDataForDays = forecastData.forDays
+                        self.loadDays()
                         self.weatherCollectionView.reloadData()
+                        self.forecastTableView.reloadData()
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     case .failure(let error):
                         if error as! WeatherError == WeatherError.requestFailed {
@@ -263,6 +309,29 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
         cell.degreeLabel.text = "\(weatherItem.temperature)°"
         
         let icons = weatherItem.getIconNameFromWeatherID(id: weatherItem.weatherId)
+        cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
+        
+        return cell
+    }
+    
+}
+
+extension CurrentLocationViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return daysData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ForecastTableViewCell") as! ForecastTableViewCell
+        
+        let day = daysData[indexPath.row]
+        
+        cell.dayLabel.text = day.day
+        cell.hottestLabel.text = "\(day.maxTemperature)°"
+        cell.coldestLabel.text = "\(day.minTemperature)°"
+
+        let icons = day.getIconNameFromWeatherID(id: day.weatherID)
         cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
         
         return cell
