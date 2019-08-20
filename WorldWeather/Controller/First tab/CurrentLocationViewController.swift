@@ -24,7 +24,7 @@ class CurrentLocationViewController: UIViewController {
     var daysData = [ForecastDayData]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         if imageNames.contains(imageName) {
             return .lightContent
         } else {
@@ -40,8 +40,8 @@ class CurrentLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: defaults.string(forKey: "backgroundImage") ?? "background")!)
-        currentLocationView.updateUI(accordingTo: defaults.string(forKey: "backgroundImage") ?? "background")
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: defaults.string(forKey: "backgroundImage") ?? "sunny")!)
+        currentLocationView.updateUI(accordingTo: defaults.string(forKey: "backgroundImage") ?? "sunny")
         self.setNeedsStatusBarAppearanceUpdate()
         
         setupNetworkMonitor()

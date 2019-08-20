@@ -32,7 +32,7 @@ class CurrentLocationView: UIView {
     }
     
     func updateUI(accordingTo backgroundImage: String) {
-        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         
         
         if imageNames.contains(backgroundImage) {
@@ -44,15 +44,6 @@ class CurrentLocationView: UIView {
             windLabel.textColor = .white
             cloudinessLabel.textColor = .white
             visibilityLabel.textColor = .white
-        } else if backgroundImage == "fog" {
-            cityLabel.textColor = .black
-            temperatureLabel.textColor = .black
-            descriptionLabel.textColor = .black
-            pressureLabel.textColor = .black
-            humidityLabel.textColor = .black
-            windLabel.textColor = .black
-            cloudinessLabel.textColor = .black
-            visibilityLabel.textColor = .black
         } else {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
