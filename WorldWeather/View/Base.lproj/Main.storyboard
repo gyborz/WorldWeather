@@ -24,10 +24,6 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GVN-pH-etq" customClass="CurrentLocationView" customModule="WorldWeather" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="813"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="Q0d-3S-Cf2" userLabel="Background Image">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="813"/>
-                                                <color key="backgroundColor" red="0.0" green="0.83529411760000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vkh-fF-SDa">
                                                 <rect key="frame" x="0.0" y="66" width="375" height="57"/>
                                                 <constraints>
@@ -132,7 +128,6 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="4J0-Rs-cf5" secondAttribute="trailing" id="1Dd-6K-ANh"/>
                                             <constraint firstItem="2Fi-DN-JHB" firstAttribute="top" secondItem="4J0-Rs-cf5" secondAttribute="bottom" id="6au-xA-8pO"/>
@@ -141,7 +136,6 @@
                                             <constraint firstItem="Vqh-vK-yIW" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="9fu-NB-eU8"/>
                                             <constraint firstAttribute="bottom" secondItem="Hu3-8z-Hx9" secondAttribute="bottom" constant="100" id="9wN-6J-ROT"/>
                                             <constraint firstItem="Hu3-8z-Hx9" firstAttribute="centerX" secondItem="Vqh-vK-yIW" secondAttribute="centerX" id="Cdg-OC-Nf3"/>
-                                            <constraint firstItem="Q0d-3S-Cf2" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="Jwd-l8-6bf"/>
                                             <constraint firstAttribute="trailing" secondItem="vUW-dm-gFm" secondAttribute="trailing" id="Qb4-bo-nN0"/>
                                             <constraint firstItem="Vkh-fF-SDa" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="T6I-Qb-6Ii"/>
                                             <constraint firstItem="Vqh-vK-yIW" firstAttribute="top" secondItem="2Fi-DN-JHB" secondAttribute="bottom" constant="12" id="U90-gy-QAX"/>
@@ -155,16 +149,12 @@
                                             <constraint firstItem="jKa-3y-eld" firstAttribute="top" secondItem="CeP-Kj-Fqi" secondAttribute="bottom" constant="20" id="gB6-RV-Wc7"/>
                                             <constraint firstAttribute="trailing" secondItem="jKa-3y-eld" secondAttribute="trailing" id="gNW-nf-9q5"/>
                                             <constraint firstItem="Vkh-fF-SDa" firstAttribute="top" secondItem="GVN-pH-etq" secondAttribute="top" constant="66" id="hYP-V5-ZRN"/>
-                                            <constraint firstAttribute="bottom" secondItem="Q0d-3S-Cf2" secondAttribute="bottom" id="iUO-cN-bUz"/>
                                             <constraint firstAttribute="trailing" secondItem="Vkh-fF-SDa" secondAttribute="trailing" id="m3G-oW-30j"/>
                                             <constraint firstItem="4J0-Rs-cf5" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="npE-e9-yIG"/>
                                             <constraint firstAttribute="trailing" secondItem="2Fi-DN-JHB" secondAttribute="trailing" id="qLD-tq-nYk"/>
                                             <constraint firstItem="vUW-dm-gFm" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="qcn-4j-fTf"/>
-                                            <constraint firstAttribute="trailing" secondItem="Q0d-3S-Cf2" secondAttribute="trailing" id="urC-Oz-xCG"/>
-                                            <constraint firstItem="Q0d-3S-Cf2" firstAttribute="top" secondItem="GVN-pH-etq" secondAttribute="top" id="xNn-d4-AXU"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="backgroundImage" destination="Q0d-3S-Cf2" id="TZH-1m-iXv"/>
                                             <outlet property="cityLabel" destination="Vkh-fF-SDa" id="kqu-Nw-zN3"/>
                                             <outlet property="cloudinessLabel" destination="Vrw-bp-yVy" id="DUc-rh-bM0"/>
                                             <outlet property="descriptionLabel" destination="CeP-Kj-Fqi" id="NsM-8g-rhk"/>
@@ -689,7 +679,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="906.5" height="1585"/>
         <image name="background2" width="511" height="974.5"/>
         <image name="location" width="25" height="25"/>
         <image name="magnifier" width="128" height="128"/>
@@ -697,6 +686,6 @@
         <image name="search" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uqh-lx-qeC"/>
+        <segue reference="S2Y-fe-dUq"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -37,9 +37,11 @@ class CurrentLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNetworkMonitor()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: defaults.string(forKey: "backgroundImage") ?? "background")!)
+        currentLocationView.updateUI(accordingTo: defaults.string(forKey: "backgroundImage") ?? "background")
+        self.setNeedsStatusBarAppearanceUpdate()
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        setupNetworkMonitor()
         
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
@@ -84,17 +86,23 @@ class CurrentLocationViewController: UIViewController {
     }
     
     func updateView(with weatherData: WeatherData) {
-        currentLocationView.updateUI(weatherData.city,
-                                     weatherData.temperature,
-                                     weatherData.description,
-                                     weatherData.pressure,
-                                     weatherData.humidity,
-                                     weatherData.wind,
-                                     weatherData.cloudiness,
-                                     weatherData.visibility)
+        currentLocationView.updateLabels(weatherData.city,
+                                         weatherData.temperature,
+                                         weatherData.description,
+                                         weatherData.pressure,
+                                         weatherData.humidity,
+                                         weatherData.wind,
+                                         weatherData.cloudiness,
+                                         weatherData.visibility)
         imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
-        currentLocationView.updateBackgroundImage(with: imageName)
+        UIView.transition(with: self.view,
+                          duration: 0.5,
+                          options: .transitionCrossDissolve,
+                          animations: { self.view.backgroundColor = UIColor(patternImage: UIImage(named: self.imageName)!) },
+                          completion: nil)
+        currentLocationView.updateUI(accordingTo: imageName)
         self.setNeedsStatusBarAppearanceUpdate()
+        defaults.set(imageName, forKey: "backgroundImage")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

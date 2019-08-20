@@ -10,7 +10,6 @@ import UIKit
 
 class CurrentLocationView: UIView {
 
-    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -29,7 +28,7 @@ class CurrentLocationView: UIView {
         forecastButton.layer.borderWidth = 1
     }
     
-    func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
+    func updateLabels(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
         cityLabel.text = String(city.split(separator: ",")[0])
         temperatureLabel.text = "\(temperature)°"
         descriptionLabel.text = description.capitalizingFirstLetter()
@@ -40,16 +39,11 @@ class CurrentLocationView: UIView {
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
     
-    func updateBackgroundImage(with imageName: String) {
+    func updateUI(accordingTo backgroundImage: String) {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
         
-        UIView.transition(with: self,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: { self.backgroundImage.image = UIImage(named: imageName) },
-                          completion: nil)
         
-        if imageNames.contains(imageName) {
+        if imageNames.contains(backgroundImage) {
             cityLabel.textColor = .white
             temperatureLabel.textColor = .white
             descriptionLabel.textColor = .white
@@ -61,7 +55,7 @@ class CurrentLocationView: UIView {
             forecastButton.setTitleColor(.white, for: .normal)
             forecastButton.layer.borderColor = UIColor.white.cgColor
             forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
-        } else if imageName == "fog" {
+        } else if backgroundImage == "fog" {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
             descriptionLabel.textColor = .black

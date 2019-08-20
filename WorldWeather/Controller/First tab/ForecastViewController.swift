@@ -52,7 +52,7 @@ class ForecastViewController: UIViewController {
                 let dayOfTheNextItem = Int(forecastWeatherData[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
                 let hourOfIndexedItem = Int(forecastWeatherData[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
                 
-                if dayOfComparisonDate! != dayOfTheNextItem! {
+                if dayOfComparisonDate != dayOfTheNextItem || index + 1 == forecastWeatherData.count - 1 {
                     let dayDate = format.date(from: dateForComparison)!
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
