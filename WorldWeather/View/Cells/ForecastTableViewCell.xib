@@ -35,17 +35,17 @@
                             <constraint firstAttribute="width" constant="45" id="9BU-Uf-xgo"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="PH6-3K-rds">
-                        <rect key="frame" x="295" y="28" width="85" height="24"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="PH6-3K-rds">
+                        <rect key="frame" x="290" y="28" width="90" height="24"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6WW-sq-7H9">
-                                <rect key="frame" x="0.0" y="0.0" width="32.5" height="24"/>
+                                <rect key="frame" x="0.0" y="0.0" width="45" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sA-8j-RlP">
-                                <rect key="frame" x="52.5" y="0.0" width="32.5" height="24"/>
+                                <rect key="frame" x="45" y="0.0" width="45" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -53,7 +53,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="Mnl-JU-ZR6"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="oAg-I6-wtJ"/>
+                            <constraint firstAttribute="width" constant="90" id="vf7-cZ-IXg"/>
                         </constraints>
                     </stackView>
                 </subviews>

@@ -185,7 +185,7 @@ class CurrentLocationViewController: UIViewController {
                 let dayOfTheNextItem = Int(forecastWeatherDataForDays[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
                 let hourOfIndexedItem = Int(forecastWeatherDataForDays[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
                 
-                if dayOfComparisonDate != dayOfTheNextItem || index + 1 == forecastWeatherDataForDays.count - 1 {
+                if dayOfComparisonDate != dayOfTheNextItem || (index + 1 == forecastWeatherDataForDays.count - 1 && daysData.count != 4) {
                     let dayDate = format.date(from: dateForComparison)!
                     let forecastDay = ForecastDayData(maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
