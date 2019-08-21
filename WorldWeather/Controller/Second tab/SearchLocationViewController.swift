@@ -126,7 +126,12 @@ class SearchLocationViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GetWeather" {
             let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,- ")
-            if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
+            
+            if searchLocationView.textField.text! == "" {
+                let alert = UIAlertController(title: "Empty textfield", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            } else if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
                 let alert = UIAlertController(title: "Please don't use special characters", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
