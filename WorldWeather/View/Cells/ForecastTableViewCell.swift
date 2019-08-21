@@ -10,7 +10,6 @@ import UIKit
 
 class ForecastTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var hottestLabel: UILabel!

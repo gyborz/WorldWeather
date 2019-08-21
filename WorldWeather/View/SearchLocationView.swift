@@ -17,14 +17,13 @@ class SearchLocationView: UIView {
     
     override func awakeFromNib() {
         
-        //self.backgroundColor = .clear
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
         
-        getWeatherButton.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
+        getWeatherButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         getWeatherButton.layer.cornerRadius = 15
         getWeatherButton.layer.borderWidth = 1
-        getWeatherButton.layer.borderColor = UIColor.black.cgColor
+        getWeatherButton.layer.borderColor = UIColor.white.cgColor
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tapGesture.cancelsTouchesInView = false

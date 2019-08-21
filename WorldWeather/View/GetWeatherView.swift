@@ -44,7 +44,7 @@ class GetWeatherView: UIView {
     }
     
     func updateBackgroundImage(with imageName: String) {
-        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         
         self.backgroundImage.image = UIImage(named: imageName)
         
@@ -57,15 +57,6 @@ class GetWeatherView: UIView {
             windLabel.textColor = .white
             cloudinessLabel.textColor = .white
             visibilityLabel.textColor = .white
-        } else if imageName == "background" {
-            cityLabel.textColor = .black
-            temperatureLabel.textColor = .black
-            descriptionLabel.textColor = .black
-            pressureLabel.textColor = .black
-            humidityLabel.textColor = .black
-            windLabel.textColor = .black
-            cloudinessLabel.textColor = .black
-            visibilityLabel.textColor = .black
         } else {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
