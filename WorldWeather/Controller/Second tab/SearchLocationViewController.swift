@@ -202,7 +202,6 @@ extension SearchLocationViewController: PreviousLocationDelegate {
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        locationTableView.separatorStyle = previousLocationsWeather.count != 0 ? .none : .singleLine
         return previousLocationsWeather.count
     }
     

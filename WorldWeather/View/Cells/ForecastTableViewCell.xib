@@ -66,6 +66,7 @@
                     <constraint firstAttribute="trailing" secondItem="PH6-3K-rds" secondAttribute="trailing" constant="20" id="yVe-ll-nkW"/>
                 </constraints>
             </tableViewCellContentView>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="coldestLabel" destination="7sA-8j-RlP" id="kGQ-Y0-BtQ"/>
                 <outlet property="dayLabel" destination="gWX-Mx-d1b" id="x3Y-hG-6kN"/>

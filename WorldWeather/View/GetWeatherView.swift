@@ -10,6 +10,8 @@ import UIKit
 
 class GetWeatherView: UIView {
 
+    @IBOutlet weak var handle: UIView!
+    @IBOutlet weak var handleArea: UIView!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -19,17 +21,12 @@ class GetWeatherView: UIView {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
-    @IBOutlet weak var closeButton: UIButton!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        backgroundImage.layer.cornerRadius = 10
-        
-        closeButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
-        closeButton.layer.cornerRadius = 15
-        closeButton.layer.borderWidth = 1
-        closeButton.layer.borderColor = UIColor.red.cgColor
+        backgroundImage.roundCorners([.topLeft, .topRight], radius: 30)
+        handle.layer.cornerRadius = 2
     }
     
     func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
@@ -49,6 +46,7 @@ class GetWeatherView: UIView {
         self.backgroundImage.image = UIImage(named: imageName)
         
         if imageNames.contains(imageName) {
+            handle.backgroundColor = .white
             cityLabel.textColor = .white
             temperatureLabel.textColor = .white
             descriptionLabel.textColor = .white
@@ -58,6 +56,7 @@ class GetWeatherView: UIView {
             cloudinessLabel.textColor = .white
             visibilityLabel.textColor = .white
         } else {
+            handle.backgroundColor = .lightGray
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
             descriptionLabel.textColor = .black
@@ -69,4 +68,15 @@ class GetWeatherView: UIView {
         }
     }
 
+}
+
+extension UIView {
+    
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
+    }
+    
 }

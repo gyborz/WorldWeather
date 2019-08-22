@@ -22,6 +22,10 @@ class GetWeatherViewController: UIViewController {
     var idForWeatherImage = Int()
     var imageName = "background"
     
+    let minimumVelocityToHide: CGFloat = 1500
+    let minimumScreenRatioToHide: CGFloat = 0.3
+    let animationDuration: TimeInterval = 0.3
+    
     @IBOutlet weak var getWeatherView: GetWeatherView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
     @IBOutlet weak var forecastTableView: UITableView!
@@ -30,16 +34,24 @@ class GetWeatherViewController: UIViewController {
         super.viewDidLoad()
         
         getWeatherView.layer.cornerRadius = 10
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
+        getWeatherView.addGestureRecognizer(panGesture)
 
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
-        forecastTableView.rowHeight = 60
+        
         forecastTableView.allowsSelection = false
         forecastTableView.backgroundColor = .clear
         forecastTableView.separatorStyle = .none
         
         if UIScreen.main.bounds.height >= 812 {
+            forecastTableView.rowHeight = 65
+            forecastTableView.isUserInteractionEnabled = false
+        } else if UIScreen.main.bounds.height == 568 {
+            forecastTableView.rowHeight = 45
+        } else {
+            forecastTableView.rowHeight = 60
             forecastTableView.isUserInteractionEnabled = false
         }
         
@@ -47,6 +59,12 @@ class GetWeatherViewController: UIViewController {
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
         weatherCollectionView.backgroundColor = .clear
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height)
     }
     
     func loadDays() {
@@ -207,8 +225,51 @@ class GetWeatherViewController: UIViewController {
         }
     }
     
-    @IBAction func closeButtonTapped(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+    @objc func onPan(_ panGesture: UIPanGestureRecognizer) {
+        func slideViewVerticallyTo(_ y: CGFloat) {
+            self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height + y)
+        }
+        
+        switch panGesture.state {
+            
+        case .began, .changed:
+            // If pan started or is ongoing then
+            // slide the view to follow the finger
+            let translation = panGesture.translation(in: view)
+            let y = max(0, translation.y)
+            slideViewVerticallyTo(y)
+            
+        case .ended:
+            // If pan ended, decide if we should close or reset the view
+            // based on the final position and the speed of the gesture
+            let translation = panGesture.translation(in: view)
+            let velocity = panGesture.velocity(in: view)
+            let closing = (translation.y > self.view.frame.size.height * minimumScreenRatioToHide) || (velocity.y > minimumVelocityToHide)
+            
+            if closing {
+                UIView.animate(withDuration: animationDuration, animations: {
+                    // If closing, animate to the bottom of the view
+                    slideViewVerticallyTo(self.view.frame.size.height)
+                }, completion: { (isCompleted) in
+                    if isCompleted {
+                        // Dismiss the view when it dissapeared
+                        self.dismiss(animated: false, completion: nil)
+                    }
+                })
+            } else {
+                // If not closing, reset the view to the top
+                UIView.animate(withDuration: animationDuration, animations: {
+                    slideViewVerticallyTo(0)
+                })
+            }
+            
+        default:
+            // If gesture state is undefined, reset the view to the top
+            UIView.animate(withDuration: animationDuration, animations: {
+                slideViewVerticallyTo(0)
+            })
+            
+        }
     }
 
 }
@@ -228,7 +289,6 @@ extension GetWeatherViewController: UITableViewDelegate, UITableViewDataSource {
         cell.hottestLabel.text = "\(day.maxTemperature)°"
         cell.coldestLabel.text = "\(day.minTemperature)°"
         
-        let imageName = day.getBackgroundPictureNameFromWeatherID(id: day.weatherID)
         let icons = day.getIconNameFromWeatherID(id: day.weatherID)
         cell.updateUIAccordingTo(backgroundPicture: imageName, with: icons)
         
