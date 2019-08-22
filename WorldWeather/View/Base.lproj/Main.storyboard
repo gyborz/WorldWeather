@@ -100,6 +100,9 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="GqY-Mk-aHk">
+                                                <rect key="frame" x="0.0" y="442" width="375" height="140"/>
+                                            </activityIndicatorView>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vqh-vK-yIW">
                                                 <rect key="frame" x="0.0" y="442" width="375" height="140"/>
                                                 <constraints>
@@ -120,14 +123,25 @@
                                                     <constraint firstAttribute="height" constant="220" id="PDJ-uQ-5U4"/>
                                                 </constraints>
                                             </tableView>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="MEz-A6-66t">
+                                                <rect key="frame" x="0.0" y="592" width="375" height="220"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="220" id="UIc-NJ-52Z"/>
+                                                </constraints>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="MEz-A6-66t" firstAttribute="top" secondItem="Vqh-vK-yIW" secondAttribute="bottom" constant="10" id="0y0-tI-Huk"/>
                                             <constraint firstAttribute="trailing" secondItem="4J0-Rs-cf5" secondAttribute="trailing" id="1Dd-6K-ANh"/>
+                                            <constraint firstItem="fxa-3R-eqp" firstAttribute="top" secondItem="GqY-Mk-aHk" secondAttribute="bottom" constant="10" id="4pi-fB-Qco"/>
                                             <constraint firstItem="2Fi-DN-JHB" firstAttribute="top" secondItem="4J0-Rs-cf5" secondAttribute="bottom" id="6au-xA-8pO"/>
                                             <constraint firstAttribute="trailing" secondItem="Vqh-vK-yIW" secondAttribute="trailing" id="7Ie-nN-9K4"/>
                                             <constraint firstItem="jKa-3y-eld" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="8KE-7Y-KfL"/>
                                             <constraint firstItem="Vqh-vK-yIW" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="9fu-NB-eU8"/>
+                                            <constraint firstAttribute="trailing" secondItem="GqY-Mk-aHk" secondAttribute="trailing" id="ISA-E5-6Cc"/>
                                             <constraint firstAttribute="trailing" secondItem="fxa-3R-eqp" secondAttribute="trailing" id="JEN-HJ-iSI"/>
+                                            <constraint firstItem="GqY-Mk-aHk" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="K7o-2y-3cW"/>
+                                            <constraint firstItem="MEz-A6-66t" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="PaV-0o-P3c"/>
                                             <constraint firstAttribute="trailing" secondItem="vUW-dm-gFm" secondAttribute="trailing" id="Qb4-bo-nN0"/>
                                             <constraint firstItem="Vkh-fF-SDa" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="T6I-Qb-6Ii"/>
                                             <constraint firstItem="Vqh-vK-yIW" firstAttribute="top" secondItem="2Fi-DN-JHB" secondAttribute="bottom" constant="12" id="U90-gy-QAX"/>
@@ -136,6 +150,7 @@
                                             <constraint firstItem="CeP-Kj-Fqi" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="Vnh-KB-44Z"/>
                                             <constraint firstItem="fxa-3R-eqp" firstAttribute="top" secondItem="Vqh-vK-yIW" secondAttribute="bottom" constant="10" id="ZWr-qL-6yf"/>
                                             <constraint firstAttribute="trailing" secondItem="CeP-Kj-Fqi" secondAttribute="trailing" id="abG-N7-GCN"/>
+                                            <constraint firstAttribute="trailing" secondItem="MEz-A6-66t" secondAttribute="trailing" id="eSi-xz-1xK"/>
                                             <constraint firstItem="vUW-dm-gFm" firstAttribute="top" secondItem="Vkh-fF-SDa" secondAttribute="bottom" constant="25" id="fXG-e2-g4Q"/>
                                             <constraint firstItem="CeP-Kj-Fqi" firstAttribute="top" secondItem="vUW-dm-gFm" secondAttribute="bottom" constant="10" id="fa1-Sc-Tao"/>
                                             <constraint firstItem="jKa-3y-eld" firstAttribute="top" secondItem="CeP-Kj-Fqi" secondAttribute="bottom" constant="10" id="gB6-RV-Wc7"/>
@@ -145,14 +160,17 @@
                                             <constraint firstItem="4J0-Rs-cf5" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="npE-e9-yIG"/>
                                             <constraint firstAttribute="trailing" secondItem="2Fi-DN-JHB" secondAttribute="trailing" id="qLD-tq-nYk"/>
                                             <constraint firstItem="vUW-dm-gFm" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="qcn-4j-fTf"/>
+                                            <constraint firstItem="GqY-Mk-aHk" firstAttribute="top" secondItem="2Fi-DN-JHB" secondAttribute="bottom" constant="12" id="tue-Gm-XDh"/>
                                             <constraint firstItem="fxa-3R-eqp" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="vmg-ac-PR1"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="cityLabel" destination="Vkh-fF-SDa" id="kqu-Nw-zN3"/>
                                             <outlet property="cloudinessLabel" destination="Vrw-bp-yVy" id="DUc-rh-bM0"/>
+                                            <outlet property="collectionViewIndicator" destination="GqY-Mk-aHk" id="32n-4n-jcj"/>
                                             <outlet property="descriptionLabel" destination="CeP-Kj-Fqi" id="NsM-8g-rhk"/>
                                             <outlet property="humidityLabel" destination="uLg-mV-gmk" id="VAV-sC-1Ek"/>
                                             <outlet property="pressureLabel" destination="IBz-qw-kpD" id="RoA-q6-u78"/>
+                                            <outlet property="tableViewIndicator" destination="MEz-A6-66t" id="IWP-8f-vFA"/>
                                             <outlet property="temperatureLabel" destination="vUW-dm-gFm" id="9Oa-P2-cA4"/>
                                             <outlet property="visibilityLabel" destination="2Fi-DN-JHB" id="ICk-ED-2iG"/>
                                             <outlet property="windLabel" destination="aud-Bm-Xb6" id="RJj-bm-GbN"/>
@@ -255,6 +273,9 @@
                                             <action selector="chooseTemperatureUnit:" destination="8rJ-Kc-sve" eventType="valueChanged" id="dXK-zE-Cms"/>
                                         </connections>
                                     </segmentedControl>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yuk-hh-ZMm">
+                                        <rect key="frame" x="0.0" y="283" width="375" height="529"/>
+                                    </activityIndicatorView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2zH-2D-iPb">
                                         <rect key="frame" x="0.0" y="283" width="375" height="529"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -263,10 +284,13 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="WUd-hL-YQh" firstAttribute="centerX" secondItem="bKv-8T-488" secondAttribute="centerX" id="493-oH-0Uf"/>
+                                    <constraint firstItem="yuk-hh-ZMm" firstAttribute="leading" secondItem="bKv-8T-488" secondAttribute="leading" id="4Be-YV-6ps"/>
                                     <constraint firstItem="2zH-2D-iPb" firstAttribute="top" secondItem="WUd-hL-YQh" secondAttribute="bottom" constant="25" id="7Zf-gr-0hs"/>
                                     <constraint firstAttribute="trailing" secondItem="2zH-2D-iPb" secondAttribute="trailing" id="B6k-px-g4Z"/>
                                     <constraint firstItem="t79-lQ-2F2" firstAttribute="centerX" secondItem="bKv-8T-488" secondAttribute="centerX" id="Gwz-aA-wN8"/>
                                     <constraint firstAttribute="trailing" secondItem="NSQ-pZ-B9Y" secondAttribute="trailing" id="H1P-1u-5q9"/>
+                                    <constraint firstItem="yuk-hh-ZMm" firstAttribute="top" secondItem="WUd-hL-YQh" secondAttribute="bottom" constant="25" id="Hkr-Q3-j7z"/>
+                                    <constraint firstAttribute="trailing" secondItem="yuk-hh-ZMm" secondAttribute="trailing" id="IA6-J3-JCr"/>
                                     <constraint firstAttribute="bottom" secondItem="2zH-2D-iPb" secondAttribute="bottom" id="Jar-Wy-1jf"/>
                                     <constraint firstItem="JHT-U9-2KC" firstAttribute="centerX" secondItem="bKv-8T-488" secondAttribute="centerX" id="NXd-CR-0f6"/>
                                     <constraint firstItem="NSQ-pZ-B9Y" firstAttribute="top" secondItem="bKv-8T-488" secondAttribute="top" constant="50" id="O3d-cU-3VG"/>
@@ -281,12 +305,14 @@
                                     <constraint firstItem="JHT-U9-2KC" firstAttribute="top" secondItem="t79-lQ-2F2" secondAttribute="bottom" constant="25" id="hO9-gb-C65"/>
                                     <constraint firstAttribute="bottom" secondItem="2zH-2D-iPb" secondAttribute="bottom" id="iil-hj-VOP"/>
                                     <constraint firstAttribute="trailing" secondItem="lcy-9m-pCy" secondAttribute="trailing" id="pOw-Yb-jJc"/>
+                                    <constraint firstAttribute="bottom" secondItem="yuk-hh-ZMm" secondAttribute="bottom" id="pjp-o9-ob4"/>
                                     <constraint firstItem="2zH-2D-iPb" firstAttribute="leading" secondItem="bKv-8T-488" secondAttribute="leading" id="qtJ-zW-P3p"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="backgroundImage" destination="lcy-9m-pCy" id="L9b-YN-WRi"/>
                                     <outlet property="getWeatherButton" destination="JHT-U9-2KC" id="C25-6c-8oX"/>
                                     <outlet property="segmentedControl" destination="WUd-hL-YQh" id="cwH-SY-ZHE"/>
+                                    <outlet property="tableViewIndicator" destination="yuk-hh-ZMm" id="JE2-sj-H6U"/>
                                     <outlet property="textField" destination="t79-lQ-2F2" id="hPl-ed-OEN"/>
                                 </connections>
                             </view>

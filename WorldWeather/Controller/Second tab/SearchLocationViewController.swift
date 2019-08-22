@@ -51,6 +51,8 @@ class SearchLocationViewController: UIViewController {
     func loadLocations() {
         if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]] {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            searchLocationView.tableViewIndicator.startAnimating()
+            
             locations = previousLocations
             previousLocationsWeather = []
             var cityIndex = 0
@@ -70,6 +72,8 @@ class SearchLocationViewController: UIViewController {
                                     self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    self.searchLocationView.tableViewIndicator.stopAnimating()
+                                    self.searchLocationView.tableViewIndicator.isHidden = true
                                 }
                             case .failure(let error):
                                 if error as! WeatherError == WeatherError.requestFailed {
@@ -100,6 +104,8 @@ class SearchLocationViewController: UIViewController {
                                     self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    self.searchLocationView.tableViewIndicator.stopAnimating()
+                                    self.searchLocationView.tableViewIndicator.isHidden = true
                                 }
                             case .failure(let error):
                                 if error as! WeatherError == WeatherError.requestFailed {

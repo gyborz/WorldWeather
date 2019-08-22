@@ -18,6 +18,8 @@ class CurrentLocationView: UIView {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
+    @IBOutlet weak var collectionViewIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
     
     func updateLabels(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {

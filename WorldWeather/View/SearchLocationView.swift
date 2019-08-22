@@ -14,6 +14,7 @@ class SearchLocationView: UIView {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var getWeatherButton: UIButton!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         

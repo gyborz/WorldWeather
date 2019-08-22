@@ -100,6 +100,9 @@ class CurrentLocationViewController: UIViewController {
     }
     
     func updateView(with weatherData: WeatherData) {
+        currentLocationView.collectionViewIndicator.startAnimating()
+        currentLocationView.tableViewIndicator.startAnimating()
+        
         currentLocationView.updateLabels(weatherData.city,
                                          weatherData.temperature,
                                          weatherData.description,
@@ -249,7 +252,12 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                         self.loadDays()
                         self.weatherCollectionView.reloadData()
                         self.forecastTableView.reloadData()
+                        
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        self.currentLocationView.collectionViewIndicator.stopAnimating()
+                        self.currentLocationView.tableViewIndicator.stopAnimating()
+                        self.currentLocationView.collectionViewIndicator.isHidden = true
+                        self.currentLocationView.tableViewIndicator.isHidden = true
                     case .failure(let error):
                         if error as! WeatherError == WeatherError.requestFailed {
                             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
