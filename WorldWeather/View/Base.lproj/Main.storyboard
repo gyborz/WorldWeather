@@ -189,12 +189,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="yF1-SO-T45" secondAttribute="trailing" id="7wu-QN-GQd"/>
-                            <constraint firstItem="yF1-SO-T45" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="UQj-Mz-PfB"/>
+                            <constraint firstItem="2cb-wO-8l9" firstAttribute="trailing" secondItem="yF1-SO-T45" secondAttribute="trailing" id="7wu-QN-GQd"/>
+                            <constraint firstItem="yF1-SO-T45" firstAttribute="leading" secondItem="2cb-wO-8l9" secondAttribute="leading" id="UQj-Mz-PfB"/>
                             <constraint firstAttribute="bottom" secondItem="yF1-SO-T45" secondAttribute="bottom" id="bzG-MC-8Vm"/>
                             <constraint firstItem="yF1-SO-T45" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="ilw-BX-jd5"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
+                        <viewLayoutGuide key="safeArea" id="2cb-wO-8l9"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="location" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
@@ -320,11 +320,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="bKv-8T-488" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="2h5-7Y-5Ly"/>
-                            <constraint firstItem="bKv-8T-488" firstAttribute="trailing" secondItem="O1u-W8-tvY" secondAttribute="trailing" id="8ns-Vk-4pi"/>
-                            <constraint firstItem="bKv-8T-488" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="j0k-BM-ORa"/>
+                            <constraint firstItem="bKv-8T-488" firstAttribute="trailing" secondItem="z9l-Kw-oY3" secondAttribute="trailing" id="8ns-Vk-4pi"/>
+                            <constraint firstItem="bKv-8T-488" firstAttribute="leading" secondItem="z9l-Kw-oY3" secondAttribute="leading" id="j0k-BM-ORa"/>
                             <constraint firstAttribute="bottom" secondItem="bKv-8T-488" secondAttribute="bottom" id="rEc-xW-yjw"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
+                        <viewLayoutGuide key="safeArea" id="z9l-Kw-oY3"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="search" id="cPa-gy-q4n">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
@@ -379,17 +379,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Jqs-lt-Mmt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="efG-rS-dTv" secondAttribute="leading" symbolic="YES" id="0wu-xS-qRy"/>
-                            <constraint firstItem="Jqs-lt-Mmt" firstAttribute="top" secondItem="efG-rS-dTv" secondAttribute="top" id="ORv-Up-07d"/>
+                            <constraint firstItem="Jqs-lt-Mmt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wNV-ZI-iQw" secondAttribute="leading" symbolic="YES" id="0wu-xS-qRy"/>
+                            <constraint firstItem="Jqs-lt-Mmt" firstAttribute="top" secondItem="wNV-ZI-iQw" secondAttribute="top" id="ORv-Up-07d"/>
                             <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="top" secondItem="MHH-oM-nsn" secondAttribute="top" id="PPK-yH-SKR"/>
-                            <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="leading" secondItem="MHH-oM-nsn" secondAttribute="leading" id="Yea-wF-cR2"/>
-                            <constraint firstItem="csB-SE-6ca" firstAttribute="centerX" secondItem="MHH-oM-nsn" secondAttribute="centerX" id="YtM-6f-8Nv"/>
+                            <constraint firstItem="ZjK-XJ-HTZ" firstAttribute="leading" secondItem="wNV-ZI-iQw" secondAttribute="leading" id="Yea-wF-cR2"/>
+                            <constraint firstItem="csB-SE-6ca" firstAttribute="centerX" secondItem="wNV-ZI-iQw" secondAttribute="centerX" id="YtM-6f-8Nv"/>
                             <constraint firstAttribute="bottom" secondItem="ZjK-XJ-HTZ" secondAttribute="bottom" id="aTP-Rn-xWX"/>
-                            <constraint firstItem="efG-rS-dTv" firstAttribute="bottom" secondItem="csB-SE-6ca" secondAttribute="bottom" constant="25" id="egb-YO-05p"/>
-                            <constraint firstItem="efG-rS-dTv" firstAttribute="trailing" secondItem="Jqs-lt-Mmt" secondAttribute="trailing" constant="10" id="kvH-6Y-OFB"/>
-                            <constraint firstAttribute="trailing" secondItem="ZjK-XJ-HTZ" secondAttribute="trailing" id="sge-A6-drf"/>
+                            <constraint firstItem="wNV-ZI-iQw" firstAttribute="bottom" secondItem="csB-SE-6ca" secondAttribute="bottom" constant="25" id="egb-YO-05p"/>
+                            <constraint firstItem="wNV-ZI-iQw" firstAttribute="trailing" secondItem="Jqs-lt-Mmt" secondAttribute="trailing" constant="10" id="kvH-6Y-OFB"/>
+                            <constraint firstItem="wNV-ZI-iQw" firstAttribute="trailing" secondItem="ZjK-XJ-HTZ" secondAttribute="trailing" id="sge-A6-drf"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="efG-rS-dTv"/>
+                        <viewLayoutGuide key="safeArea" id="wNV-ZI-iQw"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="map" id="KB9-qd-88c">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
@@ -619,12 +619,12 @@
                         </subviews>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Mag-IE-fSY" firstAttribute="leading" secondItem="fpF-tv-G7b" secondAttribute="leading" id="8DP-3M-Xde"/>
-                            <constraint firstAttribute="trailing" secondItem="Mag-IE-fSY" secondAttribute="trailing" id="FTl-bL-cuP"/>
+                            <constraint firstItem="Mag-IE-fSY" firstAttribute="leading" secondItem="56E-Uk-2JQ" secondAttribute="leading" id="8DP-3M-Xde"/>
+                            <constraint firstItem="56E-Uk-2JQ" firstAttribute="trailing" secondItem="Mag-IE-fSY" secondAttribute="trailing" id="FTl-bL-cuP"/>
                             <constraint firstAttribute="bottom" secondItem="Mag-IE-fSY" secondAttribute="bottom" id="L6Y-Ac-qw9"/>
-                            <constraint firstItem="Mag-IE-fSY" firstAttribute="top" secondItem="BML-ku-gU1" secondAttribute="top" constant="90" id="Qa5-yJ-ep6"/>
+                            <constraint firstItem="Mag-IE-fSY" firstAttribute="top" secondItem="56E-Uk-2JQ" secondAttribute="top" constant="90" id="Qa5-yJ-ep6"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="BML-ku-gU1"/>
+                        <viewLayoutGuide key="safeArea" id="56E-Uk-2JQ"/>
                     </view>
                     <connections>
                         <outlet property="forecastTableView" destination="hcH-w1-Dgk" id="7OQ-Xx-XpT"/>
@@ -640,11 +640,17 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" itemPositioning="centered" id="W28-zg-YXA">
+                    <tabBar key="tabBar" contentMode="scaleToFill" itemPositioning="centered" id="W28-zg-YXA" customClass="BlurredTabBar" customModule="WorldWeather" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
+                                <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
@@ -666,6 +672,6 @@
         <image name="sunny" width="652.5" height="1213.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uqh-lx-qeC"/>
+        <segue reference="a1K-hA-ES5"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -55,7 +55,11 @@ class WeatherData {
             return "snow"
             
         case 701...771 :
-            return "fog"
+            if 5 < hour && hour < 19 {
+                return "fog"
+            } else {
+                return "cloudy_moon"
+            }
             
         case 800 :
             if 5 < hour && hour < 19 {
