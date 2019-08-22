@@ -336,12 +336,16 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csB-SE-6ca">
-                                <rect key="frame" x="130" y="671" width="115" height="33"/>
+                                <rect key="frame" x="122.66666666666669" y="669" width="130" height="35"/>
+                                <color key="backgroundColor" red="0.38749206852791873" green="0.38749206852791873" blue="0.38749206852791873" alpha="0.7853167808219178" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="115" id="nEk-k9-hbF"/>
+                                    <constraint firstAttribute="height" constant="35" id="kbM-S9-u2S"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="nEk-k9-hbF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <state key="normal" title="Get Weather"/>
+                                <state key="normal" title="Get Weather">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherFromMap" modalPresentationStyle="overFullScreen" id="uqh-lx-qeC"/>
                                 </connections>
@@ -392,16 +396,16 @@
                                         <rect key="frame" x="8" y="30" width="359" height="145"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0pE-aX-KRF">
-                                                <rect key="frame" x="0.0" y="0.0" width="175" height="145"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="160" height="145"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="--°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.90000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="oGw-VA-gfj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="175" height="104.33333333333333"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="104.33333333333333"/>
                                                         <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="80"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="thunderstorm with heavy drizzle" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="Rvp-8v-crF">
-                                                        <rect key="frame" x="0.0" y="104.33333333333331" width="175" height="40.666666666666657"/>
+                                                        <rect key="frame" x="0.0" y="104.33333333333331" width="160" height="40.666666666666657"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -411,7 +415,7 @@
                                                     <constraint firstItem="oGw-VA-gfj" firstAttribute="leading" secondItem="0pE-aX-KRF" secondAttribute="leading" id="Dbr-Bp-TZ4"/>
                                                     <constraint firstItem="Rvp-8v-crF" firstAttribute="top" secondItem="oGw-VA-gfj" secondAttribute="bottom" id="NK0-Rd-YAJ"/>
                                                     <constraint firstAttribute="trailing" secondItem="Rvp-8v-crF" secondAttribute="trailing" id="Uac-iY-Hq2"/>
-                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="175" id="h6D-6Y-EIu"/>
+                                                    <constraint firstAttribute="width" constant="160" id="h6D-6Y-EIu"/>
                                                     <constraint firstAttribute="bottom" secondItem="Rvp-8v-crF" secondAttribute="bottom" id="lLc-nB-W5T"/>
                                                     <constraint firstAttribute="trailing" secondItem="oGw-VA-gfj" secondAttribute="trailing" id="pLR-fl-k5r"/>
                                                     <constraint firstItem="oGw-VA-gfj" firstAttribute="top" secondItem="0pE-aX-KRF" secondAttribute="top" id="ryS-xa-Csn"/>
@@ -419,43 +423,43 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-Bf-Agi">
-                                                <rect key="frame" x="185" y="0.0" width="174" height="145"/>
+                                                <rect key="frame" x="170" y="0.0" width="189" height="145"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="0mD-UP-RQW">
-                                                        <rect key="frame" x="0.0" y="0.0" width="174" height="23.666666666666668"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="189" height="23.666666666666668"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="TGA-Xv-w94">
-                                                        <rect key="frame" x="0.0" y="33.66666666666665" width="174" height="111.33333333333331"/>
+                                                        <rect key="frame" x="0.0" y="33.66666666666665" width="189" height="111.33333333333331"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pressure: -- hPa" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="6qZ-Hi-bRg">
-                                                                <rect key="frame" x="0.0" y="0.0" width="174" height="20.333333333333332"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="189" height="20.333333333333332"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Humidity: --%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="BOc-LG-r5S">
-                                                                <rect key="frame" x="0.0" y="23.333333333333343" width="174" height="20.333333333333329"/>
+                                                                <rect key="frame" x="0.0" y="23.333333333333343" width="189" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wind: -- km/h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-K3-cVa">
-                                                                <rect key="frame" x="0.0" y="46.666666666666686" width="174" height="20.333333333333329"/>
+                                                                <rect key="frame" x="0.0" y="46.666666666666686" width="189" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cloudiness: --%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="Fzt-hV-obc">
-                                                                <rect key="frame" x="0.0" y="70.000000000000028" width="174" height="20.333333333333329"/>
+                                                                <rect key="frame" x="0.0" y="70.000000000000028" width="189" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Visibility: -- km" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="aRy-53-nwJ">
-                                                                <rect key="frame" x="0.0" y="93.333333333333343" width="174" height="18"/>
+                                                                <rect key="frame" x="0.0" y="93.333333333333343" width="189" height="18"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -620,6 +624,6 @@
         <image name="sunny" width="652.5" height="1213.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="S2Y-fe-dUq"/>
+        <segue reference="uqh-lx-qeC"/>
     </inferredMetricsTieBreakers>
 </document>
