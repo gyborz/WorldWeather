@@ -21,6 +21,8 @@ class GetWeatherView: UIView {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
+    @IBOutlet weak var collectionViewIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
     override func layoutSubviews() {
         super.layoutSubviews()

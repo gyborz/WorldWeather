@@ -505,6 +505,9 @@
                                             <constraint firstItem="roJ-Bf-Agi" firstAttribute="top" secondItem="pjU-vn-bRy" secondAttribute="top" id="yRz-ry-tpI"/>
                                         </constraints>
                                     </stackView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="dvE-HS-thi">
+                                        <rect key="frame" x="0.0" y="175" width="375" height="135"/>
+                                    </activityIndicatorView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WDB-GH-zDh">
                                         <rect key="frame" x="0.0" y="185" width="375" height="125"/>
                                         <constraints>
@@ -518,6 +521,9 @@
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8K6-XF-EsW">
+                                        <rect key="frame" x="0.0" y="310" width="375" height="368"/>
+                                    </activityIndicatorView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-w1-Dgk">
                                         <rect key="frame" x="0.0" y="310" width="375" height="368"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -541,10 +547,14 @@
                                     </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="dvE-HS-thi" secondAttribute="trailing" id="2WJ-tn-c8q"/>
                                     <constraint firstItem="hcH-w1-Dgk" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="2pT-LM-ryK"/>
                                     <constraint firstItem="bpk-kL-R4Q" firstAttribute="top" secondItem="Mag-IE-fSY" secondAttribute="top" id="7Ap-mm-PdI"/>
                                     <constraint firstAttribute="trailing" secondItem="hcH-w1-Dgk" secondAttribute="trailing" id="8hV-jE-p4g"/>
                                     <constraint firstItem="WDB-GH-zDh" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="8ko-TQ-9EW"/>
+                                    <constraint firstItem="8K6-XF-EsW" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="CZW-ap-XZO"/>
+                                    <constraint firstAttribute="bottom" secondItem="8K6-XF-EsW" secondAttribute="bottom" id="IlK-O6-xDp"/>
+                                    <constraint firstAttribute="trailing" secondItem="8K6-XF-EsW" secondAttribute="trailing" id="JWb-z2-fJE"/>
                                     <constraint firstItem="mJ5-WF-20H" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="LKO-Ks-u2g"/>
                                     <constraint firstAttribute="bottom" secondItem="hcH-w1-Dgk" secondAttribute="bottom" id="MsQ-ka-gkO"/>
                                     <constraint firstItem="pjU-vn-bRy" firstAttribute="top" secondItem="Mag-IE-fSY" secondAttribute="top" constant="30" id="Myy-pE-YED"/>
@@ -554,9 +564,13 @@
                                     <constraint firstItem="hcH-w1-Dgk" firstAttribute="top" secondItem="WDB-GH-zDh" secondAttribute="bottom" id="d1q-ka-oOf"/>
                                     <constraint firstItem="mJ5-WF-20H" firstAttribute="top" secondItem="Mag-IE-fSY" secondAttribute="top" id="dMy-hP-lan"/>
                                     <constraint firstAttribute="bottom" secondItem="bpk-kL-R4Q" secondAttribute="bottom" id="f0k-nN-mJM"/>
+                                    <constraint firstItem="hcH-w1-Dgk" firstAttribute="top" secondItem="dvE-HS-thi" secondAttribute="bottom" id="fsr-7N-5nr"/>
                                     <constraint firstItem="WDB-GH-zDh" firstAttribute="top" secondItem="pjU-vn-bRy" secondAttribute="bottom" constant="10" id="ggq-lW-zJo"/>
+                                    <constraint firstItem="dvE-HS-thi" firstAttribute="top" secondItem="pjU-vn-bRy" secondAttribute="bottom" id="h3G-TS-b2Q"/>
                                     <constraint firstItem="bpk-kL-R4Q" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="jld-1w-vKA"/>
                                     <constraint firstAttribute="trailing" secondItem="pjU-vn-bRy" secondAttribute="trailing" constant="8" id="ne8-wd-opt"/>
+                                    <constraint firstItem="8K6-XF-EsW" firstAttribute="top" secondItem="dvE-HS-thi" secondAttribute="bottom" id="u1O-Ue-sdo"/>
+                                    <constraint firstItem="dvE-HS-thi" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" id="ux1-UI-oUf"/>
                                     <constraint firstItem="pjU-vn-bRy" firstAttribute="leading" secondItem="Mag-IE-fSY" secondAttribute="leading" constant="8" id="yWv-md-mBd"/>
                                     <constraint firstAttribute="trailing" secondItem="mJ5-WF-20H" secondAttribute="trailing" id="zpl-EP-wkl"/>
                                 </constraints>
@@ -564,11 +578,13 @@
                                     <outlet property="backgroundImage" destination="bpk-kL-R4Q" id="8QF-iC-eEL"/>
                                     <outlet property="cityLabel" destination="0mD-UP-RQW" id="7Xr-0W-YeH"/>
                                     <outlet property="cloudinessLabel" destination="Fzt-hV-obc" id="aRn-o0-Mwx"/>
+                                    <outlet property="collectionViewIndicator" destination="dvE-HS-thi" id="EGl-ZL-v4q"/>
                                     <outlet property="descriptionLabel" destination="Rvp-8v-crF" id="3hh-uP-Rfs"/>
                                     <outlet property="handle" destination="uuj-rB-VFi" id="Tqa-8T-qYC"/>
                                     <outlet property="handleArea" destination="mJ5-WF-20H" id="vyc-dU-Jxd"/>
                                     <outlet property="humidityLabel" destination="BOc-LG-r5S" id="524-gm-EA9"/>
                                     <outlet property="pressureLabel" destination="6qZ-Hi-bRg" id="enC-yp-UKq"/>
+                                    <outlet property="tableViewIndicator" destination="8K6-XF-EsW" id="R4g-BX-d0r"/>
                                     <outlet property="temperatureLabel" destination="oGw-VA-gfj" id="d1x-lk-aje"/>
                                     <outlet property="visibilityLabel" destination="aRy-53-nwJ" id="Rhd-E0-U6v"/>
                                     <outlet property="windLabel" destination="CCa-K3-cVa" id="L5n-3Z-JGG"/>

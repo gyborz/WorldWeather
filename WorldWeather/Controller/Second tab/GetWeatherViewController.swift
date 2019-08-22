@@ -112,6 +112,9 @@ class GetWeatherViewController: UIViewController {
     }
     
     func updateView(with weatherData: WeatherData) {
+        getWeatherView.collectionViewIndicator.startAnimating()
+        getWeatherView.tableViewIndicator.startAnimating()
+        
         getWeatherView.updateUI(weatherData.city,
                                 weatherData.temperature,
                                 weatherData.description,
@@ -170,7 +173,12 @@ class GetWeatherViewController: UIViewController {
                     self.loadDays()
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
+                    
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    self.getWeatherView.collectionViewIndicator.stopAnimating()
+                    self.getWeatherView.tableViewIndicator.stopAnimating()
+                    self.getWeatherView.collectionViewIndicator.isHidden = true
+                    self.getWeatherView.tableViewIndicator.isHidden = true
                 case .failure:
                     break
                 }
@@ -217,7 +225,12 @@ class GetWeatherViewController: UIViewController {
                     self.loadDays()
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
+                    
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    self.getWeatherView.collectionViewIndicator.stopAnimating()
+                    self.getWeatherView.tableViewIndicator.stopAnimating()
+                    self.getWeatherView.collectionViewIndicator.isHidden = true
+                    self.getWeatherView.tableViewIndicator.isHidden = true
                 case .failure:
                     break
                 }
