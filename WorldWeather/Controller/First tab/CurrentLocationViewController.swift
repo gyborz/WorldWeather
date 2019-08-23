@@ -169,6 +169,7 @@ class CurrentLocationViewController: UIViewController {
     }
     
     func loadDays() {
+        daysData = []
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
