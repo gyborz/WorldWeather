@@ -268,7 +268,7 @@
                                             <segment title="in C°"/>
                                             <segment title="in F°"/>
                                         </segments>
-                                        <color key="tintColor" red="0.39951833163245032" green="0.63535224816933311" blue="0.90632931472081224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.25490196078431371" green="0.31764705882352939" blue="0.36470588235294116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="chooseTemperatureUnit:" destination="8rJ-Kc-sve" eventType="valueChanged" id="dXK-zE-Cms"/>
                                         </connections>
@@ -363,7 +363,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csB-SE-6ca">
                                 <rect key="frame" x="122.66666666666669" y="669" width="130" height="35"/>
-                                <color key="backgroundColor" red="0.38749206852791873" green="0.38749206852791873" blue="0.38749206852791873" alpha="0.7853167808219178" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.25520199537277222" green="0.31610208749771118" blue="0.36244648694992065" alpha="0.80150363869863006" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="kbM-S9-u2S"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="nEk-k9-hbF"/>
@@ -672,6 +672,6 @@
         <image name="sunny" width="652.5" height="1213.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="a1K-hA-ES5"/>
+        <segue reference="S2Y-fe-dUq"/>
     </inferredMetricsTieBreakers>
 </document>
