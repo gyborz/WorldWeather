@@ -59,6 +59,9 @@ class GetWeatherViewController: UIViewController {
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
         weatherCollectionView.backgroundColor = .clear
+        
+        getWeatherView.collectionViewIndicator.isHidden = true
+        getWeatherView.tableViewIndicator.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -112,6 +115,8 @@ class GetWeatherViewController: UIViewController {
     }
     
     func updateView(with weatherData: WeatherData) {
+        getWeatherView.collectionViewIndicator.isHidden = false
+        getWeatherView.tableViewIndicator.isHidden = false
         getWeatherView.collectionViewIndicator.startAnimating()
         getWeatherView.tableViewIndicator.startAnimating()
         

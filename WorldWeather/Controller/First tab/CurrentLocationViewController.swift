@@ -59,6 +59,9 @@ class CurrentLocationViewController: UIViewController {
         forecastTableView.isUserInteractionEnabled = false
         forecastTableView.backgroundColor = .clear
         
+        currentLocationView.collectionViewIndicator.isHidden = true
+        currentLocationView.tableViewIndicator.isHidden = true
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateUITemperatureUnit(_:)), name: NSNotification.Name("didChangeTemperatureUnit"), object: nil)
     }
     
@@ -100,6 +103,8 @@ class CurrentLocationViewController: UIViewController {
     }
     
     func updateView(with weatherData: WeatherData) {
+        currentLocationView.collectionViewIndicator.isHidden = false
+        currentLocationView.tableViewIndicator.isHidden = false
         currentLocationView.collectionViewIndicator.startAnimating()
         currentLocationView.tableViewIndicator.startAnimating()
         

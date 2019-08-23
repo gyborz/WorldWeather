@@ -24,8 +24,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GVN-pH-etq" customClass="CurrentLocationView" customModule="WorldWeather" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="896"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Vkh-fF-SDa">
-                                                <rect key="frame" x="0.0" y="50" width="375" height="50"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="Vkh-fF-SDa">
+                                                <rect key="frame" x="15" y="50" width="345" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="0xa-cp-av6"/>
                                                 </constraints>
@@ -143,7 +143,7 @@
                                             <constraint firstItem="GqY-Mk-aHk" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="K7o-2y-3cW"/>
                                             <constraint firstItem="MEz-A6-66t" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="PaV-0o-P3c"/>
                                             <constraint firstAttribute="trailing" secondItem="vUW-dm-gFm" secondAttribute="trailing" id="Qb4-bo-nN0"/>
-                                            <constraint firstItem="Vkh-fF-SDa" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="T6I-Qb-6Ii"/>
+                                            <constraint firstItem="Vkh-fF-SDa" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" constant="15" id="T6I-Qb-6Ii"/>
                                             <constraint firstItem="Vqh-vK-yIW" firstAttribute="top" secondItem="2Fi-DN-JHB" secondAttribute="bottom" constant="12" id="U90-gy-QAX"/>
                                             <constraint firstItem="2Fi-DN-JHB" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="VRQ-lw-spw"/>
                                             <constraint firstItem="4J0-Rs-cf5" firstAttribute="top" secondItem="jKa-3y-eld" secondAttribute="bottom" id="VUP-Zp-Xi7"/>
@@ -156,7 +156,7 @@
                                             <constraint firstItem="jKa-3y-eld" firstAttribute="top" secondItem="CeP-Kj-Fqi" secondAttribute="bottom" constant="10" id="gB6-RV-Wc7"/>
                                             <constraint firstAttribute="trailing" secondItem="jKa-3y-eld" secondAttribute="trailing" id="gNW-nf-9q5"/>
                                             <constraint firstItem="Vkh-fF-SDa" firstAttribute="top" secondItem="GVN-pH-etq" secondAttribute="top" constant="50" id="hYP-V5-ZRN"/>
-                                            <constraint firstAttribute="trailing" secondItem="Vkh-fF-SDa" secondAttribute="trailing" id="m3G-oW-30j"/>
+                                            <constraint firstAttribute="trailing" secondItem="Vkh-fF-SDa" secondAttribute="trailing" constant="15" id="m3G-oW-30j"/>
                                             <constraint firstItem="4J0-Rs-cf5" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="npE-e9-yIG"/>
                                             <constraint firstAttribute="trailing" secondItem="2Fi-DN-JHB" secondAttribute="trailing" id="qLD-tq-nYk"/>
                                             <constraint firstItem="vUW-dm-gFm" firstAttribute="leading" secondItem="GVN-pH-etq" secondAttribute="leading" id="qcn-4j-fTf"/>
