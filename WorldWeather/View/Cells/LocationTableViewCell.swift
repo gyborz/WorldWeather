@@ -16,13 +16,8 @@ class LocationTableViewCell: SwipeTableViewCell {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//
-//    }
-    
     func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
-        let imageNames = ["sunny", "cloudy_moon", "fog", "night", "rainy", "thunderstorm"]
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         
         self.backgroundImage.image = UIImage(named: imageName)
         

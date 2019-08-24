@@ -33,11 +33,7 @@ class MapViewController: UIViewController {
     
     func setupUI() {
         getWeatherButton.isHidden = true
-        
-        getWeatherButton.backgroundColor = UIColor.blue.withAlphaComponent(0.1)
         getWeatherButton.layer.cornerRadius = 15
-        getWeatherButton.layer.borderWidth = 1
-        getWeatherButton.layer.borderColor = UIColor.blue.cgColor
     }
     
     func setupMapView() {

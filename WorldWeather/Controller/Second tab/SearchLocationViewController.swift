@@ -39,8 +39,10 @@ class SearchLocationViewController: UIViewController {
         locationTableView.backgroundColor = .clear
         locationTableView.separatorColor = .black
         
+        searchLocationView.tableViewIndicator.isHidden = true
+        
         if defaults.bool(forKey: "isConnected") {
-            loadLocations()
+            loadLocations(isCalledFromDelegateMethod: false)
         } else {
             let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -48,9 +50,14 @@ class SearchLocationViewController: UIViewController {
         }
     }
     
-    func loadLocations() {
-        if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]] {
+    func loadLocations(isCalledFromDelegateMethod: Bool) {
+        if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]], previousLocations.count != 0 {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            if !isCalledFromDelegateMethod {   /// check if the function was called through delegation
+                searchLocationView.tableViewIndicator.isHidden = false
+                searchLocationView.tableViewIndicator.startAnimating()
+            }
+            
             locations = previousLocations
             previousLocationsWeather = []
             var cityIndex = 0
@@ -70,6 +77,10 @@ class SearchLocationViewController: UIViewController {
                                     self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    if !isCalledFromDelegateMethod {
+                                        self.searchLocationView.tableViewIndicator.stopAnimating()
+                                        self.searchLocationView.tableViewIndicator.isHidden = true
+                                    }
                                 }
                             case .failure(let error):
                                 if error as! WeatherError == WeatherError.requestFailed {
@@ -100,6 +111,10 @@ class SearchLocationViewController: UIViewController {
                                     self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
                                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    if !isCalledFromDelegateMethod {
+                                        self.searchLocationView.tableViewIndicator.stopAnimating()
+                                        self.searchLocationView.tableViewIndicator.isHidden = true
+                                    }
                                 }
                             case .failure(let error):
                                 if error as! WeatherError == WeatherError.requestFailed {
@@ -126,7 +141,12 @@ class SearchLocationViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GetWeather" {
             let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,- ")
-            if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
+            
+            if searchLocationView.textField.text! == "" {
+                let alert = UIAlertController(title: "Empty textfield", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            } else if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
                 let alert = UIAlertController(title: "Please don't use special characters", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
@@ -182,13 +202,13 @@ extension SearchLocationViewController: PreviousLocationDelegate {
             if !containsCity {
                 previousLocations[name] = coordinates
                 defaults.set(previousLocations, forKey: "locations")
-                loadLocations()
+                loadLocations(isCalledFromDelegateMethod: true)
             }
         } else {
             var previousLocations = [String: [String: String]]()
             previousLocations[name] = coordinates
             defaults.set(previousLocations, forKey: "locations")
-            loadLocations()
+            loadLocations(isCalledFromDelegateMethod: true)
         }
     }
     
@@ -197,7 +217,6 @@ extension SearchLocationViewController: PreviousLocationDelegate {
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        locationTableView.separatorStyle = previousLocationsWeather.count != 0 ? .none : .singleLine
         return previousLocationsWeather.count
     }
     

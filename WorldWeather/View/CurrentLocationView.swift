@@ -10,7 +10,6 @@ import UIKit
 
 class CurrentLocationView: UIView {
 
-    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -19,17 +18,11 @@ class CurrentLocationView: UIView {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var cloudinessLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
-    @IBOutlet weak var forecastButton: UIButton!
+    @IBOutlet weak var collectionViewIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        forecastButton.backgroundColor = .clear
-        forecastButton.layer.cornerRadius = 15
-        forecastButton.layer.borderWidth = 1
-    }
     
-    func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
+    func updateLabels(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
         cityLabel.text = String(city.split(separator: ",")[0])
         temperatureLabel.text = "\(temperature)°"
         descriptionLabel.text = description.capitalizingFirstLetter()
@@ -40,16 +33,11 @@ class CurrentLocationView: UIView {
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
     
-    func updateBackgroundImage(with imageName: String) {
-        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm"]
+    func updateUI(accordingTo backgroundImage: String) {
+        let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         
-        UIView.transition(with: self,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: { self.backgroundImage.image = UIImage(named: imageName) },
-                          completion: nil)
         
-        if imageNames.contains(imageName) {
+        if imageNames.contains(backgroundImage) {
             cityLabel.textColor = .white
             temperatureLabel.textColor = .white
             descriptionLabel.textColor = .white
@@ -58,21 +46,6 @@ class CurrentLocationView: UIView {
             windLabel.textColor = .white
             cloudinessLabel.textColor = .white
             visibilityLabel.textColor = .white
-            forecastButton.setTitleColor(.white, for: .normal)
-            forecastButton.layer.borderColor = UIColor.white.cgColor
-            forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
-        } else if imageName == "fog" {
-            cityLabel.textColor = .black
-            temperatureLabel.textColor = .black
-            descriptionLabel.textColor = .black
-            pressureLabel.textColor = .black
-            humidityLabel.textColor = .black
-            windLabel.textColor = .black
-            cloudinessLabel.textColor = .black
-            visibilityLabel.textColor = .black
-            forecastButton.setTitleColor(.white, for: .normal)
-            forecastButton.layer.borderColor = UIColor.white.cgColor
-            forecastButton.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         } else {
             cityLabel.textColor = .black
             temperatureLabel.textColor = .black
@@ -82,9 +55,6 @@ class CurrentLocationView: UIView {
             windLabel.textColor = .black
             cloudinessLabel.textColor = .black
             visibilityLabel.textColor = .black
-            forecastButton.setTitleColor(.black, for: .normal)
-            forecastButton.layer.borderColor = UIColor.black.cgColor
-            forecastButton.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         }
     }
 
