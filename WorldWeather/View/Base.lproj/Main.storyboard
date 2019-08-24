@@ -251,7 +251,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="VRq-8b-IIq"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                        <state key="normal" title="Get weather">
+                                        <state key="normal" title="Get Weather">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
