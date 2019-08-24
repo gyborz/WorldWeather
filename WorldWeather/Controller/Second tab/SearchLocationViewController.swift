@@ -11,6 +11,8 @@ import SwipeCellKit
 
 class SearchLocationViewController: UIViewController {
     
+    // MARK: - Constants, variables, properties
+    
     let defaults = UserDefaults.standard
     var isTemperatureInCelsius = Bool()
     var previousLocationsWeather = [WeatherData]()
@@ -22,15 +24,26 @@ class SearchLocationViewController: UIViewController {
         return .lightContent
     }
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var searchLocationView: SearchLocationView!
     @IBOutlet weak var locationTableView: UITableView!
+    
+    // MARK: - View Handling
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    // we set up the statusBar, the segmented control and the tableView as needed
+    // if there's no internet connection then we show the user an error, otherwise we prepare the locations' data
+    func setupUI() {
         self.setNeedsStatusBarAppearanceUpdate()
         
         searchLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
+        searchLocationView.tableViewIndicator.isHidden = true
         
         locationTableView.delegate = self
         locationTableView.dataSource = self
@@ -39,10 +52,8 @@ class SearchLocationViewController: UIViewController {
         locationTableView.backgroundColor = .clear
         locationTableView.separatorColor = .black
         
-        searchLocationView.tableViewIndicator.isHidden = true
-        
         if defaults.bool(forKey: "isConnected") {
-            loadLocations(isCalledFromDelegateMethod: false)
+            loadLocations(isCalledFromDelegateMethod: false)    /// mark: - data preparing
         } else {
             let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -50,6 +61,17 @@ class SearchLocationViewController: UIViewController {
         }
     }
     
+    // MARK: - Data Preparing
+    
+    // we prepare the previous locations (if there's any) which were searched by the user to be presentable by the tableView
+    // we make the indicators appear meanwhile we load up the locations and get their data
+    // the locations are stored as a dictionary (in userdefaults) which contains each location's name and coordinates or just the name
+    // this depends on how the user searched the location:
+    // either by name from the second tab -> only the name gets stored
+    // or by the map in the third tab -> the name and the coordinates get stored
+    // we go through the dictionary's items and get each location's weather information
+    // we do this every time this function is called so we always show the current weather information for each location
+    // the locations appear in alphabetical order
     func loadLocations(isCalledFromDelegateMethod: Bool) {
         if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]], previousLocations.count != 0 {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -138,8 +160,14 @@ class SearchLocationViewController: UIViewController {
         }
     }
     
+    // MARK: - Segue Preparing
+    
+    // GetWeatherSegue -> we check if the textfield contains the allowed characterset or anything at all, otherwise we show an error
+    // we get rid of the diacritics/accents and present the GetWeatherViewController
+    // LocationSegue -> we check if the selected location has coordinates stored too so we get the location's weather information by that,
+    // otherwise we use it's name and present the GetWeatherViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "GetWeather" {
+        if segue.identifier == "GetWeatherSegue" {
             let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,- ")
             
             if searchLocationView.textField.text! == "" {
@@ -179,6 +207,9 @@ class SearchLocationViewController: UIViewController {
         }
     }
     
+    // MARK: - Segmented Control
+    
+    // we set the temperatureUnit and notify the observers about the change, then reload the tableView too so it shows the correct unit
     @IBAction func chooseTemperatureUnit(_ sender: UISegmentedControl) {
         defaults.set(sender.selectedSegmentIndex, forKey: "temperatureUnit")
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "didChangeTemperatureUnit")))
@@ -187,8 +218,14 @@ class SearchLocationViewController: UIViewController {
     
 }
 
+// MARK: - PreviousLocationDelegate Method
+
 extension SearchLocationViewController: PreviousLocationDelegate {
     
+    // first we check if there's any previously stored location, otherwise we create a new one
+    // and save the currently searched location's name (and coordinates if coming from the MapViewC)
+    // if there's an already existing locations dictionary, then we check if the currently searched one is already stored or not
+    // either way we call the loadLocations(:) method  -> mark: - data preparing
     func addLocation(_ name: String, _ coordinates: [String: String]) {
         if var previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]] {
             let containsCity = previousLocations.contains { (key, value) -> Bool in
@@ -214,6 +251,8 @@ extension SearchLocationViewController: PreviousLocationDelegate {
     
 }
 
+// MARK: - UITableView Delegate Methods
+
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -229,6 +268,7 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
         cell.cityLabel.text = weatherData.city
         let temperature = weatherData.temperature
         
+        // we check the temperature unit
         if isTemperatureInCelsius {
             if defaults.integer(forKey: "temperatureUnit") == 0 {
                 cell.temperatureLabel.text = "\(temperature)°"
@@ -250,10 +290,12 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    // we save the selected location's weather data and perform a segue with it
+    // but only if the user is connected, otherwise we show an error
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if defaults.bool(forKey: "isConnected") {
             selectedWeatherData = previousLocationsWeather[indexPath.row]
-            performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))
+            performSegue(withIdentifier: "LocationSegue", sender: locationTableView.cellForRow(at: indexPath))  /// mark: - segue preparing
             locationTableView.deselectRow(at: indexPath, animated: true)
         } else {
             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
@@ -263,6 +305,8 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
     }
     
 }
+
+// MARK: - SwipeTableViewCell Delegate Methods
 
 extension SearchLocationViewController: SwipeTableViewCellDelegate {
     

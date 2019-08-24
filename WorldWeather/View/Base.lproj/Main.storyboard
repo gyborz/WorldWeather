@@ -255,7 +255,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeather" modalPresentationStyle="overFullScreen" id="S2Y-fe-dUq"/>
+                                            <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherSegue" modalPresentationStyle="overFullScreen" id="S2Y-fe-dUq"/>
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WUd-hL-YQh">
@@ -373,7 +373,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherFromMap" modalPresentationStyle="overFullScreen" id="uqh-lx-qeC"/>
+                                    <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherFromMapSegue" modalPresentationStyle="overFullScreen" id="uqh-lx-qeC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -671,6 +671,6 @@
         <image name="sunny" width="652.5" height="1213.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="S2Y-fe-dUq"/>
+        <segue reference="uqh-lx-qeC"/>
     </inferredMetricsTieBreakers>
 </document>
