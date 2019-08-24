@@ -10,6 +10,7 @@ import UIKit
 
 class BlurredTabBar: UITabBar {
     
+    // we set a blurred background for the tab bar with adding an EffectView
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         let frost = UIVisualEffectView(effect: UIBlurEffect(style: .light))

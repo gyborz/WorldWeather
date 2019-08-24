@@ -24,6 +24,7 @@ class GetWeatherView: UIView {
     @IBOutlet weak var collectionViewIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
+    // we add corner radius to the chosen corners (achieved with UIView extension)
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -31,6 +32,7 @@ class GetWeatherView: UIView {
         handle.layer.cornerRadius = 2
     }
     
+    // we update the view's labels with the correct data (in correct form)
     func updateUI(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
         cityLabel.text = city
         temperatureLabel.text = "\(temperature)°"
@@ -42,6 +44,7 @@ class GetWeatherView: UIView {
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
     
+    // we update the background image, background colors and the text colors
     func updateBackgroundImage(with imageName: String) {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         
