@@ -15,12 +15,14 @@ class ForecastTableViewCell: UITableViewCell {
     @IBOutlet weak var hottestLabel: UILabel!
     @IBOutlet weak var coldestLabel: UILabel!
 
+    // we set the background color to be clear
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.backgroundColor = .clear
     }
     
+    // we update the text colors and add the correct weather icon depending on the background image
     func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         

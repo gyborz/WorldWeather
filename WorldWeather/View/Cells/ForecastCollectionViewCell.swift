@@ -14,6 +14,7 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var degreeLabel: UILabel!
     
+    // we update the text colors and add the correct weather icon depending on the background image
     func updateUIAccordingTo(backgroundPicture imageName: String, with icons: (white: String, black: String)) {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         if imageNames.contains(imageName) {
