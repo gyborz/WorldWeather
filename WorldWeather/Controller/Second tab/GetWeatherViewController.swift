@@ -19,7 +19,6 @@ class GetWeatherViewController: UIViewController {
     var daysData = [ForecastDayData]()
     let restManager = RestManager()
     var delegate: PreviousLocationDelegate?
-    var idForWeatherImage = Int()
     var imageName = "background"
     
     let minimumVelocityToHide: CGFloat = 1500
@@ -72,6 +71,7 @@ class GetWeatherViewController: UIViewController {
     
     func loadDays() {
         daysData = []
+        var idForWeatherImage = Int()
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -98,10 +98,10 @@ class GetWeatherViewController: UIViewController {
                 
                 if dayOfComparisonDate != dayOfTheNextItem || (index + 1 == forecastWeatherDataForDays.count - 1 && daysData.count != 4) {
                     let dayDate = format.date(from: dateForComparison)!
-                    let forecastDay = ForecastDayData(maxTemperature: maxTemp,
+                    let forecastDay = ForecastDayData(weatherID: idForWeatherImage,
+                                                      maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
                                                       day: daysArray[(calendar.component(.weekday, from: dayDate) - 1)]) /// weekday - 1 to get the correct index for daysArray
-                    forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max

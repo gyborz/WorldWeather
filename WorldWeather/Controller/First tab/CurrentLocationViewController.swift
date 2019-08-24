@@ -20,7 +20,6 @@ class CurrentLocationViewController: UIViewController {
     let restManager = RestManager()
     var imageName = String()
     let monitor = NWPathMonitor()
-    var idForWeatherImage = Int()
     var daysData = [ForecastDayData]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -170,6 +169,7 @@ class CurrentLocationViewController: UIViewController {
     
     func loadDays() {
         daysData = []
+        var idForWeatherImage = Int()
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -196,10 +196,10 @@ class CurrentLocationViewController: UIViewController {
                 
                 if dayOfComparisonDate != dayOfTheNextItem || (index + 1 == forecastWeatherDataForDays.count - 1 && daysData.count != 4) {
                     let dayDate = format.date(from: dateForComparison)!
-                    let forecastDay = ForecastDayData(maxTemperature: maxTemp,
+                    let forecastDay = ForecastDayData(weatherID: idForWeatherImage,
+                                                      maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
                                                       day: daysArray[(calendar.component(.weekday, from: dayDate) - 1)]) /// weekday - 1 to get the correct index for daysArray
-                    forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
