@@ -12,14 +12,20 @@ import CoreLocation
 
 class MapViewController: UIViewController {
     
+    // MARK: - Constants, variables
+    
     let locationManager = CLLocationManager()
     let geoCoder = CLGeocoder()
     let regionInMeters: Double = 10000
     var coordinates = [String: String]()
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var getWeatherButton: UIButton!
+    
+    // MARK: - View Handling
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +37,13 @@ class MapViewController: UIViewController {
         setupLocationManager()
     }
     
+    // we hide the get weather button and add cornerradius to it
     func setupUI() {
         getWeatherButton.isHidden = true
         getWeatherButton.layer.cornerRadius = 15
     }
     
+    // we set up the mapView's delegate and add a long press gesture to it
     func setupMapView() {
         mapView.delegate = self
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(revealRegionDetailsWithLongPressOnMap(sender:)))
@@ -45,8 +53,10 @@ class MapViewController: UIViewController {
         mapView.addGestureRecognizer(longPress)
     }
     
+    // MARK: - Location Services
+    
+    // we check if the location services are enabled on the device, otherwise show an error
     func setupLocationManager() {
-        /// check if location services are enabled on the device
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -58,12 +68,12 @@ class MapViewController: UIViewController {
         }
     }
     
+    // we check the authorization of the app, show error or request authorization if needed
     func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
             centerViewOnUserLocation()
-            locationManager.startUpdatingLocation()
         case .denied:
             let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -84,6 +94,7 @@ class MapViewController: UIViewController {
         }
     }
     
+    // if we have the coordinates, then we can center the view and zoom in on the user
     func centerViewOnUserLocation() {
         if let location = locationManager.location?.coordinate {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
@@ -91,6 +102,11 @@ class MapViewController: UIViewController {
         }
     }
     
+    // MARK: - Long Press Gesture
+    
+    // we get the long pressed location's coordinates and center the view on it, zoom in if needed
+    // we get the location's name, then we add an annotation on the map with the name as it's title
+    // we make the get weather button to appear
     @objc func revealRegionDetailsWithLongPressOnMap(sender: UILongPressGestureRecognizer) {
         if sender.state != UIGestureRecognizer.State.began { return }
         
@@ -121,6 +137,8 @@ class MapViewController: UIViewController {
         }
     }
     
+    // we center the view on the long pressed location
+    // we zoom in if the map is zoomed out
     func centerViewOnTappedLocation(_ location: CLLocationCoordinate2D) {
         if mapView.visibleMapRect.width > 99000 {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
@@ -130,6 +148,7 @@ class MapViewController: UIViewController {
         }
     }
     
+    // we add an annotation to the map on the location and add a title to it
     func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D, with title: String) {
         mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
@@ -138,9 +157,23 @@ class MapViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
+    // MARK: - Supporting Methods
+    
+    // if the user taps on the visible get weather button, we segue to the GetWeatherViewC and get the location's weather
+    // we also set the second tab as the GetWeatherViewC's delegate so it can save the location's name and coordinates
+    // (searchLocationViewC - mark: - previouslocation delegate method)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GetWeatherFromMapSegue" {
+            let destinationVC = segue.destination as! GetWeatherViewController
+            let secondTab = tabBarController?.customizableViewControllers![1]
+            destinationVC.delegate = secondTab as? PreviousLocationDelegate
+            destinationVC.getWeatherInformation(with: coordinates)
+        }
+    }
+    
+    // we go through the gesture recognizers to determine whether this region change is from user interaction
     private func mapViewRegionDidChangeFromUserInteraction() -> Bool {
         let view = mapView.subviews[0]
-        //  Look through gesture recognizers to determine whether this region change is from user interaction
         if let gestureRecognizers = view.gestureRecognizers {
             for recognizer in gestureRecognizers {
                 if recognizer.state == UIGestureRecognizer.State.began || recognizer.state == UIGestureRecognizer.State.ended {
@@ -151,38 +184,36 @@ class MapViewController: UIViewController {
         return false
     }
     
+    // MARK: - Search Button Method
+    
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         present(searchController, animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "GetWeatherFromMap" {
-            let destinationVC = segue.destination as! GetWeatherViewController
-            let secondTab = tabBarController?.customizableViewControllers![1]
-            destinationVC.delegate = secondTab as? PreviousLocationDelegate
-            destinationVC.getWeatherInformation(with: coordinates)
-        }
+}
+
+// MARK: - CLLocationManager Delegate Methods
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    // we re-check the authorization when it's changed
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAuthorization()        /// mark: - location services
     }
     
 }
 
-extension MapViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorization()
-    }
-    
-}
+// MARK: - UISearchBar Delegate Methods
 
 extension MapViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // ignoring the user
+        // we ignore the user
         UIApplication.shared.beginIgnoringInteractionEvents()
         
-        // activity indicator
+        // we show an activity indicator
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = .whiteLarge
         activityIndicator.color = .gray
@@ -192,17 +223,20 @@ extension MapViewController: UISearchBarDelegate {
 
         self.view.addSubview(activityIndicator)
         
-        // hide search bar and getWeatherButton
+        // we hide the search bar and the getWeatherButton
         searchBar.resignFirstResponder()
         dismiss(animated: true, completion: nil)
         getWeatherButton.isHidden = true
         
-        // search request
+        // we create a search request
         let searchRequest = MKLocalSearch.Request()
         searchRequest.naturalLanguageQuery = searchBar.text
         
         let activeSearch = MKLocalSearch(request: searchRequest)
         
+        // we stop the indicator and stop ingoring the user, if something fails we show an error
+        // we get the location and the location's name from the response
+        // then we center the view on the location and add an annotation to it
         activeSearch.start { [weak self] (response, error) in
             guard let self = self else { return }
             
@@ -233,19 +267,25 @@ extension MapViewController: UISearchBarDelegate {
     
 }
 
+// MARK: - MKMapView Delegate Methods
+
 extension MapViewController: MKMapViewDelegate {
     
+    // if the region changes we hide the get weather button
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         if mapViewRegionDidChangeFromUserInteraction() {
             getWeatherButton.isHidden = true
         }
     }
     
+    // if the user selects it's own location on the map, then we don't want the button to appear
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         getWeatherButton.isHidden = view.annotation?.title == "My Location" ? true : false
     }
     
 }
+
+// MARK: - UIGestureRecognizerDelegate Methods
 
 extension MapViewController: UIGestureRecognizerDelegate {}
 

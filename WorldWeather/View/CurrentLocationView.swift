@@ -21,11 +21,11 @@ class CurrentLocationView: UIView {
     @IBOutlet weak var collectionViewIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
-    
+    // we update the view's labels with the correct data (in correct form)
     func updateLabels(_ city: String, _ temperature: Int, _ description: String, _ pressure: Int, _ humidity: Int, _ wind: Double, _ cloudiness: Int, _ visibility: Int) {
         cityLabel.text = String(city.split(separator: ",")[0])
         temperatureLabel.text = "\(temperature)°"
-        descriptionLabel.text = description.capitalizingFirstLetter()
+        descriptionLabel.text = description.capitalizingFirstLetter()   /// achieved with String extension
         pressureLabel.text = "Pressure: \(pressure) hPa"
         humidityLabel.text = "Humidity: \(humidity)%"
         windLabel.text = "Wind: \(Int(wind * 3.6)) km/h"
@@ -33,9 +33,9 @@ class CurrentLocationView: UIView {
         visibilityLabel.text = "Visibility: \(visibility / 1000) km"
     }
     
+    // we update the text colors depending on the background image
     func updateUI(accordingTo backgroundImage: String) {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
-        
         
         if imageNames.contains(backgroundImage) {
             cityLabel.textColor = .white

@@ -13,16 +13,18 @@ import Network
 
 class CurrentLocationViewController: UIViewController {
     
+    // MARK: - Constants, variables, properties
+    
     let defaults = UserDefaults.standard
     let locationManager = CLLocationManager()
-    var forecastWeatherDataForHours: [WeatherData]!
-    var forecastWeatherDataForDays: [WeatherData]!
+    var forecastWeatherDataForHours = [WeatherData]()
+    var forecastWeatherDataForDays = [WeatherData]()
     let restManager = RestManager()
     var imageName = String()
     let monitor = NWPathMonitor()
-    var idForWeatherImage = Int()
     var daysData = [ForecastDayData]()
     
+    // we set the status bar color according to the background image
     override var preferredStatusBarStyle: UIStatusBarStyle {
         let imageNames = ["sunny", "cloudy_moon", "night", "rainy", "thunderstorm", "drizzle"]
         if imageNames.contains(imageName) {
@@ -32,19 +34,53 @@ class CurrentLocationViewController: UIViewController {
         }
     }
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var currentLocationView: CurrentLocationView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
     @IBOutlet weak var forecastTableView: UITableView!
     
+    // MARK: - View Handling
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+        
+        setupNetworkMonitor()       /// mark: - network monitor
+        
+        // we set up an observer so whenever the user changes the temperature unit on the second tab, the first tab's information updates too
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUITemperatureUnit(_:)), name: NSNotification.Name("didChangeTemperatureUnit"), object: nil)
+    }
+    
+    // every time the view appears, we position the content size according to the device's bounds
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if UIScreen.main.bounds.height == 896 {
+            scrollView.isScrollEnabled = false
+        } else if UIScreen.main.bounds.height == 812 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+85)
+        } else if UIScreen.main.bounds.height == 736 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+130)
+        } else if UIScreen.main.bounds.height == 667 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+200)
+        } else if UIScreen.main.bounds.height == 568 {
+            scrollView.isScrollEnabled = true
+            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+300)
+        }
+    }
+    
+    // we set the UI to the last state it was in, if it's the first load up, then we set it to a basic 'sunny' UI
+    // we set up the collectionView and the tableView as needed
+    func setupUI() {
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: defaults.string(forKey: "backgroundImage") ?? "sunny")!)
         currentLocationView.updateUI(accordingTo: defaults.string(forKey: "backgroundImage") ?? "sunny")
         self.setNeedsStatusBarAppearanceUpdate()
-        
-        setupNetworkMonitor()
         
         weatherCollectionView.delegate = self
         weatherCollectionView.dataSource = self
@@ -61,34 +97,16 @@ class CurrentLocationViewController: UIViewController {
         
         currentLocationView.collectionViewIndicator.isHidden = true
         currentLocationView.tableViewIndicator.isHidden = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUITemperatureUnit(_:)), name: NSNotification.Name("didChangeTemperatureUnit"), object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if UIScreen.main.bounds.height == 896 {
-            scrollView.isScrollEnabled = false
-        } else if UIScreen.main.bounds.height == 812 {
-            scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+84)
-        } else if UIScreen.main.bounds.height == 736 {
-            scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+130)
-        } else if UIScreen.main.bounds.height == 667 {
-            scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+200)
-        } else if UIScreen.main.bounds.height == 568 {
-            scrollView.isScrollEnabled = true
-            scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+300)
-        }
-    }
+    // MARK: - Network Monitor
     
+    // we set up a network monitor to always check the connection
+    // if there's no internet we show an error, otherwise we set up the location manager
     func setupNetworkMonitor() {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                self.setupLocationManager()
+                self.setupLocationManager()     /// mark - location services
                 self.defaults.set(true, forKey: "isConnected")
             } else {
                 let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
@@ -102,6 +120,51 @@ class CurrentLocationViewController: UIViewController {
         monitor.start(queue: queue)
     }
     
+    // MARK: - Location Services
+    
+    // we check if the location services are enabled on the device, otherwise show an error
+    func setupLocationManager() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            checkLocationAuthorization()
+        } else {
+            let alert = UIAlertController(title: "Location services are disabled", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
+    }
+    
+    // we check the authorization of the app, show error or request authorization if needed
+    func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()     /// mark: - CLLocationManagerDelegate
+        case .denied:
+            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            let alert = UIAlertController(title: "Active restrictions block the app to use location services", message: "Check your parental controls to give access", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        case .authorizedAlways:
+            /// won't happen
+            break
+        @unknown default:
+            let alert = UIAlertController(title: "Unknown error", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
+    }
+    
+    // MARK: - View Update
+    
+    // we make the activity indicators appear meanwhile we update the UI with the weather data
+    // changes: update the background image, the view's labels, their colors according to the background picture, and the statusBar
+    // we save the background image's name for later use too
     func updateView(with weatherData: WeatherData) {
         currentLocationView.collectionViewIndicator.isHidden = false
         currentLocationView.tableViewIndicator.isHidden = false
@@ -127,49 +190,21 @@ class CurrentLocationViewController: UIViewController {
         defaults.set(imageName, forKey: "backgroundImage")
     }
     
+    // MARK: - Notification Method
+    
+    // we reload the user's location's weather data with the correct temperature unit
     @objc func updateUITemperatureUnit(_ notification: Notification) {
         locationManager.startUpdatingLocation()
     }
     
-    func setupLocationManager() {
-        /// check if location services are enabled on the device
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-            checkLocationAuthorization()
-        } else {
-            let alert = UIAlertController(title: "Location services are disabled", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
-    }
+    // MARK: - Data Preparing
     
-    func checkLocationAuthorization() {
-        switch CLLocationManager.authorizationStatus() {
-        case .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-        case .denied:
-            let alert = UIAlertController(title: "The app is denied to use location services", message: "Go to Settings > Privacy > Location Services to turn it on", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted:
-            let alert = UIAlertController(title: "Active restrictions block the app to use location services", message: "Check your parental controls to give access", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        case .authorizedAlways:
-            /// won't happen
-            break
-        @unknown default:
-            let alert = UIAlertController(title: "Unknown error", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
-    }
-    
+    // we prepare the upcoming days' forecast data to be presentable by the tableView
+    // the API gives back 40 items, but we already cut off the first 24 hours (hence the 'ForHours' and 'ForDays' array)
+    // for each day we need the max. and min. temperature and the midday's weather condition
     func loadDays() {
         daysData = []
+        var idForWeatherImage = Int()
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -194,12 +229,17 @@ class CurrentLocationViewController: UIViewController {
                 let dayOfTheNextItem = Int(forecastWeatherDataForDays[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
                 let hourOfIndexedItem = Int(forecastWeatherDataForDays[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
                 
+                // we check if we're at the last item and if we've got 4 days
+                // because of the timezones there could be situations when we're 1 or 2 hours short of the last day's forecast
+                // the last one being at 22 or at 23 hour, so we would only have 3 days of 'whole day' forecast
+                // since those last 1-2 hour of forecast data doesn't make that much of a difference (in a whole day's data)
+                // even if those are missing we add the forecast data as a whole day's information so we always offer a 4 day forecast
                 if dayOfComparisonDate != dayOfTheNextItem || (index + 1 == forecastWeatherDataForDays.count - 1 && daysData.count != 4) {
                     let dayDate = format.date(from: dateForComparison)!
-                    let forecastDay = ForecastDayData(maxTemperature: maxTemp,
+                    let forecastDay = ForecastDayData(weatherID: idForWeatherImage,
+                                                      maxTemperature: maxTemp,
                                                       minTemperature: minTemp,
                                                       day: daysArray[(calendar.component(.weekday, from: dayDate) - 1)]) /// weekday - 1 to get the correct index for daysArray
-                    forecastDay.weatherID = idForWeatherImage
                     daysData.append(forecastDay)
                     
                     minTemp = Int.max
@@ -215,12 +255,16 @@ class CurrentLocationViewController: UIViewController {
 
 }
 
+// MARK: - CLLocationManagerDelegate Methods
+
 extension CurrentLocationViewController: CLLocationManagerDelegate {
     
+    // when the location updates we request the location's weather information with coordinates
+    // we update the view with the response data, otherwise we show an error
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         
-        /// check if the latitude and longitude are valid
+        // we check if the latitude and longitude are valid
         if location.horizontalAccuracy > 0 {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             locationManager.stopUpdatingLocation()
@@ -231,7 +275,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let weatherData):
-                        self.updateView(with: weatherData)
+                        self.updateView(with: weatherData)      /// mark: - view update
                     case .failure(let error):
                         if error as! WeatherError == WeatherError.requestFailed {
                             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
@@ -255,7 +299,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                     case .success(let forecastData):
                         self.forecastWeatherDataForHours = forecastData.forHours
                         self.forecastWeatherDataForDays = forecastData.forDays
-                        self.loadDays()
+                        self.loadDays()     /// mark: - data preparing
                         self.weatherCollectionView.reloadData()
                         self.forecastTableView.reloadData()
                         
@@ -282,6 +326,7 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         }
     }
     
+    // error handling for different cases
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         if case CLError.Code.locationUnknown = error {
             return
@@ -297,20 +342,19 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         }
     }
     
+    // we re-check the authorization when it's changed
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorization()
+        checkLocationAuthorization()       /// mark: - location services
     }
     
 }
 
+// MARK: - UICollectionView Delegate Methods
+
 extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if forecastWeatherDataForHours == nil {
-            return 0
-        } else {
-            return forecastWeatherDataForHours.count
-        }
+        return forecastWeatherDataForHours.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -329,6 +373,8 @@ extension CurrentLocationViewController: UICollectionViewDelegate, UICollectionV
     }
     
 }
+
+// MARK: - UITableView Delegate Methods
 
 extension CurrentLocationViewController: UITableViewDelegate, UITableViewDataSource {
     

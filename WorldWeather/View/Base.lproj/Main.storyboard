@@ -255,7 +255,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeather" modalPresentationStyle="overFullScreen" id="S2Y-fe-dUq"/>
+                                            <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherSegue" modalPresentationStyle="overFullScreen" id="S2Y-fe-dUq"/>
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WUd-hL-YQh">
@@ -373,7 +373,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherFromMap" modalPresentationStyle="overFullScreen" id="uqh-lx-qeC"/>
+                                    <segue destination="7Ek-7G-65u" kind="presentation" identifier="GetWeatherFromMapSegue" modalPresentationStyle="overFullScreen" id="uqh-lx-qeC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -430,7 +430,7 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="Rvp-8v-crF">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="Rvp-8v-crF">
                                                         <rect key="frame" x="0.0" y="124.66666666666667" width="174.66666666666666" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -635,10 +635,10 @@
             </objects>
             <point key="canvasLocation" x="1668" y="657.63546798029563"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Animated Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController id="49e-Tb-3d3" customClass="AnimatedTabBarController" customModule="WorldWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" itemPositioning="centered" id="W28-zg-YXA" customClass="BlurredTabBar" customModule="WorldWeather" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -647,7 +647,7 @@
                                 <color key="value" cocoaTouchSystemColor="darkTextColor"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">
-                                <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" red="0.048059331056846344" green="0.34512278926149376" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBar>
@@ -671,6 +671,6 @@
         <image name="sunny" width="652.5" height="1213.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="S2Y-fe-dUq"/>
+        <segue reference="uqh-lx-qeC"/>
     </inferredMetricsTieBreakers>
 </document>

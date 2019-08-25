@@ -16,7 +16,9 @@ class SearchLocationView: UIView {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableViewIndicator: UIActivityIndicatorView!
     
+    // we set the segmented control's colors, get weather button's color and add a tapgesture for dismissing the keyboard
     override func awakeFromNib() {
+        super.awakeFromNib()
         
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)

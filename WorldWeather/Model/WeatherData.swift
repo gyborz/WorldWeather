@@ -34,6 +34,8 @@ class WeatherData {
         self.date = date
     }
     
+    // we get the correct image's name according to the weather id which was earlier initialized
+    // we check if it's daytime too
     func getBackgroundPictureNameFromWeatherID(id: Int) -> String {
         let hour = Int(date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])!
         
@@ -87,6 +89,10 @@ class WeatherData {
         }
     }
     
+    // we get the correct iconimage's name according to the weather id which was earlier initialized
+    // we check if it's daytime too
+    // we give back a tuple with both the white and black icons
+    // the viewcell's function will decide wich one will be used
     func getIconNameFromWeatherID(id: Int) -> (white: String, black: String) {
         let hour = Int(date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])!
         

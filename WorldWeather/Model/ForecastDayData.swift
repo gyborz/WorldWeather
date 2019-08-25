@@ -10,17 +10,19 @@ import Foundation
 
 class ForecastDayData {
     
-    var weatherID = Int()
+    var weatherID: Int
     let maxTemperature: Int
     let minTemperature: Int
     let day: String
     
-    init(maxTemperature: Int, minTemperature: Int, day: String) {
+    init(weatherID: Int, maxTemperature: Int, minTemperature: Int, day: String) {
+        self.weatherID = weatherID
         self.maxTemperature = maxTemperature
         self.minTemperature = minTemperature
         self.day = day
     }
     
+    // we get the correct image's name according to the weather id which was earlier initialized
     func getBackgroundPictureNameFromWeatherID(id: Int) -> String {
         
         switch (id) {
@@ -53,6 +55,9 @@ class ForecastDayData {
         }
     }
     
+    // we get the correct iconimage's name according to the weather id which was earlier initialized
+    // we give back a tuple with both the white and black icons
+    // the viewcell's function will decide wich one will be used
     func getIconNameFromWeatherID(id: Int) -> (white: String, black: String) {
         
         switch (id) {
