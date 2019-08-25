@@ -8,34 +8,58 @@
 
 import UIKit
 
+// MARK: - PreviousLocationDelegate
+
 protocol PreviousLocationDelegate {
     func addLocation(_ name: String, _ coordinates: [String: String])
 }
 
 class GetWeatherViewController: UIViewController {
     
-    var forecastWeatherDataForHours: [WeatherData]!
-    var forecastWeatherDataForDays: [WeatherData]!
+    // MARK: - Constants, variables
+    
+    var forecastWeatherDataForHours = [WeatherData]()
+    var forecastWeatherDataForDays = [WeatherData]()
     var daysData = [ForecastDayData]()
     let restManager = RestManager()
     var delegate: PreviousLocationDelegate?
-    var imageName = "background"
+    var imageName = "sunny"
     
+    // constants for the pan gesture
     let minimumVelocityToHide: CGFloat = 1500
     let minimumScreenRatioToHide: CGFloat = 0.3
     let animationDuration: TimeInterval = 0.3
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var getWeatherView: GetWeatherView!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
     @IBOutlet weak var forecastTableView: UITableView!
 
+    // MARK: - View Handling
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    // we set the view's frame every time the view appears so the 'card-like' appearance is correctly in place (so it won't glitch while dragging)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height)
+    }
+    
+    // we set up the view and add a pan gesture to it, set the tableView and the collectionView up as needed
+    // we make adjustments to the tableView depending on the screen
+    func setupUI() {
         getWeatherView.layer.cornerRadius = 10
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
         getWeatherView.addGestureRecognizer(panGesture)
-
+        getWeatherView.collectionViewIndicator.isHidden = true
+        getWeatherView.tableViewIndicator.isHidden = true
+        
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         forecastTableView.register(UINib(nibName: "ForecastTableViewCell", bundle: nil), forCellReuseIdentifier: "ForecastTableViewCell")
@@ -58,17 +82,36 @@ class GetWeatherViewController: UIViewController {
         weatherCollectionView.dataSource = self
         weatherCollectionView.register(UINib(nibName: "ForecastCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ForecastCollectionViewCell")
         weatherCollectionView.backgroundColor = .clear
-        
-        getWeatherView.collectionViewIndicator.isHidden = true
-        getWeatherView.tableViewIndicator.isHidden = true
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    // MARK: - View Update
+    
+    // we make the activity indicators appear meanwhile we update the UI with the weather data
+    // changes: update the background image, the view's labels, their colors according to the background picture
+    // we save the background image's name for later use too
+    func updateView(with weatherData: WeatherData) {
+        getWeatherView.collectionViewIndicator.isHidden = false
+        getWeatherView.tableViewIndicator.isHidden = false
+        getWeatherView.collectionViewIndicator.startAnimating()
+        getWeatherView.tableViewIndicator.startAnimating()
         
-        self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height)
+        getWeatherView.updateUI(weatherData.city,
+                                weatherData.temperature,
+                                weatherData.description,
+                                weatherData.pressure,
+                                weatherData.humidity,
+                                weatherData.wind,
+                                weatherData.cloudiness,
+                                weatherData.visibility)
+        imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
+        getWeatherView.updateBackgroundImage(with: imageName)
     }
     
+    // MARK: - Data Preparing
+    
+    // we prepare the upcoming days' forecast data to be presentable by the tableView
+    // the API gives back 40 items, but we already cut off the first 24 hours (hence the 'ForHours' and 'ForDays' array)
+    // for each day we need the max. and min. temperature and the midday's weather condition
     func loadDays() {
         daysData = []
         var idForWeatherImage = Int()
@@ -96,6 +139,11 @@ class GetWeatherViewController: UIViewController {
                 let dayOfTheNextItem = Int(forecastWeatherDataForDays[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
                 let hourOfIndexedItem = Int(forecastWeatherDataForDays[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
                 
+                // we check if we're at the last item and if we've got 4 days
+                // because of the timezones there could be situations when we're 1 or 2 hours short of the last day's forecast
+                // the last one being at 22 or at 23 hour, so we would only have 3 days of 'whole day' forecast
+                // since those last 1-2 hour of forecast data doesn't make that much of a difference (in a whole day's data)
+                // even if those are missing we add the forecast data as a whole day's information so we always offer a 4 day forecast
                 if dayOfComparisonDate != dayOfTheNextItem || (index + 1 == forecastWeatherDataForDays.count - 1 && daysData.count != 4) {
                     let dayDate = format.date(from: dateForComparison)!
                     let forecastDay = ForecastDayData(weatherID: idForWeatherImage,
@@ -115,24 +163,14 @@ class GetWeatherViewController: UIViewController {
         }
     }
     
-    func updateView(with weatherData: WeatherData) {
-        getWeatherView.collectionViewIndicator.isHidden = false
-        getWeatherView.tableViewIndicator.isHidden = false
-        getWeatherView.collectionViewIndicator.startAnimating()
-        getWeatherView.tableViewIndicator.startAnimating()
-        
-        getWeatherView.updateUI(weatherData.city,
-                                weatherData.temperature,
-                                weatherData.description,
-                                weatherData.pressure,
-                                weatherData.humidity,
-                                weatherData.wind,
-                                weatherData.cloudiness,
-                                weatherData.visibility)
-        imageName = weatherData.getBackgroundPictureNameFromWeatherID(id: weatherData.weatherId)
-        getWeatherView.updateBackgroundImage(with: imageName)
-    }
+    // MARK: - Data Handling Methods
     
+    // we make the network indicator appear meanwhile we request the weather data
+    // we request by the name when the user searched for a location on the second tab
+    // we request by the coordinates when the user ask the location's weather on the third tab's map
+    // either way after we get the weather data we call the delegate method which saves the location's "data"
+    // to the previously searched locations (see searchLocationViewController - mark: - data preparing)
+    // if something fails we show an error
     func getWeatherInformation(with text: String) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         restManager.getWeatherData(with: text) { [weak self] (result) in /// using weak on self to avoid retain cycle (updateView(:), addLocation(_))
@@ -140,7 +178,7 @@ class GetWeatherViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weatherData):
-                    self.updateView(with: weatherData)
+                    self.updateView(with: weatherData)      /// mark: - view update
                     self.delegate?.addLocation(weatherData.city, [:])
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
@@ -176,7 +214,7 @@ class GetWeatherViewController: UIViewController {
                 case .success(let forecastData):
                     self.forecastWeatherDataForHours = forecastData.forHours
                     self.forecastWeatherDataForDays = forecastData.forDays
-                    self.loadDays()
+                    self.loadDays()     /// mark: - data preparing
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
                     
@@ -199,7 +237,7 @@ class GetWeatherViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weatherData):
-                    self.updateView(with: weatherData)
+                    self.updateView(with: weatherData)      /// mark: - view update
                     self.delegate?.addLocation(weatherData.city, coordinates)
                 case .failure(let error):
                     if error as! WeatherError == WeatherError.requestFailed {
@@ -228,7 +266,7 @@ class GetWeatherViewController: UIViewController {
                 case .success(let forecastData):
                     self.forecastWeatherDataForHours = forecastData.forHours
                     self.forecastWeatherDataForDays = forecastData.forDays
-                    self.loadDays()
+                    self.loadDays()     /// mark: - data preparing
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
                     
@@ -244,6 +282,8 @@ class GetWeatherViewController: UIViewController {
         }
     }
     
+    // MARK: - Pan Gesture
+    
     @objc func onPan(_ panGesture: UIPanGestureRecognizer) {
         func slideViewVerticallyTo(_ y: CGFloat) {
             self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height + y)
@@ -252,14 +292,14 @@ class GetWeatherViewController: UIViewController {
         switch panGesture.state {
             
         case .began, .changed:
-            // If pan started or is ongoing then
-            // slide the view to follow the finger
+            // if the pan started or is ongoing then
+            // we slide the view to follow the finger
             let translation = panGesture.translation(in: view)
             let y = max(0, translation.y)
             slideViewVerticallyTo(y)
             
         case .ended:
-            // If pan ended, decide if we should close or reset the view
+            // if the pan ended, we decide if we should close or reset the view
             // based on the final position and the speed of the gesture
             let translation = panGesture.translation(in: view)
             let velocity = panGesture.velocity(in: view)
@@ -267,23 +307,23 @@ class GetWeatherViewController: UIViewController {
             
             if closing {
                 UIView.animate(withDuration: animationDuration, animations: {
-                    // If closing, animate to the bottom of the view
+                    // if the user is closing, we animate the view to the bottom
                     slideViewVerticallyTo(self.view.frame.size.height)
                 }, completion: { (isCompleted) in
                     if isCompleted {
-                        // Dismiss the view when it dissapeared
+                        // we dismiss the view when it disappeared
                         self.dismiss(animated: false, completion: nil)
                     }
                 })
             } else {
-                // If not closing, reset the view to the top
+                // if the user is not closing, we reset the view to the top
                 UIView.animate(withDuration: animationDuration, animations: {
                     slideViewVerticallyTo(0)
                 })
             }
             
         default:
-            // If gesture state is undefined, reset the view to the top
+            // if the gesture state is undefined, we reset the view to the top
             UIView.animate(withDuration: animationDuration, animations: {
                 slideViewVerticallyTo(0)
             })
@@ -292,6 +332,8 @@ class GetWeatherViewController: UIViewController {
     }
 
 }
+
+// MARK: - UITableView Delegate Methods
 
 extension GetWeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -316,14 +358,12 @@ extension GetWeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - UICollectionView Delegate Methods
+
 extension GetWeatherViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if forecastWeatherDataForHours == nil {
-            return 0
-        } else {
-            return forecastWeatherDataForHours.count
-        }
+        return forecastWeatherDataForHours.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -229,6 +229,11 @@ class CurrentLocationViewController: UIViewController {
                 let dayOfTheNextItem = Int(forecastWeatherDataForDays[index + 1].date.components(separatedBy: " ")[0].components(separatedBy: "-")[2])
                 let hourOfIndexedItem = Int(forecastWeatherDataForDays[index].date.components(separatedBy: " ")[1].components(separatedBy: ":")[0])
                 
+                // we check if we're at the last item and if we've got 4 days
+                // because of the timezones there could be situations when we're 1 or 2 hours short of the last day's forecast
+                // the last one being at 22 or at 23 hour, so we would only have 3 days of 'whole day' forecast
+                // since those last 1-2 hour of forecast data doesn't make that much of a difference (in a whole day's data)
+                // even if those are missing we add the forecast data as a whole day's information so we always offer a 4 day forecast
                 if dayOfComparisonDate != dayOfTheNextItem || (index + 1 == forecastWeatherDataForDays.count - 1 && daysData.count != 4) {
                     let dayDate = format.date(from: dateForComparison)!
                     let forecastDay = ForecastDayData(weatherID: idForWeatherImage,
