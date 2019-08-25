@@ -17,11 +17,24 @@ enum WeatherError: Swift.Error {
 
 class RestManager {
     
+    // MARK: - Constants
+    
     let defaults = UserDefaults.standard
     let appId = "3656721177232952a61339c39bec961e"
     
     let currentDate = Date()
     let format = DateFormatter()
+    
+    
+    // MARK: - URLSession Methods
+    
+    // we make a request to the openweathermap's api with our api key
+    // in our case we use the api with coordinates or name (+ country code if given)
+    // we check if there's any error or a response that's the api's fail response (the latter happens when we request by name)
+    // if so, then we give back a failure as a result in the completionHandler with the correct error or response error enum case
+    // if we get back the requested data we convert it into json and get all the necessary information what we need
+    // we check the temperature unit, get the location's current time (according to it's timezone)
+    // then we initialize the weatherData which we give back in the completionHandler as a success result
     
     func getWeatherData(with coordinates: [String: String], completionHandler: @escaping (Result<WeatherData,Error>) -> Void) {
         if let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?lat=\(coordinates["lat"]!)&lon=\(coordinates["lon"]!)&appid=\(appId)") {
@@ -33,7 +46,7 @@ class RestManager {
                         
                         let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
                         
-                        // get the current time of the location
+                        // we get the current time of the location
                         let seconds = json["timezone"].intValue
                         self.format.timeZone = TimeZone(secondsFromGMT: seconds)
                         self.format.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -65,7 +78,7 @@ class RestManager {
     }
     
     func getWeatherData(with text: String, completionHandler: @escaping (Result<WeatherData,Error>) -> Void) {
-        let urlString = trimmedString(from: text, isForecast: false)
+        let urlString = trimmedString(from: text, isForecast: false)    /// mark: - supporting methods
         
         if let url = URL(string: urlString) {
             
@@ -76,7 +89,7 @@ class RestManager {
                         
                         let temperature = self.getTemperatureInCorrectUnit(from: json["main"]["temp"].double!)
                         
-                        // get the current time of the location
+                        // we get the current time of the location
                         let seconds = json["timezone"].intValue
                         self.format.timeZone = TimeZone(secondsFromGMT: seconds)
                         self.format.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -119,7 +132,7 @@ class RestManager {
                     do {
                         let json = try JSON(data: data)
                         
-                        let forecastData = self.saveForecastDataFromJson(json: json)
+                        let forecastData = self.saveForecastDataFromJson(json: json)    /// mark: - supporting methods
                         completionHandler(.success((forecastData.forHours, forecastData.forDays)))
                     } catch {
                         completionHandler(.failure(WeatherError.unknownError))
@@ -136,7 +149,7 @@ class RestManager {
     }
     
     func getWeatherForecastData(with text: String, completionHandler: @escaping (Result<(forHours: [WeatherData], forDays: [WeatherData]),Error>) -> Void) {
-        let urlString = trimmedString(from: text, isForecast: true)
+        let urlString = trimmedString(from: text, isForecast: true)     /// mark: - supporting methods
         
         if let url = URL(string: urlString) {
             
@@ -145,7 +158,7 @@ class RestManager {
                     do {
                         let json = try JSON(data: data)
                         
-                        let forecastData = self.saveForecastDataFromJson(json: json)
+                        let forecastData = self.saveForecastDataFromJson(json: json)    /// mark: - supporting methods
                         completionHandler(.success((forecastData.forHours, forecastData.forDays)))
                     } catch {
                         completionHandler(.failure(WeatherError.unknownError))
@@ -165,9 +178,16 @@ class RestManager {
         }
     }
     
+    // MARK: - Supporting Methods
+    
+    // we get the json data which in this case contains 40 different items for 5 days worth of forecast
+    // each of them containing weather information about the location every 3 hours
+    // our goal is to get the first 24 hours of data (which appears in the collection views)
+    // and the remaining weather data (which appears as the upcoming days in the table views) separated
+    // then give back both of them together in a tuple as arrays
     func saveForecastDataFromJson(json: JSON) -> (forHours: [WeatherData], forDays: [WeatherData]) {
         
-        // we get the current time adjusted to the location, then we adjust the forecast time to the timezone too
+        // first we get the current time adjusted to the location, then we adjust the forecast time to the timezone too
         // in the first loop we get the weather of the next 24 hours
         // simultaneously we check for the beginning of the next day (which occurs somewhere in the first 8 items)
         // we compare the day of the two dates, if they differ, we store the day's index
@@ -227,6 +247,7 @@ class RestManager {
         return (forecastWeatherDataForHours, forecastWeatherDataForDays)
     }
     
+    // we check the temperatureUnit's value in the userdefaults and give back the temperature's value accordingly
     func getTemperatureInCorrectUnit(from kelvin: Double) -> Int {
         var temperature = 0
         if defaults.integer(forKey: "temperatureUnit") == 0 {
@@ -238,6 +259,10 @@ class RestManager {
         return temperature
     }
     
+    // we prepare the text the function got when it was called to be usable for a request in the api
+    // what that means is we replace the whitespaces with %20 and if there's any comma
+    // then the user probably typed in the country code too in the textfield, so we get that too
+    // the isForecast Bool value tells us if the url needs to be a forecast or just a simple weather request
     func trimmedString(from text: String, isForecast: Bool) -> String {
         var urlString: String
         if isForecast {
