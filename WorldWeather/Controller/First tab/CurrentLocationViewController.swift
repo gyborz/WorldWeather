@@ -15,14 +15,14 @@ class CurrentLocationViewController: UIViewController {
     
     // MARK: - Constants, variables, properties
     
-    let defaults = UserDefaults.standard
-    let locationManager = CLLocationManager()
-    var forecastWeatherDataForHours = [WeatherData]()
-    var forecastWeatherDataForDays = [WeatherData]()
-    let restManager = RestManager()
-    var imageName = String()
-    let monitor = NWPathMonitor()
-    var daysData = [ForecastDayData]()
+    private let defaults = UserDefaults.standard
+    private let locationManager = CLLocationManager()
+    private var forecastWeatherDataForHours = [WeatherData]()
+    private var forecastWeatherDataForDays = [WeatherData]()
+    private let restManager = RestManager()
+    private var imageName = String()
+    private let monitor = NWPathMonitor()
+    private var daysData = [ForecastDayData]()
     
     // we set the status bar color according to the background image
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -77,7 +77,7 @@ class CurrentLocationViewController: UIViewController {
     
     // we set the UI to the last state it was in, if it's the first load up, then we set it to a basic 'sunny' UI
     // we set up the collectionView and the tableView as needed
-    func setupUI() {
+    private func setupUI() {
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: defaults.string(forKey: "backgroundImage") ?? "sunny")!)
         currentLocationView.updateUI(accordingTo: defaults.string(forKey: "backgroundImage") ?? "sunny")
         self.setNeedsStatusBarAppearanceUpdate()
@@ -103,7 +103,7 @@ class CurrentLocationViewController: UIViewController {
     
     // we set up a network monitor to always check the connection
     // if there's no internet we show an error, otherwise we set up the location manager
-    func setupNetworkMonitor() {
+    private func setupNetworkMonitor() {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
                 self.setupLocationManager()     /// mark - location services
@@ -123,7 +123,7 @@ class CurrentLocationViewController: UIViewController {
     // MARK: - Location Services
     
     // we check if the location services are enabled on the device, otherwise show an error
-    func setupLocationManager() {
+    private func setupLocationManager() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
@@ -136,7 +136,7 @@ class CurrentLocationViewController: UIViewController {
     }
     
     // we check the authorization of the app, show error or request authorization if needed
-    func checkLocationAuthorization() {
+    private func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()     /// mark: - CLLocationManagerDelegate
@@ -165,7 +165,7 @@ class CurrentLocationViewController: UIViewController {
     // we make the activity indicators appear meanwhile we update the UI with the weather data
     // changes: update the background image, the view's labels, their colors according to the background picture, and the statusBar
     // we save the background image's name for later use too
-    func updateView(with weatherData: WeatherData) {
+    private func updateView(with weatherData: WeatherData) {
         currentLocationView.collectionViewIndicator.isHidden = false
         currentLocationView.tableViewIndicator.isHidden = false
         currentLocationView.collectionViewIndicator.startAnimating()
@@ -202,7 +202,7 @@ class CurrentLocationViewController: UIViewController {
     // we prepare the upcoming days' forecast data to be presentable by the tableView
     // the API gives back 40 items, but we already cut off the first 24 hours (hence the 'ForHours' and 'ForDays' array)
     // for each day we need the max. and min. temperature and the midday's weather condition
-    func loadDays() {
+    private func loadDays() {
         daysData = []
         var idForWeatherImage = Int()
         let format = DateFormatter()

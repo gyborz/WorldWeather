@@ -13,12 +13,12 @@ class SearchLocationViewController: UIViewController {
     
     // MARK: - Constants, variables, properties
     
-    let defaults = UserDefaults.standard
-    var isTemperatureInCelsius = Bool()
-    var previousLocationsWeather = [WeatherData]()
-    var selectedWeatherData: WeatherData!
-    let restManager = RestManager()
-    var locations = [String : [String: String]]()
+    private let defaults = UserDefaults.standard
+    private var isTemperatureInCelsius = Bool()
+    private var previousLocationsWeather = [WeatherData]()
+    private var selectedWeatherData: WeatherData!
+    private let restManager = RestManager()
+    private var locations = [String : [String: String]]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -39,7 +39,7 @@ class SearchLocationViewController: UIViewController {
     
     // we set up the statusBar, the segmented control and the tableView as needed
     // if there's no internet connection then we show the user an error, otherwise we prepare the locations' data
-    func setupUI() {
+    private func setupUI() {
         self.setNeedsStatusBarAppearanceUpdate()
         
         searchLocationView.segmentedControl.selectedSegmentIndex = defaults.integer(forKey: "temperatureUnit")
@@ -72,7 +72,7 @@ class SearchLocationViewController: UIViewController {
     // we go through the dictionary's items and get each location's weather information
     // we do this every time this function is called so we always show the current weather information for each location
     // the locations appear in alphabetical order
-    func loadLocations(isCalledFromDelegateMethod: Bool) {
+    private func loadLocations(isCalledFromDelegateMethod: Bool) {
         if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]], previousLocations.count != 0 {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             if !isCalledFromDelegateMethod {   /// check if the function was called through delegation
@@ -169,6 +169,7 @@ class SearchLocationViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GetWeatherSegue" {
             let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,- ")
+            let commaCount = searchLocationView.textField.text!.filter { $0 == "," }.count
             
             if searchLocationView.textField.text! == "" {
                 let alert = UIAlertController(title: "Empty textfield", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
@@ -176,6 +177,10 @@ class SearchLocationViewController: UIViewController {
                 self.present(alert, animated: true)
             } else if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
                 let alert = UIAlertController(title: "Please don't use special characters", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            } else if commaCount > 1 {
+                let alert = UIAlertController(title: "Too many commas used", message: "Use 1 comma to add the country code after the city's name", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
             } else {

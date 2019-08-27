@@ -18,17 +18,17 @@ class GetWeatherViewController: UIViewController {
     
     // MARK: - Constants, variables
     
-    var forecastWeatherDataForHours = [WeatherData]()
-    var forecastWeatherDataForDays = [WeatherData]()
-    var daysData = [ForecastDayData]()
-    let restManager = RestManager()
+    private var forecastWeatherDataForHours = [WeatherData]()
+    private var forecastWeatherDataForDays = [WeatherData]()
+    private var daysData = [ForecastDayData]()
+    private let restManager = RestManager()
+    private var imageName = "sunny"
     var delegate: PreviousLocationDelegate?
-    var imageName = "sunny"
     
     // constants for the pan gesture
-    let minimumVelocityToHide: CGFloat = 1500
-    let minimumScreenRatioToHide: CGFloat = 0.3
-    let animationDuration: TimeInterval = 0.3
+    private let minimumVelocityToHide: CGFloat = 1500
+    private let minimumScreenRatioToHide: CGFloat = 0.3
+    private let animationDuration: TimeInterval = 0.3
     
     // MARK: - Outlets
     
@@ -53,7 +53,7 @@ class GetWeatherViewController: UIViewController {
     
     // we set up the view and add a pan gesture to it, set the tableView and the collectionView up as needed
     // we make adjustments to the tableView depending on the screen
-    func setupUI() {
+    private func setupUI() {
         getWeatherView.layer.cornerRadius = 10
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
         getWeatherView.addGestureRecognizer(panGesture)
@@ -89,7 +89,7 @@ class GetWeatherViewController: UIViewController {
     // we make the activity indicators appear meanwhile we update the UI with the weather data
     // changes: update the background image, the view's labels, their colors according to the background picture
     // we save the background image's name for later use too
-    func updateView(with weatherData: WeatherData) {
+    private func updateView(with weatherData: WeatherData) {
         getWeatherView.collectionViewIndicator.isHidden = false
         getWeatherView.tableViewIndicator.isHidden = false
         getWeatherView.collectionViewIndicator.startAnimating()
@@ -112,7 +112,7 @@ class GetWeatherViewController: UIViewController {
     // we prepare the upcoming days' forecast data to be presentable by the tableView
     // the API gives back 40 items, but we already cut off the first 24 hours (hence the 'ForHours' and 'ForDays' array)
     // for each day we need the max. and min. temperature and the midday's weather condition
-    func loadDays() {
+    private func loadDays() {
         daysData = []
         var idForWeatherImage = Int()
         let format = DateFormatter()

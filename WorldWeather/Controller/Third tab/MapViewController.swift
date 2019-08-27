@@ -14,10 +14,10 @@ class MapViewController: UIViewController {
     
     // MARK: - Constants, variables
     
-    let locationManager = CLLocationManager()
-    let geoCoder = CLGeocoder()
-    let regionInMeters: Double = 10000
-    var coordinates = [String: String]()
+    private let locationManager = CLLocationManager()
+    private let geoCoder = CLGeocoder()
+    private let regionInMeters: Double = 10000
+    private var coordinates = [String: String]()
     
     // MARK: - Outlets
     
@@ -38,13 +38,13 @@ class MapViewController: UIViewController {
     }
     
     // we hide the get weather button and add cornerradius to it
-    func setupUI() {
+    private func setupUI() {
         getWeatherButton.isHidden = true
         getWeatherButton.layer.cornerRadius = 15
     }
     
     // we set up the mapView's delegate and add a long press gesture to it
-    func setupMapView() {
+    private func setupMapView() {
         mapView.delegate = self
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(revealRegionDetailsWithLongPressOnMap(sender:)))
         longPress.minimumPressDuration = 0.5
@@ -56,7 +56,7 @@ class MapViewController: UIViewController {
     // MARK: - Location Services
     
     // we check if the location services are enabled on the device, otherwise show an error
-    func setupLocationManager() {
+    private func setupLocationManager() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -69,7 +69,7 @@ class MapViewController: UIViewController {
     }
     
     // we check the authorization of the app, show error or request authorization if needed
-    func checkLocationAuthorization() {
+    private func checkLocationAuthorization() {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
@@ -95,7 +95,7 @@ class MapViewController: UIViewController {
     }
     
     // if we have the coordinates, then we can center the view and zoom in on the user
-    func centerViewOnUserLocation() {
+    private func centerViewOnUserLocation() {
         if let location = locationManager.location?.coordinate {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
@@ -139,7 +139,7 @@ class MapViewController: UIViewController {
     
     // we center the view on the long pressed location
     // we zoom in if the map is zoomed out
-    func centerViewOnTappedLocation(_ location: CLLocationCoordinate2D) {
+    private func centerViewOnTappedLocation(_ location: CLLocationCoordinate2D) {
         if mapView.visibleMapRect.width > 99000 {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
@@ -149,7 +149,7 @@ class MapViewController: UIViewController {
     }
     
     // we add an annotation to the map on the location and add a title to it
-    func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D, with title: String) {
+    private func addAnnotationOnLocation(pointedCoordinate: CLLocationCoordinate2D, with title: String) {
         mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = pointedCoordinate
