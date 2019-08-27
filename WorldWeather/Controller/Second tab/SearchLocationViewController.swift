@@ -169,6 +169,7 @@ class SearchLocationViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GetWeatherSegue" {
             let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,- ")
+            let commaCount = searchLocationView.textField.text!.filter { $0 == "," }.count
             
             if searchLocationView.textField.text! == "" {
                 let alert = UIAlertController(title: "Empty textfield", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
@@ -176,6 +177,10 @@ class SearchLocationViewController: UIViewController {
                 self.present(alert, animated: true)
             } else if searchLocationView.textField.text!.rangeOfCharacter(from: characterset.inverted) != nil {
                 let alert = UIAlertController(title: "Please don't use special characters", message: "Characters allowed: [A-z], [-,]", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            } else if commaCount > 1 {
+                let alert = UIAlertController(title: "Too many commas used", message: "Use 1 comma to add the country code after the city's name", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
             } else {

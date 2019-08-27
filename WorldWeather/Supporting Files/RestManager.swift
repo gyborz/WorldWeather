@@ -274,10 +274,7 @@ class RestManager {
                 
                 urlString = "http://api.openweathermap.org/data/2.5/forecast?q=\(city),\(country)&appid=\(appId)"
             } else {
-                let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
-                let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
-                
-                urlString = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=\(appId)"
+                urlString = ""
             }
         } else {
             if text.split(separator: ",").count == 2 {
@@ -288,10 +285,7 @@ class RestManager {
                 
                 urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
             } else {
-                let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
-                let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
-                
-                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
+                urlString = ""
             }
         }
         
