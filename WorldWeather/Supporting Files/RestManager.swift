@@ -263,6 +263,7 @@ class RestManager {
     // what that means is we replace the whitespaces with %20 and if there's any comma
     // then the user probably typed in the country code too in the textfield, so we get that too
     // the isForecast Bool value tells us if the url needs to be a forecast or just a simple weather request
+    // if the user typed in a comma and nothing else, then we give back an empty string
     private func trimmedString(from text: String, isForecast: Bool) -> String {
         var urlString: String
         if isForecast {
@@ -273,6 +274,11 @@ class RestManager {
                 let country = countryWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
                 
                 urlString = "http://api.openweathermap.org/data/2.5/forecast?q=\(city),\(country)&appid=\(appId)"
+            } else if text.split(separator: ",").count == 1 {
+                let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
+                let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
+                
+                urlString = "http://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=\(appId)"
             } else {
                 urlString = ""
             }
@@ -284,6 +290,11 @@ class RestManager {
                 let country = countryWithWhitespaces.replacingOccurrences(of: " ", with: "%20")
                 
                 urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city),\(country)&appid=\(appId)"
+            } else if text.split(separator: ",").count == 1 {
+                let cityWithWhiteSpaces = String(text.split(separator: ",")[0])
+                let city = cityWithWhiteSpaces.replacingOccurrences(of: " ", with: "%20")
+                
+                urlString = "http://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(appId)"
             } else {
                 urlString = ""
             }
