@@ -19,11 +19,11 @@ class RestManager {
     
     // MARK: - Constants
     
-    let defaults = UserDefaults.standard
-    let appId = "3656721177232952a61339c39bec961e"
+    private let defaults = UserDefaults.standard
+    private let appId = "3656721177232952a61339c39bec961e"
     
-    let currentDate = Date()
-    let format = DateFormatter()
+    private let currentDate = Date()
+    private let format = DateFormatter()
     
     
     // MARK: - URLSession Methods
@@ -185,7 +185,7 @@ class RestManager {
     // our goal is to get the first 24 hours of data (which appears in the collection views)
     // and the remaining weather data (which appears as the upcoming days in the table views) separated
     // then give back both of them together in a tuple as arrays
-    func saveForecastDataFromJson(json: JSON) -> (forHours: [WeatherData], forDays: [WeatherData]) {
+    private func saveForecastDataFromJson(json: JSON) -> (forHours: [WeatherData], forDays: [WeatherData]) {
         
         // first we get the current time adjusted to the location, then we adjust the forecast time to the timezone too
         // in the first loop we get the weather of the next 24 hours
@@ -248,7 +248,7 @@ class RestManager {
     }
     
     // we check the temperatureUnit's value in the userdefaults and give back the temperature's value accordingly
-    func getTemperatureInCorrectUnit(from kelvin: Double) -> Int {
+    private func getTemperatureInCorrectUnit(from kelvin: Double) -> Int {
         var temperature = 0
         if defaults.integer(forKey: "temperatureUnit") == 0 {
             temperature = Int(kelvin - 273.15)
@@ -263,7 +263,7 @@ class RestManager {
     // what that means is we replace the whitespaces with %20 and if there's any comma
     // then the user probably typed in the country code too in the textfield, so we get that too
     // the isForecast Bool value tells us if the url needs to be a forecast or just a simple weather request
-    func trimmedString(from text: String, isForecast: Bool) -> String {
+    private func trimmedString(from text: String, isForecast: Bool) -> String {
         var urlString: String
         if isForecast {
             if text.split(separator: ",").count == 2 {
