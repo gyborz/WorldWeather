@@ -1,0 +1,29 @@
+PODS:
+  - SwiftyJSON (4.3.0)
+  - SwipeCellKit (2.6.0)
+
+DEPENDENCIES:
+  - SwiftyJSON (~> 4.0)
+  - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `develop`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SwiftyJSON
+
+EXTERNAL SOURCES:
+  SwipeCellKit:
+    :branch: develop
+    :git: https://github.com/SwipeCellKit/SwipeCellKit.git
+
+CHECKOUT OPTIONS:
+  SwipeCellKit:
+    :commit: daad4f4ad57becebeffa648f9a37bbc53e1bd396
+    :git: https://github.com/SwipeCellKit/SwipeCellKit.git
+
+SPEC CHECKSUMS:
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  SwipeCellKit: cb35a1c81cad77f12f23f3dcb155da4c25e1b0c0
+
+PODFILE CHECKSUM: 5aec590974ee342a176f6190e4c0679f225c7c73
+
+COCOAPODS: 1.7.2
