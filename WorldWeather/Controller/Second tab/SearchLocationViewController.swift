@@ -74,7 +74,6 @@ class SearchLocationViewController: UIViewController {
     // the locations appear in alphabetical order
     private func loadLocations(isCalledFromDelegateMethod: Bool) {
         if let previousLocations = defaults.dictionary(forKey: "locations") as? [String: [String: String]], previousLocations.count != 0 {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             if !isCalledFromDelegateMethod {   /// check if the function was called through delegation
                 searchLocationView.tableViewIndicator.isHidden = false
                 searchLocationView.tableViewIndicator.startAnimating()
@@ -98,7 +97,7 @@ class SearchLocationViewController: UIViewController {
                                 if cityIndex == previousLocations.count {
                                     self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    
                                     if !isCalledFromDelegateMethod {
                                         self.searchLocationView.tableViewIndicator.stopAnimating()
                                         self.searchLocationView.tableViewIndicator.isHidden = true
@@ -109,12 +108,10 @@ class SearchLocationViewController: UIViewController {
                                     let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                     self.present(alert, animated: true)
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 } else {
                                     let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                     self.present(alert, animated: true)
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 }
                             }
                         }
@@ -132,7 +129,7 @@ class SearchLocationViewController: UIViewController {
                                 if cityIndex == previousLocations.count {
                                     self.previousLocationsWeather.sort { $0.city < $1.city }
                                     self.locationTableView.reloadData()
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    
                                     if !isCalledFromDelegateMethod {
                                         self.searchLocationView.tableViewIndicator.stopAnimating()
                                         self.searchLocationView.tableViewIndicator.isHidden = true
@@ -143,12 +140,10 @@ class SearchLocationViewController: UIViewController {
                                     let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                     self.present(alert, animated: true)
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 } else {
                                     let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                     self.present(alert, animated: true)
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 }
                             }
                         }
