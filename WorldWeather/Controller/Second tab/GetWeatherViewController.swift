@@ -48,7 +48,8 @@ class GetWeatherViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height)
+        let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        self.view.frame.origin = CGPoint(x: 0, y: statusBarHeight)
     }
     
     // we set up the view and add a pan gesture to it, set the tableView and the collectionView up as needed
@@ -277,7 +278,8 @@ class GetWeatherViewController: UIViewController {
     
     @objc func onPan(_ panGesture: UIPanGestureRecognizer) {
         func slideViewVerticallyTo(_ y: CGFloat) {
-            self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height + y)
+            let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+            self.view.frame.origin = CGPoint(x: 0, y: statusBarHeight + y)
         }
         
         switch panGesture.state {
