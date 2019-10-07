@@ -21,7 +21,7 @@ The city will be stored in the second tab's list where all the previously search
 can be seen. The user can tap on them and the card appears with the current conditions, or the user can delete them.
 There's also a temperature unit control button for changing from Celsius to Fahrenheit or vice versa.
 
-![secondtab](https://user-images.githubusercontent.com/44786735/63840348-2e85de00-c981-11e9-9be7-cc693b74b3f5.png)
+![secondtab](https://user-images.githubusercontent.com/44786735/66338214-f4750800-e940-11e9-9b35-1a9bbc631419.png)
 
 
 On the third tab a map shows the user's location. The user can freely move around and pin down an annotation with a long press.
@@ -29,7 +29,7 @@ If there's an annotation then the user can request the location's weather inform
 There's also a search button which upon tapping makes a searchbar appear, so the user has another way of searching 
 locations and get their weather.
 
-![thirdtab](https://user-images.githubusercontent.com/44786735/63842502-fc767b00-c984-11e9-997f-9123e00daaff.png)
+![thirdtab](https://user-images.githubusercontent.com/44786735/66338397-4fa6fa80-e941-11e9-9bce-3d33cb5dee44.png)
 
 
 Third party libraries I used:

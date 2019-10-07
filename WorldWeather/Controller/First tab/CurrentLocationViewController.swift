@@ -266,7 +266,6 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
         
         // we check if the latitude and longitude are valid
         if location.horizontalAccuracy > 0 {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             locationManager.stopUpdatingLocation()
             let coordinates = ["lat": String(location.coordinate.latitude), "lon": String(location.coordinate.longitude)]
             
@@ -281,12 +280,10 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         } else {
                             let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }
                     }
                 }
@@ -303,7 +300,6 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                         self.weatherCollectionView.reloadData()
                         self.forecastTableView.reloadData()
                         
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         self.currentLocationView.collectionViewIndicator.stopAnimating()
                         self.currentLocationView.tableViewIndicator.stopAnimating()
                         self.currentLocationView.collectionViewIndicator.isHidden = true
@@ -313,12 +309,10 @@ extension CurrentLocationViewController: CLLocationManagerDelegate {
                             let alert = UIAlertController(title: "Network Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         } else {
                             let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                             self.present(alert, animated: true)
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }
                     }
                 }

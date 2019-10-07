@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -196,9 +193,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2cb-wO-8l9"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="location" id="acW-dT-cKf">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="" image="location" id="acW-dT-cKf"/>
                     <size key="freeformSize" width="375" height="896"/>
                     <connections>
                         <outlet property="currentLocationView" destination="GVN-pH-etq" id="4W9-Tl-XJp"/>
@@ -236,11 +231,11 @@
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g. London, uk" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t79-lQ-2F2">
                                         <rect key="frame" x="67.666666666666686" y="115" width="240" height="30"/>
+                                        <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="UB0-mS-IXh"/>
                                             <constraint firstAttribute="height" constant="30" id="xIG-Vr-FNU"/>
                                         </constraints>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -269,6 +264,7 @@
                                             <segment title="in F°"/>
                                         </segments>
                                         <color key="tintColor" red="0.25490196078431371" green="0.31764705882352939" blue="0.36470588235294116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="selectedSegmentTintColor" systemColor="opaqueSeparatorColor" red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="chooseTemperatureUnit:" destination="8rJ-Kc-sve" eventType="valueChanged" id="dXK-zE-Cms"/>
                                         </connections>
@@ -326,9 +322,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="z9l-Kw-oY3"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="search" id="cPa-gy-q4n">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="" image="search" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="locationTableView" destination="2zH-2D-iPb" id="S8P-2p-NEf"/>
                         <outlet property="searchLocationView" destination="bKv-8T-488" id="Jfu-fs-idO"/>
@@ -356,7 +350,11 @@
                                     <constraint firstAttribute="width" constant="50" id="HkY-LI-wnf"/>
                                     <constraint firstAttribute="height" constant="50" id="bVm-Gu-bJu"/>
                                 </constraints>
-                                <state key="normal" image="magnifier"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" image="magnifyingglass" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
                                 <connections>
                                     <action selector="searchButtonTapped:" destination="kwa-Oa-XEN" eventType="touchUpInside" id="dxD-I1-5Vu"/>
                                 </connections>
@@ -391,9 +389,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wNV-ZI-iQw"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="map" id="KB9-qd-88c">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="" image="map" id="KB9-qd-88c"/>
                     <connections>
                         <outlet property="getWeatherButton" destination="csB-SE-6ca" id="WN5-eW-CVe"/>
                         <outlet property="mapView" destination="ZjK-XJ-HTZ" id="UQ9-jY-xlY"/>
@@ -665,12 +661,12 @@
     <resources>
         <image name="background" width="666.66668701171875" height="800"/>
         <image name="location" width="25" height="25"/>
-        <image name="magnifier" width="128" height="128"/>
+        <image name="magnifyingglass" catalog="system" width="64" height="60"/>
         <image name="map" width="25" height="25"/>
         <image name="search" width="25" height="25"/>
         <image name="sunny" width="652.5" height="1213.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uqh-lx-qeC"/>
+        <segue reference="a1K-hA-ES5"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -48,7 +48,8 @@ class GetWeatherViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height)
+        let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        self.view.frame.origin = CGPoint(x: 0, y: statusBarHeight)
     }
     
     // we set up the view and add a pan gesture to it, set the tableView and the collectionView up as needed
@@ -172,7 +173,6 @@ class GetWeatherViewController: UIViewController {
     // to the previously searched locations (see searchLocationViewController - mark: - data preparing)
     // if something fails we show an error
     func getWeatherInformation(with text: String) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         restManager.getWeatherData(with: text) { [weak self] (result) in /// using weak on self to avoid retain cycle (updateView(:), addLocation(_))
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -187,21 +187,18 @@ class GetWeatherViewController: UIViewController {
                             self.dismiss(animated: true, completion: nil)
                         }))
                         self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     } else if error as! WeatherError == WeatherError.responseError {
                         let alert = UIAlertController(title: "Error: City not found", message: "Try again", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         }))
                         self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     } else {
                         let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         }))
                         self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
                 }
             }
@@ -218,7 +215,6 @@ class GetWeatherViewController: UIViewController {
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
                     
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.getWeatherView.collectionViewIndicator.stopAnimating()
                     self.getWeatherView.tableViewIndicator.stopAnimating()
                     self.getWeatherView.collectionViewIndicator.isHidden = true
@@ -231,7 +227,6 @@ class GetWeatherViewController: UIViewController {
     }
     
     func getWeatherInformation(with coordinates: [String: String]) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         restManager.getWeatherData(with: coordinates) { [weak self] (result) in /// using weak on self to avoid retain cycle (updateView(:), addLocation(_))
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -246,14 +241,12 @@ class GetWeatherViewController: UIViewController {
                             self.dismiss(animated: true, completion: nil)
                         }))
                         self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     } else {
                         let alert = UIAlertController(title: "Unknown Error", message: nil, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         }))
                         self.present(alert, animated: true)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
                 }
             }
@@ -270,7 +263,6 @@ class GetWeatherViewController: UIViewController {
                     self.forecastTableView.reloadData()
                     self.weatherCollectionView.reloadData()
                     
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.getWeatherView.collectionViewIndicator.stopAnimating()
                     self.getWeatherView.tableViewIndicator.stopAnimating()
                     self.getWeatherView.collectionViewIndicator.isHidden = true
@@ -286,7 +278,8 @@ class GetWeatherViewController: UIViewController {
     
     @objc func onPan(_ panGesture: UIPanGestureRecognizer) {
         func slideViewVerticallyTo(_ y: CGFloat) {
-            self.view.frame.origin = CGPoint(x: 0, y: UIApplication.shared.statusBarFrame.height + y)
+            let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+            self.view.frame.origin = CGPoint(x: 0, y: statusBarHeight + y)
         }
         
         switch panGesture.state {

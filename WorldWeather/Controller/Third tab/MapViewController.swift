@@ -211,11 +211,11 @@ extension MapViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // we ignore the user
-        UIApplication.shared.beginIgnoringInteractionEvents()
+        view.isUserInteractionEnabled = false
         
         // we show an activity indicator
         let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = .whiteLarge
+        activityIndicator.style = UIActivityIndicatorView.Style.large
         activityIndicator.color = .gray
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -241,7 +241,7 @@ extension MapViewController: UISearchBarDelegate {
             guard let self = self else { return }
             
             activityIndicator.stopAnimating()
-            UIApplication.shared.endIgnoringInteractionEvents()
+            self.view.isUserInteractionEnabled = true
             
             if error != nil {
                 let alert = UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
