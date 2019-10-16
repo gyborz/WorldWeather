@@ -109,10 +109,12 @@ class CurrentLocationViewController: UIViewController {
                 self.setupLocationManager()     /// mark - location services
                 self.defaults.set(true, forKey: "isConnected")
             } else {
-                let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true)
-                self.defaults.set(false, forKey: "isConnected")
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Network Error", message: "Check your connection", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                    self.defaults.set(false, forKey: "isConnected")
+                }
             }
         }
         
