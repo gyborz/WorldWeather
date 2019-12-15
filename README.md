@@ -5,6 +5,21 @@ WorldWeather
 A regular weather app in which the user can get information about his/her current location's or a searched city's weather. 
 The user can search for a location by the city's name or with the help of a map.
 
+Technologies: Swift, UIKit, SwipeCellKit, SwiftyJSON
+
+Third party libraries I used:
+
+- for the swiping/deleting mechanism on the table view cells:
+https://github.com/SwipeCellKit/SwipeCellKit
+
+- for handling the json (mainly for better code readability):
+https://github.com/SwiftyJSON/SwiftyJSON
+
+The api for getting the weather data (using the free version):
+https://openweathermap.org/api
+
+
+<a href="https://apps.apple.com/app/id1491605325" rel="some text">![download](https://user-images.githubusercontent.com/44786735/70862038-112c4e00-1f37-11ea-9694-7b46c3404b3a.png)</a>
 
 The first tab is all about the user's current location. The app shows the city, the temperature, some detailed information
 about the weather (pressure, wind speed, etc.), gives a forecast for the next 24 hours and below that a forecast for the 
@@ -32,13 +47,3 @@ locations and get their weather.
 ![thirdtab](https://user-images.githubusercontent.com/44786735/66338397-4fa6fa80-e941-11e9-9bce-3d33cb5dee44.png)
 
 
-Third party libraries I used:
-
-- for the swiping/deleting mechanism on the table view cells:
-https://github.com/SwipeCellKit/SwipeCellKit
-
-- for handling the json (mainly for better code readability):
-https://github.com/SwiftyJSON/SwiftyJSON
-
-The api for getting the weather data (using the free version):
-https://openweathermap.org/api
