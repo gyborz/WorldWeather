@@ -15,9 +15,12 @@ enum WeatherError: Swift.Error {
     case responseError
 }
 
-class RestManager {
+final class RestManager {
     
     // MARK: - Constants
+    
+    static let shared = RestManager()
+    private init() {}
     
     private let defaults = UserDefaults.standard
     private let appId = "3656721177232952a61339c39bec961e"

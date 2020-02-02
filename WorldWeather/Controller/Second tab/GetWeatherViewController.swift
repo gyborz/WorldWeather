@@ -21,7 +21,7 @@ class GetWeatherViewController: UIViewController {
     private var forecastWeatherDataForHours = [WeatherData]()
     private var forecastWeatherDataForDays = [WeatherData]()
     private var daysData = [ForecastDayData]()
-    private let restManager = RestManager()
+    private let restManager = RestManager.shared
     private var imageName = "sunny"
     var delegate: PreviousLocationDelegate?
     

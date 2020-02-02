@@ -19,7 +19,7 @@ class CurrentLocationViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private var forecastWeatherDataForHours = [WeatherData]()
     private var forecastWeatherDataForDays = [WeatherData]()
-    private let restManager = RestManager()
+    private let restManager = RestManager.shared
     private var imageName = String()
     private let monitor = NWPathMonitor()
     private var daysData = [ForecastDayData]()
