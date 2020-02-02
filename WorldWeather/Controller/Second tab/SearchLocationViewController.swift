@@ -17,7 +17,7 @@ class SearchLocationViewController: UIViewController {
     private var isTemperatureInCelsius = Bool()
     private var previousLocationsWeather = [WeatherData]()
     private var selectedWeatherData: WeatherData!
-    private let restManager = RestManager()
+    private let restManager = RestManager.shared
     private var locations = [String : [String: String]]()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
